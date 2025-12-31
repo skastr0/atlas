@@ -1,0 +1,52 @@
+[package]
+name = "context-map"
+version = "0.1.0"
+edition = "2021"
+description = "Deterministic knowledge base indexer for AI agents"
+license = "MIT"
+repository = "https://github.com/your-username/context-map"
+keywords = ["knowledge-base", "indexer", "ai", "cli"]
+categories = ["command-line-utilities", "text-processing"]
+
+[[bin]]
+name = "cmap"
+path = "src/main.rs"
+
+[dependencies]
+# CLI
+clap = { version = "4", features = ["derive"] }
+
+# File system
+walkdir = "2"
+ignore = "0.4"
+
+# Serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+toml = "0.8"
+
+# Parallelism
+rayon = "1"
+
+# Hashing
+blake3 = "1"
+
+# Text processing
+regex = "1"
+unicode-segmentation = "1"
+
+# Error handling
+thiserror = "2"
+anyhow = "1"
+
+# Time
+chrono = { version = "0.4", default-features = false, features = ["std", "clock"] }
+
+[dev-dependencies]
+tempfile = "3"
+
+[profile.release]
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
