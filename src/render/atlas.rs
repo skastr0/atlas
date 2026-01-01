@@ -5,6 +5,8 @@ use crate::types::{FileFeatures, FolderSignature};
 use std::collections::HashMap;
 use std::path::PathBuf;
 
+use super::summarize_code_symbols;
+
 /// Generate ROOT_ATLAS.md content
 pub fn render_atlas(
     features: &[FileFeatures],
@@ -75,6 +77,23 @@ fn render_objective_slices(features: &[FileFeatures]) -> String {
         push_slice_entry(&mut output, file, &file.links_out.len().to_string());
     }
     output.push('\n');
+
+    let mut by_exports: Vec<(&FileFeatures, usize)> = features
+        .iter()
+        .filter(|f| f.file_type.is_code())
+        .map(|f| (f, summarize_code_symbols(&f.headings).exported))
+        .filter(|(_, exported)| *exported > 0)
+        .collect();
+    by_exports.sort_by(|a, b| b.1.cmp(&a.1).then_with(|| a.0.path.cmp(&b.0.path)));
+    output.push_str("### Most Exported Symbols\n\n");
+    if by_exports.is_empty() {
+        output.push_str("_No exported code symbols detected._\n\n");
+    } else {
+        for (file, exported) in by_exports.into_iter().take(10) {
+            push_slice_entry(&mut output, file, &exported.to_string());
+        }
+        output.push('\n');
+    }
 
     let mut by_distinctive: Vec<(&FileFeatures, f32)> = features
         .iter()

@@ -7,7 +7,7 @@ use std::path::{Component, Path, PathBuf};
 const HUB_LIMIT: usize = 10;
 const HUB_EDGE_LIMIT: usize = 6;
 const MAX_MERMAID_EDGES: usize = 60;
-const DEFAULT_EXTENSIONS: [&str; 5] = ["md", "markdown", "txt", "rst", "org"];
+const DEFAULT_EXTENSIONS: [&str; 8] = ["md", "markdown", "txt", "rst", "org", "rs", "ts", "tsx"];
 
 #[derive(Debug, Clone)]
 pub struct ConnectionGraph {
@@ -301,6 +301,11 @@ fn resolve_path_target(target: &str, source_path: &Path, lookup: &LinkLookup) ->
                 with_ext.set_extension(ext);
                 expanded_candidates.push(with_ext);
             }
+
+            expanded_candidates.push(candidate.join("mod.rs"));
+            expanded_candidates.push(candidate.join("mod.ts"));
+            expanded_candidates.push(candidate.join("index.ts"));
+            expanded_candidates.push(candidate.join("index.tsx"));
         }
     }
 
@@ -395,7 +400,7 @@ mod tests {
     use super::*;
     use crate::types::{FileFeatures, FileType, KeywordScore, Link, LinkType, PhraseScore, TermScore};
     use std::collections::HashSet;
-    use std::path::PathBuf;
+    use std::path::{Path, PathBuf};
 
     fn make_file(path: &str, title: &str, links: Vec<&str>) -> FileFeatures {
         FileFeatures {
@@ -462,6 +467,25 @@ mod tests {
             .collect();
 
         assert_eq!(outbound_set, expected);
+    }
+
+    #[test]
+    fn resolves_code_module_links() {
+        let features = vec![
+            make_file("src/config/mod.rs", "Config", vec![]),
+            make_file("src/extract/treesitter.rs", "Treesitter", vec![]),
+            make_file("src/extract/rust.rs", "Rust", vec![]),
+        ];
+        let lookup = LinkLookup::new(&features);
+
+        let source_path = Path::new("src/extract/rust.rs");
+        let resolved = resolve_internal_link("/src/config", source_path, &lookup)
+            .expect("resolve /src/config");
+        assert_eq!(resolved, "src/config/mod.rs");
+
+        let resolved = resolve_internal_link("treesitter", source_path, &lookup)
+            .expect("resolve treesitter");
+        assert_eq!(resolved, "src/extract/treesitter.rs");
     }
 
     #[test]

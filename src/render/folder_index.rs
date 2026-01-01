@@ -5,6 +5,8 @@ use crate::types::{FileFeatures, FolderSignature};
 use std::collections::HashMap;
 use std::path::PathBuf;
 
+use super::{format_symbol_counts, summarize_code_symbols};
+
 /// Generate INDEX.md content for a folder
 pub fn render_folder_index(
     folder: &PathBuf,
@@ -62,31 +64,67 @@ pub fn render_folder_index(
         output.push_str(&format!("### {}\n\n", file.title));
         output.push_str(&format!("`{}`\n\n", filename));
 
-        // Snippet
-        if !file.snippet.is_empty() {
-            output.push_str(&format!("{}\n\n", file.snippet));
+        let mut rendered_code_summary = false;
+        if file.file_type.is_code() {
+            let summary = summarize_code_symbols(&file.headings);
+            if summary.total > 0 {
+                let (label, counts) = if summary.exported > 0 && !summary.exported_kind_counts.is_empty() {
+                    ("Exports", &summary.exported_kind_counts)
+                } else {
+                    ("Symbols", &summary.kind_counts)
+                };
+
+                if !counts.is_empty() {
+                    output.push_str(&format!("**{}:** {}\n\n", label, format_symbol_counts(counts)));
+                }
+
+                let symbols = if summary.exported > 0 && !summary.top_exported_symbols.is_empty() {
+                    &summary.top_exported_symbols
+                } else {
+                    &summary.top_symbols
+                };
+
+                if !symbols.is_empty() {
+                    let list = symbols
+                        .iter()
+                        .take(5)
+                        .map(|symbol| format!("`{}`", symbol))
+                        .collect::<Vec<_>>()
+                        .join(", ");
+                    output.push_str(&format!("**Top symbols:** {}\n\n", list));
+                }
+
+                rendered_code_summary = true;
+            }
         }
 
-        // Top phrases
-        if !file.top_phrases.is_empty() {
-            let phrases: Vec<_> = file
-                .top_phrases
-                .iter()
-                .take(5)
-                .map(|p| p.phrase.as_str())
-                .collect();
-            output.push_str(&format!("**Phrases:** {}\n\n", phrases.join(", ")));
-        }
+        if !rendered_code_summary {
+            // Snippet
+            if !file.snippet.is_empty() {
+                output.push_str(&format!("{}\n\n", file.snippet));
+            }
 
-        // Top terms
-        if !file.top_terms.is_empty() {
-            let terms: Vec<_> = file
-                .top_terms
-                .iter()
-                .take(5)
-                .map(|t| t.term.as_str())
-                .collect();
-            output.push_str(&format!("**Terms:** {}\n\n", terms.join(", ")));
+            // Top phrases
+            if !file.top_phrases.is_empty() {
+                let phrases: Vec<_> = file
+                    .top_phrases
+                    .iter()
+                    .take(5)
+                    .map(|p| p.phrase.as_str())
+                    .collect();
+                output.push_str(&format!("**Phrases:** {}\n\n", phrases.join(", ")));
+            }
+
+            // Top terms
+            if !file.top_terms.is_empty() {
+                let terms: Vec<_> = file
+                    .top_terms
+                    .iter()
+                    .take(5)
+                    .map(|t| t.term.as_str())
+                    .collect();
+                output.push_str(&format!("**Terms:** {}\n\n", terms.join(", ")));
+            }
         }
 
         // Stats

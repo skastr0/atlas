@@ -6,7 +6,7 @@ use super::{
 };
 use crate::config::{AnalyzeConfig, ExtractConfig};
 use crate::extract::ExtractedContent;
-use crate::types::{FileFeatures, FileType, PhraseScore, TermScore};
+use crate::types::{FileFeatures, FileType, Link, LinkType, PhraseScore, TermScore};
 use std::collections::HashMap;
 use std::path::PathBuf;
 
@@ -73,7 +73,10 @@ pub fn compute_features(
     let yake_keywords = YakeExtractor::default().extract(&content.text, analyze_config);
 
     // Extract links
-    let links = extract_links(&content.text);
+    let mut links = extract_links(&content.text);
+    if file_type.is_code() && !content.links.is_empty() {
+        links.extend(extract_code_links(file_type, &content.links));
+    }
 
     // Compute snippet (first N chars or first paragraph)
     let snippet = extract_snippet(&content.text, extract_config.snippet_length);
@@ -137,4 +140,155 @@ fn derive_title_from_path(path: &PathBuf) -> String {
     path.file_stem()
         .map(|s| s.to_string_lossy().to_string())
         .unwrap_or_else(|| "Untitled".to_string())
+}
+
+fn extract_code_links(file_type: FileType, links: &[String]) -> Vec<Link> {
+    let mut output = Vec::new();
+
+    for target in links {
+        match file_type {
+            FileType::Rust => {
+                for normalized in normalize_rust_use_targets(target) {
+                    output.push(Link {
+                        target: normalized,
+                        link_type: LinkType::Internal,
+                    });
+                }
+            }
+            FileType::TypeScript | FileType::Tsx => {
+                if let Some(normalized) = normalize_typescript_import(target) {
+                    output.push(Link {
+                        target: normalized,
+                        link_type: LinkType::Internal,
+                    });
+                }
+            }
+            _ => {}
+        }
+    }
+
+    output
+}
+
+fn normalize_typescript_import(target: &str) -> Option<String> {
+    let trimmed = target.trim();
+    if trimmed.is_empty() {
+        return None;
+    }
+
+    if trimmed.starts_with('.') || trimmed.starts_with('/') {
+        Some(trimmed.to_string())
+    } else {
+        None
+    }
+}
+
+fn normalize_rust_use_targets(target: &str) -> Vec<String> {
+    let Some(cleaned) = strip_rust_use_target(target) else {
+        return Vec::new();
+    };
+
+    let Some((prefix, rest)) = rust_prefix_and_rest(&cleaned) else {
+        return Vec::new();
+    };
+
+    let segments: Vec<&str> = rest.split("::").filter(|seg| !seg.is_empty()).collect();
+    if segments.is_empty() {
+        return Vec::new();
+    }
+
+    let mut targets = Vec::new();
+    let full = format!("{}{}", prefix, segments.join("/"));
+    targets.push(full.clone());
+
+    if segments.len() > 1 {
+        let trimmed = format!("{}{}", prefix, segments[..segments.len() - 1].join("/"));
+        if trimmed != full {
+            targets.push(trimmed);
+        }
+    }
+
+    targets
+}
+
+fn strip_rust_use_target(target: &str) -> Option<String> {
+    let mut cleaned = target.trim();
+    if cleaned.is_empty() {
+        return None;
+    }
+
+    if let Some((left, _)) = cleaned.split_once('{') {
+        cleaned = left.trim_end_matches("::").trim();
+    }
+
+    if let Some((left, _)) = cleaned.split_once(" as ") {
+        cleaned = left.trim();
+    }
+
+    let cleaned = cleaned.trim_end_matches(';').trim();
+    let cleaned = cleaned.trim_end_matches("::*").trim();
+    if cleaned.is_empty() {
+        None
+    } else {
+        Some(cleaned.to_string())
+    }
+}
+
+fn rust_prefix_and_rest(target: &str) -> Option<(String, String)> {
+    if let Some(rest) = target.strip_prefix("crate::") {
+        return Some(("/src/".to_string(), rest.to_string()));
+    }
+
+    if let Some(rest) = target.strip_prefix("self::") {
+        return Some((String::new(), rest.to_string()));
+    }
+
+    if target.starts_with("super::") {
+        let mut rest = target;
+        let mut depth = 0usize;
+        while let Some(stripped) = rest.strip_prefix("super::") {
+            depth += 1;
+            rest = stripped;
+        }
+        if rest.is_empty() {
+            return None;
+        }
+        let prefix = "../".repeat(depth.saturating_sub(1));
+        return Some((prefix, rest.to_string()));
+    }
+
+    None
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{normalize_rust_use_targets, normalize_typescript_import};
+
+    #[test]
+    fn normalizes_typescript_relative_imports() {
+        assert_eq!(normalize_typescript_import("./foo"), Some("./foo".to_string()));
+        assert_eq!(normalize_typescript_import("../bar"), Some("../bar".to_string()));
+        assert_eq!(normalize_typescript_import("react"), None);
+    }
+
+    #[test]
+    fn normalizes_rust_use_targets() {
+        let targets = normalize_rust_use_targets("crate::config::{AnalyzeConfig, ExtractConfig}");
+        assert_eq!(targets, vec!["/src/config".to_string()]);
+
+        let targets = normalize_rust_use_targets("crate::extract::rust::extract_rust");
+        assert_eq!(
+            targets,
+            vec![
+                "/src/extract/rust/extract_rust".to_string(),
+                "/src/extract/rust".to_string(),
+            ]
+        );
+
+        let targets = normalize_rust_use_targets("super::treesitter::parse");
+        assert_eq!(
+            targets,
+            vec!["treesitter/parse".to_string(), "treesitter".to_string()]
+        );
+    }
 }
