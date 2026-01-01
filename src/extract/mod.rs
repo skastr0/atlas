@@ -10,10 +10,16 @@
 mod markdown;
 mod pdf;
 mod plaintext;
+mod rust;
+mod treesitter;
+mod typescript;
 
 pub use markdown::*;
 pub use pdf::*;
 pub use plaintext::*;
+pub use rust::*;
+pub use treesitter::*;
+pub use typescript::*;
 
 use crate::config::ExtractConfig;
 use crate::types::FileType;
@@ -41,6 +47,10 @@ pub fn extract(path: &Path, file_type: FileType, config: &ExtractConfig) -> Resu
         FileType::Markdown => extract_markdown(path),
         FileType::PlainText | FileType::Rst | FileType::Org => extract_plaintext(path),
         FileType::Pdf => extract_pdf(path, config),
+        // Code files: use tree-sitter where available
+        FileType::Rust => extract_rust(path),
+        FileType::TypeScript => extract_typescript(path, false),
+        FileType::Tsx => extract_typescript(path, true),
         FileType::Unknown => extract_plaintext(path),
     }
 }
