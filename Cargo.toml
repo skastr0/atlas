@@ -35,6 +35,12 @@ blake3 = "1"
 regex = "1"
 unicode-segmentation = "1"
 
+# Tree-sitter parsing
+tree-sitter = "0.25"
+tree-sitter-md = "0.3"
+tree-sitter-rust = "0.23"
+tree-sitter-typescript = "0.23"
+
 # Error handling
 thiserror = "2"
 anyhow = "1"

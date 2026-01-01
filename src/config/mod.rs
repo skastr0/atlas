@@ -67,11 +67,16 @@ impl Default for ScanConfig {
                 ".DS_Store".to_string(),
             ],
             include_extensions: vec![
+                // Prose
                 "md".to_string(),
                 "txt".to_string(),
                 "pdf".to_string(),
                 "rst".to_string(),
                 "org".to_string(),
+                // Code
+                "rs".to_string(),
+                "ts".to_string(),
+                "tsx".to_string(),
             ],
         }
     }

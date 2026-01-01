@@ -27,6 +27,9 @@ pub enum FileType {
     Pdf,
     Rst,
     Org,
+    Rust,
+    TypeScript,
+    Tsx,
     Unknown,
 }
 
@@ -38,8 +41,16 @@ impl FileType {
             "pdf" => Self::Pdf,
             "rst" => Self::Rst,
             "org" => Self::Org,
+            "rs" => Self::Rust,
+            "ts" => Self::TypeScript,
+            "tsx" => Self::Tsx,
             _ => Self::Unknown,
         }
+    }
+
+    /// Check if this file type is source code
+    pub fn is_code(&self) -> bool {
+        matches!(self, Self::Rust | Self::TypeScript | Self::Tsx)
     }
 }
 
