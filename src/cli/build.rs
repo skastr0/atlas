@@ -9,8 +9,8 @@ use std::fs;
 use std::path::Path;
 
 // Import our modules
-use crate::analyze::compute_features;
 use crate::aggregate::{apply_tfidf, build_term_index, compute_folder_signatures};
+use crate::analyze::compute_features;
 use crate::cache::{load_all_features, load_fingerprints, save_features, save_fingerprints};
 use crate::extract::extract;
 use crate::render::{

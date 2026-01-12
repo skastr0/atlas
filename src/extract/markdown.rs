@@ -83,7 +83,12 @@ fn walk_block_tree(
         }
         "inline" | "pipe_table_cell" => {
             let inline_text = slice_node(source, node);
-            extract_links_from_inline(inline_text, inline_parser, &mut extracted.links, saw_wiki_links);
+            extract_links_from_inline(
+                inline_text,
+                inline_parser,
+                &mut extracted.links,
+                saw_wiki_links,
+            );
         }
         _ => {}
     }

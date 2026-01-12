@@ -33,7 +33,11 @@ impl ConnectionGraph {
             let source_path = normalize_path(&file.path);
             let mut targets: HashSet<String> = HashSet::new();
 
-            for link in file.links_out.iter().filter(|l| l.link_type == LinkType::Internal) {
+            for link in file
+                .links_out
+                .iter()
+                .filter(|l| l.link_type == LinkType::Internal)
+            {
                 if let Some(resolved) = resolve_internal_link(&link.target, &file.path, &lookup) {
                     if resolved != source_path {
                         targets.insert(resolved);
@@ -276,7 +280,10 @@ fn clean_target(target: &str) -> Option<String> {
 }
 
 fn looks_like_path(target: &str) -> bool {
-    target.starts_with('.') || target.starts_with('/') || target.contains('/') || target.contains('.')
+    target.starts_with('.')
+        || target.starts_with('/')
+        || target.contains('/')
+        || target.contains('.')
 }
 
 fn resolve_path_target(target: &str, source_path: &Path, lookup: &LinkLookup) -> Option<String> {
@@ -398,7 +405,9 @@ fn render_dot(edges: &[(String, String)]) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::types::{FileFeatures, FileType, KeywordScore, Link, LinkType, PhraseScore, TermScore};
+    use crate::types::{
+        FileFeatures, FileType, KeywordScore, Link, LinkType, PhraseScore, TermScore,
+    };
     use std::collections::HashSet;
     use std::path::{Path, PathBuf};
 
@@ -448,7 +457,11 @@ mod tests {
     #[test]
     fn resolves_relative_and_wiki_links() {
         let features = vec![
-            make_file("notes/a.md", "A", vec!["./b.md#section", "C Note", "../root.md"]),
+            make_file(
+                "notes/a.md",
+                "A",
+                vec!["./b.md#section", "C Note", "../root.md"],
+            ),
             make_file("notes/b.md", "B", vec![]),
             make_file("c-note.md", "C Note", vec![]),
             make_file("root.md", "Root", vec![]),
@@ -483,8 +496,8 @@ mod tests {
             .expect("resolve /src/config");
         assert_eq!(resolved, "src/config/mod.rs");
 
-        let resolved = resolve_internal_link("treesitter", source_path, &lookup)
-            .expect("resolve treesitter");
+        let resolved =
+            resolve_internal_link("treesitter", source_path, &lookup).expect("resolve treesitter");
         assert_eq!(resolved, "src/extract/treesitter.rs");
     }
 

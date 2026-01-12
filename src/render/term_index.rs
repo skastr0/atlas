@@ -15,10 +15,11 @@ pub fn render_term_index(features: &[FileFeatures], top_n: usize) -> String {
 
     for file in features {
         for term in &file.top_terms {
-            term_files
-                .entry(term.term.clone())
-                .or_default()
-                .push((file.path.to_str().unwrap_or(""), &file.title, term.tfidf));
+            term_files.entry(term.term.clone()).or_default().push((
+                file.path.to_str().unwrap_or(""),
+                &file.title,
+                term.tfidf,
+            ));
         }
     }
 
@@ -57,11 +58,10 @@ pub fn render_term_index(features: &[FileFeatures], top_n: usize) -> String {
 
     for file in features {
         for phrase in &file.top_phrases {
-            phrase_files.entry(phrase.phrase.clone()).or_default().push((
-                file.path.to_str().unwrap_or(""),
-                &file.title,
-                phrase.score,
-            ));
+            phrase_files
+                .entry(phrase.phrase.clone())
+                .or_default()
+                .push((file.path.to_str().unwrap_or(""), &file.title, phrase.score));
         }
     }
 

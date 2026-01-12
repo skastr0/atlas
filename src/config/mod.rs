@@ -173,21 +173,26 @@ mod tests {
         let default = Config::default();
 
         assert_eq!(config.scan.ignore, default.scan.ignore);
-        assert_eq!(config.extract.snippet_length, default.extract.snippet_length);
+        assert_eq!(
+            config.extract.snippet_length,
+            default.extract.snippet_length
+        );
     }
 
     #[test]
     fn load_malformed_returns_default() {
         let dir = tempdir().expect("tempdir should work");
         let config_path = dir.path().join("config.toml");
-        fs::write(&config_path, "[scan]\nignore = [\"oops\"")
-            .expect("write should succeed");
+        fs::write(&config_path, "[scan]\nignore = [\"oops\"").expect("write should succeed");
 
         let config = Config::load(dir.path()).expect("load should succeed");
         let default = Config::default();
 
         assert_eq!(config.analyze.top_terms, default.analyze.top_terms);
-        assert_eq!(config.render.atlas_folder_depth, default.render.atlas_folder_depth);
+        assert_eq!(
+            config.render.atlas_folder_depth,
+            default.render.atlas_folder_depth
+        );
     }
 
     #[test]

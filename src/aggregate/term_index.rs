@@ -74,8 +74,11 @@ pub fn apply_tfidf(features: &mut [FileFeatures], index: &GlobalTermIndex, top_t
         }
 
         // Re-sort by TF-IDF
-        file.top_terms
-            .sort_by(|a, b| b.tfidf.partial_cmp(&a.tfidf).unwrap_or(std::cmp::Ordering::Equal));
+        file.top_terms.sort_by(|a, b| {
+            b.tfidf
+                .partial_cmp(&a.tfidf)
+                .unwrap_or(std::cmp::Ordering::Equal)
+        });
         file.top_terms.truncate(top_terms);
     }
 }

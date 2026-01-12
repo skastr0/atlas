@@ -42,7 +42,11 @@ pub struct ExtractedContent {
 }
 
 /// Extract text content from a file
-pub fn extract(path: &Path, file_type: FileType, config: &ExtractConfig) -> Result<ExtractedContent> {
+pub fn extract(
+    path: &Path,
+    file_type: FileType,
+    config: &ExtractConfig,
+) -> Result<ExtractedContent> {
     match file_type {
         FileType::Markdown => extract_markdown(path),
         FileType::PlainText | FileType::Rst | FileType::Org => extract_plaintext(path),

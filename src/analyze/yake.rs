@@ -1,8 +1,8 @@
 //! YAKE keyword extraction
 
+use super::tokenize::is_stopword;
 use crate::config::AnalyzeConfig;
 use crate::types::KeywordScore;
-use super::tokenize::is_stopword;
 use std::cmp::Ordering;
 use std::collections::{HashMap, HashSet};
 use unicode_segmentation::UnicodeSegmentation;
@@ -303,9 +303,9 @@ fn dedupe_keywords(mut candidates: Vec<KeywordScore>, max_keywords: usize) -> Ve
             break;
         }
 
-        let is_similar = deduped.iter().any(|existing| {
-            levenshtein_similarity(&existing.keyword, &candidate.keyword) > 0.8
-        });
+        let is_similar = deduped
+            .iter()
+            .any(|existing| levenshtein_similarity(&existing.keyword, &candidate.keyword) > 0.8);
         if !is_similar {
             deduped.push(candidate);
         }
@@ -364,7 +364,8 @@ mod tests {
 
     #[test]
     fn test_extract_keywords_contains_rust() {
-        let text = "Rust language empowers developers. Rust enforces safety. Memory safety matters.";
+        let text =
+            "Rust language empowers developers. Rust enforces safety. Memory safety matters.";
         let keywords = YakeExtractor::default().extract(text, &AnalyzeConfig::default());
         assert!(!keywords.is_empty());
         assert!(keywords.iter().any(|kw| kw.keyword == "rust"));

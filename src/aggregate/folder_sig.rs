@@ -15,7 +15,11 @@ pub fn compute_folder_signatures(
 
     // Aggregate terms and phrases by folder
     for file in features {
-        let folder = file.path.parent().map(Path::to_path_buf).unwrap_or_default();
+        let folder = file
+            .path
+            .parent()
+            .map(Path::to_path_buf)
+            .unwrap_or_default();
 
         // Aggregate for this folder and all parent folders
         let mut current = Some(folder.as_path());
@@ -50,7 +54,11 @@ pub fn compute_folder_signatures(
         // Get top terms
         let mut sorted_terms: Vec<_> = terms.into_iter().collect();
         sorted_terms.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap_or(std::cmp::Ordering::Equal));
-        let top_terms: Vec<String> = sorted_terms.into_iter().take(top_n).map(|(t, _)| t).collect();
+        let top_terms: Vec<String> = sorted_terms
+            .into_iter()
+            .take(top_n)
+            .map(|(t, _)| t)
+            .collect();
 
         // Get top phrases
         let mut sorted_phrases: Vec<_> = phrases.into_iter().collect();

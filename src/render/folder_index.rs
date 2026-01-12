@@ -28,7 +28,12 @@ pub fn render_folder_index(
         if !sig.top_phrases.is_empty() {
             output.push_str(&format!(
                 "_Key topics: {}_\n\n",
-                sig.top_phrases.iter().take(5).cloned().collect::<Vec<_>>().join(", ")
+                sig.top_phrases
+                    .iter()
+                    .take(5)
+                    .cloned()
+                    .collect::<Vec<_>>()
+                    .join(", ")
             ));
         }
     }
@@ -68,14 +73,19 @@ pub fn render_folder_index(
         if file.file_type.is_code() {
             let summary = summarize_code_symbols(&file.headings);
             if summary.total > 0 {
-                let (label, counts) = if summary.exported > 0 && !summary.exported_kind_counts.is_empty() {
-                    ("Exports", &summary.exported_kind_counts)
-                } else {
-                    ("Symbols", &summary.kind_counts)
-                };
+                let (label, counts) =
+                    if summary.exported > 0 && !summary.exported_kind_counts.is_empty() {
+                        ("Exports", &summary.exported_kind_counts)
+                    } else {
+                        ("Symbols", &summary.kind_counts)
+                    };
 
                 if !counts.is_empty() {
-                    output.push_str(&format!("**{}:** {}\n\n", label, format_symbol_counts(counts)));
+                    output.push_str(&format!(
+                        "**{}:** {}\n\n",
+                        label,
+                        format_symbol_counts(counts)
+                    ));
                 }
 
                 let symbols = if summary.exported > 0 && !summary.top_exported_symbols.is_empty() {

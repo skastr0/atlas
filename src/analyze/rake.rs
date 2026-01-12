@@ -26,10 +26,7 @@ impl RakeExtractor {
         }
 
         let cleaned = clean_text(text);
-        let raw_tokens: Vec<String> = cleaned
-            .unicode_words()
-            .map(|w| w.to_lowercase())
-            .collect();
+        let raw_tokens: Vec<String> = cleaned.unicode_words().map(|w| w.to_lowercase()).collect();
 
         if raw_tokens.is_empty() {
             return Vec::new();

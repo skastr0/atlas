@@ -25,10 +25,8 @@ pub fn render_atlas(
     let total_words: usize = features.iter().map(|f| f.word_count).sum();
     output.push_str(&format!("- **Total words:** {}\n", total_words));
 
-    let folders: std::collections::HashSet<_> = features
-        .iter()
-        .filter_map(|f| f.path.parent())
-        .collect();
+    let folders: std::collections::HashSet<_> =
+        features.iter().filter_map(|f| f.path.parent()).collect();
     output.push_str(&format!("- **Folders:** {}\n\n", folders.len()));
 
     // Folder tree with signatures
@@ -95,13 +93,9 @@ fn render_objective_slices(features: &[FileFeatures]) -> String {
         output.push('\n');
     }
 
-    let mut by_distinctive: Vec<(&FileFeatures, f32)> = features
-        .iter()
-        .map(|f| (f, max_term_tfidf(f)))
-        .collect();
-    by_distinctive.sort_by(|a, b| {
-        b.1.partial_cmp(&a.1).unwrap_or(std::cmp::Ordering::Equal)
-    });
+    let mut by_distinctive: Vec<(&FileFeatures, f32)> =
+        features.iter().map(|f| (f, max_term_tfidf(f))).collect();
+    by_distinctive.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap_or(std::cmp::Ordering::Equal));
     output.push_str("### Most Distinctive\n\n");
     for (file, score) in by_distinctive.into_iter().take(10) {
         push_slice_entry(&mut output, file, &format!("{:.3}", score));
@@ -173,7 +167,10 @@ fn build_folder_tree(
             .unwrap_or_else(|| "(root)".to_string());
 
         if top_phrases.is_empty() {
-            output.push_str(&format!("{}- **{}/** ({} files)\n", indent, folder_name, file_count));
+            output.push_str(&format!(
+                "{}- **{}/** ({} files)\n",
+                indent, folder_name, file_count
+            ));
         } else {
             output.push_str(&format!(
                 "{}- **{}/** ({} files) — {}\n",
@@ -202,4 +199,3 @@ fn aggregate_global_terms(features: &[FileFeatures], top_n: usize) -> Vec<(Strin
     sorted.truncate(top_n);
     sorted
 }
-

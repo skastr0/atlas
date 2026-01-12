@@ -184,7 +184,10 @@ mod tests {
             .kind_counts
             .iter()
             .any(|(kind, count)| kind == "interface" && *count == 1));
-        assert_eq!(summary.top_symbols.first().map(|s| s.as_str()), Some("extract"));
+        assert_eq!(
+            summary.top_symbols.first().map(|s| s.as_str()),
+            Some("extract")
+        );
 
         let export_summary = format_symbol_counts(&summary.exported_kind_counts);
         assert!(!export_summary.is_empty());

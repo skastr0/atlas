@@ -266,8 +266,14 @@ mod tests {
 
     #[test]
     fn normalizes_typescript_relative_imports() {
-        assert_eq!(normalize_typescript_import("./foo"), Some("./foo".to_string()));
-        assert_eq!(normalize_typescript_import("../bar"), Some("../bar".to_string()));
+        assert_eq!(
+            normalize_typescript_import("./foo"),
+            Some("./foo".to_string())
+        );
+        assert_eq!(
+            normalize_typescript_import("../bar"),
+            Some("../bar".to_string())
+        );
         assert_eq!(normalize_typescript_import("react"), None);
     }
 
