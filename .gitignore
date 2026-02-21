@@ -1,6 +1,9 @@
 # Rust build output
 /target
 
+# Generated context map artifacts
+.cmap/
+
 # Editor configs
 .cursor/
 .idea/
