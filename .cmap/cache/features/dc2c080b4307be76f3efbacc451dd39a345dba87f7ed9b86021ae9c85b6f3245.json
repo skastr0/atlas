@@ -1,0 +1,160 @@
+{
+  "id": "dc2c080b4307be76f3efbacc451dd39a345dba87f7ed9b86021ae9c85b6f3245",
+  "path": "src/aggregate/folder_sig.rs",
+  "file_type": "rust",
+  "title": "Folder signature computation",
+  "snippet": "Folder signature computation",
+  "word_count": 8,
+  "char_count": 64,
+  "unique_term_count": 7,
+  "top_terms": [
+    {
+      "term": "compute",
+      "tf": 0.14285715,
+      "tfidf": 0.0
+    },
+    {
+      "term": "signatures",
+      "tf": 0.14285715,
+      "tfidf": 0.0
+    },
+    {
+      "term": "folders",
+      "tf": 0.14285715,
+      "tfidf": 0.0
+    },
+    {
+      "term": "signature",
+      "tf": 0.14285715,
+      "tfidf": 0.0
+    },
+    {
+      "term": "all",
+      "tf": 0.14285715,
+      "tfidf": 0.0
+    },
+    {
+      "term": "computation",
+      "tf": 0.14285715,
+      "tfidf": 0.0
+    },
+    {
+      "term": "folder",
+      "tf": 0.14285715,
+      "tfidf": 0.0
+    }
+  ],
+  "top_phrases": [
+    {
+      "phrase": "computation compute signatures",
+      "score": 1.0
+    },
+    {
+      "phrase": "compute signatures all",
+      "score": 1.0
+    },
+    {
+      "phrase": "computation compute",
+      "score": 1.0
+    },
+    {
+      "phrase": "folder signature",
+      "score": 1.0
+    },
+    {
+      "phrase": "signature computation compute",
+      "score": 1.0
+    },
+    {
+      "phrase": "folder signature computation",
+      "score": 1.0
+    },
+    {
+      "phrase": "signatures all",
+      "score": 1.0
+    },
+    {
+      "phrase": "compute signatures",
+      "score": 1.0
+    },
+    {
+      "phrase": "all folders",
+      "score": 1.0
+    },
+    {
+      "phrase": "signature computation",
+      "score": 1.0
+    }
+  ],
+  "rake_phrases": [
+    {
+      "phrase": "folder signature computation compute signatures",
+      "score": 25.0
+    },
+    {
+      "phrase": "all folders",
+      "score": 4.0
+    }
+  ],
+  "yake_keywords": [
+    {
+      "keyword": "folder",
+      "score": 0.0
+    },
+    {
+      "keyword": "folder signature",
+      "score": 0.0
+    },
+    {
+      "keyword": "folder signature computation",
+      "score": 0.0
+    },
+    {
+      "keyword": "signature computation",
+      "score": 0.09876543
+    },
+    {
+      "keyword": "compute",
+      "score": 0.2
+    },
+    {
+      "keyword": "computation",
+      "score": 0.22222222
+    },
+    {
+      "keyword": "compute signatures",
+      "score": 0.35555556
+    },
+    {
+      "keyword": "signature",
+      "score": 0.44444445
+    },
+    {
+      "keyword": "all folders",
+      "score": 1.4814814
+    },
+    {
+      "keyword": "all",
+      "score": 2.222222
+    },
+    {
+      "keyword": "signatures all folders",
+      "score": 2.6337447
+    },
+    {
+      "keyword": "signatures all",
+      "score": 3.950617
+    }
+  ],
+  "links_out": [
+    {
+      "target": "/src/types",
+      "link_type": "internal"
+    }
+  ],
+  "headings": [
+    "pub fn compute_folder_signatures - pub fn compute_folder_signatures("
+  ],
+  "extraction_ok": true,
+  "extracted_at": 1771633677
+}

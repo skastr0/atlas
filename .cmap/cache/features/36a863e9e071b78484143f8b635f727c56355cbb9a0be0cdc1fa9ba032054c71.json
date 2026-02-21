@@ -1,0 +1,779 @@
+{
+  "id": "36a863e9e071b78484143f8b635f727c56355cbb9a0be0cdc1fa9ba032054c71",
+  "path": "src/types.rs",
+  "file_type": "rust",
+  "title": "Core data types for the indexer",
+  "snippet": "Core data types for the indexer",
+  "word_count": 279,
+  "char_count": 2070,
+  "unique_term_count": 116,
+  "top_terms": [
+    {
+      "term": "term",
+      "tf": 0.041860465,
+      "tfidf": 0.0
+    },
+    {
+      "term": "score",
+      "tf": 0.03255814,
+      "tfidf": 0.0
+    },
+    {
+      "term": "top",
+      "tf": 0.03255814,
+      "tfidf": 0.0
+    },
+    {
+      "term": "link",
+      "tf": 0.027906977,
+      "tfidf": 0.0
+    },
+    {
+      "term": "folder",
+      "tf": 0.023255814,
+      "tfidf": 0.0
+    },
+    {
+      "term": "path",
+      "tf": 0.023255814,
+      "tfidf": 0.0
+    },
+    {
+      "term": "extracted",
+      "tf": 0.023255814,
+      "tfidf": 0.0
+    },
+    {
+      "term": "phrase",
+      "tf": 0.018604651,
+      "tfidf": 0.0
+    },
+    {
+      "term": "frequency",
+      "tf": 0.018604651,
+      "tfidf": 0.0
+    },
+    {
+      "term": "total",
+      "tf": 0.018604651,
+      "tfidf": 0.0
+    },
+    {
+      "term": "idf",
+      "tf": 0.018604651,
+      "tfidf": 0.0
+    },
+    {
+      "term": "relative",
+      "tf": 0.018604651,
+      "tfidf": 0.0
+    },
+    {
+      "term": "fingerprints",
+      "tf": 0.013953488,
+      "tfidf": 0.0
+    },
+    {
+      "term": "root",
+      "tf": 0.013953488,
+      "tfidf": 0.0
+    },
+    {
+      "term": "document",
+      "tf": 0.013953488,
+      "tfidf": 0.0
+    },
+    {
+      "term": "knowledge",
+      "tf": 0.013953488,
+      "tfidf": 0.0
+    },
+    {
+      "term": "number",
+      "tf": 0.013953488,
+      "tfidf": 0.0
+    },
+    {
+      "term": "base",
+      "tf": 0.013953488,
+      "tfidf": 0.0
+    },
+    {
+      "term": "global",
+      "tf": 0.013953488,
+      "tfidf": 0.0
+    },
+    {
+      "term": "count",
+      "tf": 0.013953488,
+      "tfidf": 0.0
+    },
+    {
+      "term": "indexed",
+      "tf": 0.013953488,
+      "tfidf": 0.0
+    },
+    {
+      "term": "yake",
+      "tf": 0.013953488,
+      "tfidf": 0.0
+    },
+    {
+      "term": "previous",
+      "tf": 0.009302326,
+      "tfidf": 0.0
+    },
+    {
+      "term": "content",
+      "tf": 0.009302326,
+      "tfidf": 0.0
+    },
+    {
+      "term": "hash",
+      "tf": 0.009302326,
+      "tfidf": 0.0
+    },
+    {
+      "term": "rake",
+      "tf": 0.009302326,
+      "tfidf": 0.0
+    },
+    {
+      "term": "keyword",
+      "tf": 0.009302326,
+      "tfidf": 0.0
+    },
+    {
+      "term": "change",
+      "tf": 0.009302326,
+      "tfidf": 0.0
+    },
+    {
+      "term": "terms",
+      "tf": 0.009302326,
+      "tfidf": 0.0
+    },
+    {
+      "term": "new",
+      "tf": 0.009302326,
+      "tfidf": 0.0
+    },
+    {
+      "term": "stats",
+      "tf": 0.009302326,
+      "tfidf": 0.0
+    },
+    {
+      "term": "pass",
+      "tf": 0.009302326,
+      "tfidf": 0.0
+    },
+    {
+      "term": "distinctive",
+      "tf": 0.009302326,
+      "tfidf": 0.0
+    },
+    {
+      "term": "documents",
+      "tf": 0.009302326,
+      "tfidf": 0.0
+    },
+    {
+      "term": "internal",
+      "tf": 0.009302326,
+      "tfidf": 0.0
+    },
+    {
+      "term": "normalized",
+      "tf": 0.009302326,
+      "tfidf": 0.0
+    },
+    {
+      "term": "timestamp",
+      "tf": 0.009302326,
+      "tfidf": 0.0
+    },
+    {
+      "term": "lower",
+      "tf": 0.009302326,
+      "tfidf": 0.0
+    },
+    {
+      "term": "size",
+      "tf": 0.009302326,
+      "tfidf": 0.0
+    },
+    {
+      "term": "deleted",
+      "tf": 0.009302326,
+      "tfidf": 0.0
+    },
+    {
+      "term": "phrases",
+      "tf": 0.009302326,
+      "tfidf": 0.0
+    },
+    {
+      "term": "modified",
+      "tf": 0.009302326,
+      "tfidf": 0.0
+    },
+    {
+      "term": "extraction",
+      "tf": 0.009302326,
+      "tfidf": 0.0
+    },
+    {
+      "term": "unix",
+      "tf": 0.009302326,
+      "tfidf": 0.0
+    },
+    {
+      "term": "after",
+      "tf": 0.009302326,
+      "tfidf": 0.0
+    },
+    {
+      "term": "unique",
+      "tf": 0.009302326,
+      "tfidf": 0.0
+    },
+    {
+      "term": "external",
+      "tf": 0.009302326,
+      "tfidf": 0.0
+    },
+    {
+      "term": "computed",
+      "tf": 0.009302326,
+      "tfidf": 0.0
+    },
+    {
+      "term": "url",
+      "tf": 0.009302326,
+      "tfidf": 0.0
+    },
+    {
+      "term": "demand",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "mapping",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "fingerprint",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "links",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "single",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "blake3",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "per",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "index",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "time",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "derived",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "types",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "core",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "trigrams",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "all",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "truncation",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "docs",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "indexer",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "headings",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "detected",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "isbn",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "changed",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "character",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "scanning",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "before",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "identifier",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "status",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "paragraph",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "keywords",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "containing",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "features",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "title",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "better",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "arxiv",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "bytes",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "available",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "changes",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "citation",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "last",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "modification",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "statistics",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "doi",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "based",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "mtime",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "target",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "current",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "unchanged",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "ids",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "scanned",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "succeed",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "lowercase",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "corpus",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "recursive",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "result",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "signature",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "check",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "chars",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "disk",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "important",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "across",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "aggregate",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "word",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "etc",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "source",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "first",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "wiki",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "bigrams",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    },
+    {
+      "term": "detection",
+      "tf": 0.004651163,
+      "tfidf": 0.0
+    }
+  ],
+  "top_phrases": [
+    {
+      "phrase": "relative path",
+      "score": 4.0
+    },
+    {
+      "phrase": "knowledge base root",
+      "score": 3.0
+    },
+    {
+      "phrase": "base root",
+      "score": 3.0
+    },
+    {
+      "phrase": "path knowledge base",
+      "score": 3.0
+    },
+    {
+      "phrase": "relative path knowledge",
+      "score": 3.0
+    },
+    {
+      "phrase": "knowledge base",
+      "score": 3.0
+    },
+    {
+      "phrase": "path knowledge",
+      "score": 3.0
+    },
+    {
+      "phrase": "idf score",
+      "score": 2.0
+    },
+    {
+      "phrase": "unix timestamp",
+      "score": 2.0
+    },
+    {
+      "phrase": "previous fingerprints",
+      "score": 2.0
+    }
+  ],
+  "rake_phrases": [
+    {
+      "phrase": "chars total word count total character count unique term count before truncation top terms",
+      "score": 166.86508
+    },
+    {
+      "phrase": "wiki link external url citation doi arxiv isbn etc extracted link link target path",
+      "score": 158.0
+    },
+    {
+      "phrase": "idf after global pass top bigrams trigrams top rake phrases top yake keywords lower score",
+      "score": 154.82143
+    },
+    {
+      "phrase": "extracted features unique identifier content hash relative path",
+      "score": 58.75
+    },
+    {
+      "phrase": "link global term document frequency index total number",
+      "score": 56.722218
+    },
+    {
+      "phrase": "idf score computed after global pass phrase",
+      "score": 54.642857
+    },
+    {
+      "phrase": "knowledge base root last modification time unix timestamp",
+      "score": 52.0
+    },
+    {
+      "phrase": "important extracted links internal external extracted headings",
+      "score": 51.800003
+    },
+    {
+      "phrase": "folder recursive top distinctive terms",
+      "score": 33.142857
+    },
+    {
+      "phrase": "phrase normalized phrase score rake",
+      "score": 30.642857
+    }
+  ],
+  "yake_keywords": [
+    {
+      "keyword": "core",
+      "score": 0.0
+    },
+    {
+      "keyword": "core types indexer",
+      "score": 0.0
+    },
+    {
+      "keyword": "core types",
+      "score": 0.0
+    },
+    {
+      "keyword": "types indexer",
+      "score": 0.010875812
+    },
+    {
+      "keyword": "last",
+      "score": 0.045620147
+    },
+    {
+      "keyword": "fingerprint change detection",
+      "score": 0.04744217
+    },
+    {
+      "keyword": "indexer",
+      "score": 0.07374216
+    },
+    {
+      "keyword": "last modification",
+      "score": 0.08073908
+    },
+    {
+      "keyword": "check source",
+      "score": 0.091748945
+    },
+    {
+      "keyword": "check",
+      "score": 0.09953486
+    },
+    {
+      "keyword": "per",
+      "score": 0.10782944
+    },
+    {
+      "keyword": "fingerprint",
+      "score": 0.11061324
+    },
+    {
+      "keyword": "content hash blake3",
+      "score": 0.12075808
+    },
+    {
+      "keyword": "types",
+      "score": 0.14748432
+    },
+    {
+      "keyword": "last modification time",
+      "score": 0.15480074
+    },
+    {
+      "keyword": "detected",
+      "score": 0.15759687
+    },
+    {
+      "keyword": "first",
+      "score": 0.17418602
+    },
+    {
+      "keyword": "blake3",
+      "score": 0.17577723
+    },
+    {
+      "keyword": "detection",
+      "score": 0.18435541
+    },
+    {
+      "keyword": "per extracted",
+      "score": 0.24703792
+    }
+  ],
+  "links_out": [],
+  "headings": [
+    "pub struct Fingerprint",
+    "pub enum FileType",
+    "impl FileType",
+    "pub fn from_extension - pub fn from_extension(ext: &str) -> Self",
+    "pub fn is_code - pub fn is_code(&self) -> bool",
+    "pub struct FileFeatures",
+    "pub struct TermScore",
+    "pub struct PhraseScore",
+    "pub struct KeywordScore",
+    "pub enum LinkType",
+    "pub struct Link",
+    "pub struct GlobalTermIndex",
+    "pub struct TermStats",
+    "pub struct FolderSignature",
+    "pub enum ChangeStatus",
+    "pub struct ScanResult"
+  ],
+  "extraction_ok": true,
+  "extracted_at": 1771633677
+}

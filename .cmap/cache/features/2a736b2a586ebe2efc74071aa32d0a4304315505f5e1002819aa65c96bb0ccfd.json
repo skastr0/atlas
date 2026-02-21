@@ -1,0 +1,291 @@
+{
+  "id": "2a736b2a586ebe2efc74071aa32d0a4304315505f5e1002819aa65c96bb0ccfd",
+  "path": "src/analyze/mod.rs",
+  "file_type": "rust",
+  "title": "Text analysis: tokenization, n-grams, TF-IDF, link extraction",
+  "snippet": "Text analysis: tokenization, n-grams, TF-IDF, link extraction",
+  "word_count": 30,
+  "char_count": 262,
+  "unique_term_count": 25,
+  "top_terms": [
+    {
+      "term": "extraction",
+      "tf": 0.06896552,
+      "tfidf": 0.0
+    },
+    {
+      "term": "tokenization",
+      "tf": 0.06896552,
+      "tfidf": 0.0
+    },
+    {
+      "term": "idf",
+      "tf": 0.06896552,
+      "tfidf": 0.0
+    },
+    {
+      "term": "link",
+      "tf": 0.06896552,
+      "tfidf": 0.0
+    },
+    {
+      "term": "aware",
+      "tf": 0.03448276,
+      "tfidf": 0.0
+    },
+    {
+      "term": "term",
+      "tf": 0.03448276,
+      "tfidf": 0.0
+    },
+    {
+      "term": "analysis",
+      "tf": 0.03448276,
+      "tfidf": 0.0
+    },
+    {
+      "term": "module",
+      "tf": 0.03448276,
+      "tfidf": 0.0
+    },
+    {
+      "term": "citation",
+      "tf": 0.03448276,
+      "tfidf": 0.0
+    },
+    {
+      "term": "gram",
+      "tf": 0.03448276,
+      "tfidf": 0.0
+    },
+    {
+      "term": "unicode",
+      "tf": 0.03448276,
+      "tfidf": 0.0
+    },
+    {
+      "term": "computation",
+      "tf": 0.03448276,
+      "tfidf": 0.0
+    },
+    {
+      "term": "scoring",
+      "tf": 0.03448276,
+      "tfidf": 0.0
+    },
+    {
+      "term": "bigram",
+      "tf": 0.03448276,
+      "tfidf": 0.0
+    },
+    {
+      "term": "frequency",
+      "tf": 0.03448276,
+      "tfidf": 0.0
+    },
+    {
+      "term": "grams",
+      "tf": 0.03448276,
+      "tfidf": 0.0
+    },
+    {
+      "term": "trigram",
+      "tf": 0.03448276,
+      "tfidf": 0.0
+    },
+    {
+      "term": "pattern",
+      "tf": 0.03448276,
+      "tfidf": 0.0
+    },
+    {
+      "term": "text",
+      "tf": 0.03448276,
+      "tfidf": 0.0
+    },
+    {
+      "term": "requires",
+      "tf": 0.03448276,
+      "tfidf": 0.0
+    },
+    {
+      "term": "pass",
+      "tf": 0.03448276,
+      "tfidf": 0.0
+    },
+    {
+      "term": "global",
+      "tf": 0.03448276,
+      "tfidf": 0.0
+    },
+    {
+      "term": "handles",
+      "tf": 0.03448276,
+      "tfidf": 0.0
+    },
+    {
+      "term": "matching",
+      "tf": 0.03448276,
+      "tfidf": 0.0
+    },
+    {
+      "term": "word",
+      "tf": 0.03448276,
+      "tfidf": 0.0
+    }
+  ],
+  "top_phrases": [
+    {
+      "phrase": "gram bigram",
+      "score": 1.0
+    },
+    {
+      "phrase": "computation idf",
+      "score": 1.0
+    },
+    {
+      "phrase": "link citation",
+      "score": 1.0
+    },
+    {
+      "phrase": "link extraction module",
+      "score": 1.0
+    },
+    {
+      "phrase": "pass link citation",
+      "score": 1.0
+    },
+    {
+      "phrase": "unicode aware word",
+      "score": 1.0
+    },
+    {
+      "phrase": "trigram extraction term",
+      "score": 1.0
+    },
+    {
+      "phrase": "link citation pattern",
+      "score": 1.0
+    },
+    {
+      "phrase": "idf scoring requires",
+      "score": 1.0
+    },
+    {
+      "phrase": "handles unicode",
+      "score": 1.0
+    }
+  ],
+  "rake_phrases": [
+    {
+      "phrase": "idf scoring requires global pass link citation pattern matching",
+      "score": 75.0
+    },
+    {
+      "phrase": "gram bigram trigram extraction term frequency computation",
+      "score": 47.0
+    },
+    {
+      "phrase": "module handles unicode aware word tokenization",
+      "score": 34.5
+    },
+    {
+      "phrase": "idf link extraction",
+      "score": 17.0
+    },
+    {
+      "phrase": "text analysis tokenization",
+      "score": 10.5
+    },
+    {
+      "phrase": "grams",
+      "score": 1.0
+    }
+  ],
+  "yake_keywords": [
+    {
+      "keyword": "text analysis",
+      "score": 0.0
+    },
+    {
+      "keyword": "text analysis tokenization",
+      "score": 0.0
+    },
+    {
+      "keyword": "text",
+      "score": 0.0
+    },
+    {
+      "keyword": "module handles",
+      "score": 0.17283952
+    },
+    {
+      "keyword": "unicode",
+      "score": 0.19565217
+    },
+    {
+      "keyword": "analysis",
+      "score": 0.22222224
+    },
+    {
+      "keyword": "analysis tokenization grams",
+      "score": 0.25925928
+    },
+    {
+      "keyword": "term",
+      "score": 0.36956522
+    },
+    {
+      "keyword": "module",
+      "score": 0.3888889
+    },
+    {
+      "keyword": "unicode aware",
+      "score": 0.43478262
+    },
+    {
+      "keyword": "handles",
+      "score": 0.44444448
+    },
+    {
+      "keyword": "grams idf",
+      "score": 0.6
+    },
+    {
+      "keyword": "grams",
+      "score": 0.6666667
+    },
+    {
+      "keyword": "gram",
+      "score": 0.7222222
+    },
+    {
+      "keyword": "idf",
+      "score": 0.9
+    },
+    {
+      "keyword": "grams idf link",
+      "score": 1.0384616
+    },
+    {
+      "keyword": "tokenization grams idf",
+      "score": 1.0500001
+    },
+    {
+      "keyword": "computation",
+      "score": 1.0555556
+    },
+    {
+      "keyword": "unicode aware word",
+      "score": 1.062802
+    },
+    {
+      "keyword": "extraction",
+      "score": 1.2222222
+    }
+  ],
+  "links_out": [],
+  "headings": [],
+  "extraction_ok": true,
+  "extracted_at": 1771633677
+}

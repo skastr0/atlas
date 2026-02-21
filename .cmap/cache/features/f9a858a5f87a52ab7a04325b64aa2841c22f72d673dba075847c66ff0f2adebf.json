@@ -1,0 +1,139 @@
+{
+  "id": "f9a858a5f87a52ab7a04325b64aa2841c22f72d673dba075847c66ff0f2adebf",
+  "path": "src/analyze/features.rs",
+  "file_type": "rust",
+  "title": "Per-file feature computation",
+  "snippet": "Per-file feature computation",
+  "word_count": 8,
+  "char_count": 57,
+  "unique_term_count": 5,
+  "top_terms": [
+    {
+      "term": "compute",
+      "tf": 0.2,
+      "tfidf": 0.0
+    },
+    {
+      "term": "per",
+      "tf": 0.2,
+      "tfidf": 0.0
+    },
+    {
+      "term": "computation",
+      "tf": 0.2,
+      "tfidf": 0.0
+    },
+    {
+      "term": "feature",
+      "tf": 0.2,
+      "tfidf": 0.0
+    },
+    {
+      "term": "features",
+      "tf": 0.2,
+      "tfidf": 0.0
+    }
+  ],
+  "top_phrases": [
+    {
+      "phrase": "per feature",
+      "score": 1.0
+    },
+    {
+      "phrase": "feature computation",
+      "score": 1.0
+    },
+    {
+      "phrase": "computation compute features",
+      "score": 1.0
+    },
+    {
+      "phrase": "feature computation compute",
+      "score": 1.0
+    },
+    {
+      "phrase": "compute features",
+      "score": 1.0
+    },
+    {
+      "phrase": "computation compute",
+      "score": 1.0
+    },
+    {
+      "phrase": "per feature computation",
+      "score": 1.0
+    }
+  ],
+  "rake_phrases": [
+    {
+      "phrase": "feature computation compute features",
+      "score": 16.0
+    },
+    {
+      "phrase": "per",
+      "score": 1.0
+    }
+  ],
+  "yake_keywords": [
+    {
+      "keyword": "per feature",
+      "score": 0.0
+    },
+    {
+      "keyword": "per feature computation",
+      "score": 0.0
+    },
+    {
+      "keyword": "per",
+      "score": 0.0
+    },
+    {
+      "keyword": "compute features",
+      "score": 0.20000002
+    },
+    {
+      "keyword": "compute",
+      "score": 0.3
+    },
+    {
+      "keyword": "computation",
+      "score": 0.33333334
+    },
+    {
+      "keyword": "feature",
+      "score": 0.6666667
+    }
+  ],
+  "links_out": [
+    {
+      "target": "/src/config",
+      "link_type": "internal"
+    },
+    {
+      "target": "/src/extract/ExtractedContent",
+      "link_type": "internal"
+    },
+    {
+      "target": "/src/extract",
+      "link_type": "internal"
+    },
+    {
+      "target": "/src/types",
+      "link_type": "internal"
+    }
+  ],
+  "headings": [
+    "pub fn compute_features - pub fn compute_features(",
+    "fn extract_snippet - fn extract_snippet(text: &str, max_chars: usize) -> String",
+    "fn derive_title_from_path - fn derive_title_from_path(path: &PathBuf) -> String",
+    "fn extract_code_links - fn extract_code_links(file_type: FileType, links: &[String]) -> Vec<Link>",
+    "fn normalize_typescript_import - fn normalize_typescript_import(target: &str) -> Option<String>",
+    "fn normalize_rust_use_targets - fn normalize_rust_use_targets(target: &str) -> Vec<String>",
+    "fn strip_rust_use_target - fn strip_rust_use_target(target: &str) -> Option<String>",
+    "fn rust_prefix_and_rest - fn rust_prefix_and_rest(target: &str) -> Option<(String, String)>",
+    "fn normalizes_typescript_relative_imports - fn normalizes_typescript_relative_imports()",
+    "fn normalizes_rust_use_targets - fn normalizes_rust_use_targets()"
+  ],
+  "extraction_ok": true,
+  "extracted_at": 1771633677
+}

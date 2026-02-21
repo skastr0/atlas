@@ -1,0 +1,118 @@
+{
+  "id": "ea020dcf34c11d0061caf36863fb4c4b34aeabb61455e14a8f04bb059965a0c7",
+  "path": "src/render/atlas.rs",
+  "file_type": "rust",
+  "title": "ROOT_ATLAS.md generation",
+  "snippet": "ROOT_ATLAS.md generation",
+  "word_count": 5,
+  "char_count": 56,
+  "unique_term_count": 4,
+  "top_terms": [
+    {
+      "term": "root_atlas.md",
+      "tf": 0.4,
+      "tfidf": 0.0
+    },
+    {
+      "term": "content",
+      "tf": 0.2,
+      "tfidf": 0.0
+    },
+    {
+      "term": "generation",
+      "tf": 0.2,
+      "tfidf": 0.0
+    },
+    {
+      "term": "generate",
+      "tf": 0.2,
+      "tfidf": 0.0
+    }
+  ],
+  "top_phrases": [
+    {
+      "phrase": "root_atlas.md generation",
+      "score": 1.0
+    },
+    {
+      "phrase": "generation generate root_atlas.md",
+      "score": 1.0
+    },
+    {
+      "phrase": "generate root_atlas.md",
+      "score": 1.0
+    },
+    {
+      "phrase": "generation generate",
+      "score": 1.0
+    },
+    {
+      "phrase": "root_atlas.md content",
+      "score": 1.0
+    },
+    {
+      "phrase": "generate root_atlas.md content",
+      "score": 1.0
+    },
+    {
+      "phrase": "root_atlas.md generation generate",
+      "score": 1.0
+    }
+  ],
+  "rake_phrases": [
+    {
+      "phrase": "root_atlas.md generation generate root_atlas.md content",
+      "score": 25.0
+    }
+  ],
+  "yake_keywords": [
+    {
+      "keyword": "generate root_atlas",
+      "score": 0.042857148
+    },
+    {
+      "keyword": "root_atlas",
+      "score": 0.15
+    },
+    {
+      "keyword": "generate",
+      "score": 0.2857143
+    },
+    {
+      "keyword": "generation",
+      "score": 0.33333334
+    },
+    {
+      "keyword": "content",
+      "score": 1.3333334
+    }
+  ],
+  "links_out": [
+    {
+      "target": "/src/config/RenderConfig",
+      "link_type": "internal"
+    },
+    {
+      "target": "/src/config",
+      "link_type": "internal"
+    },
+    {
+      "target": "/src/types",
+      "link_type": "internal"
+    },
+    {
+      "target": "summarize_code_symbols",
+      "link_type": "internal"
+    }
+  ],
+  "headings": [
+    "pub fn render_atlas - pub fn render_atlas(",
+    "fn render_objective_slices - fn render_objective_slices(features: &[FileFeatures]) -> String",
+    "fn push_slice_entry - fn push_slice_entry(output: &mut String, file: &FileFeatures, metric: &str)",
+    "fn max_term_tfidf - fn max_term_tfidf(file: &FileFeatures) -> f32",
+    "fn build_folder_tree - fn build_folder_tree(",
+    "fn aggregate_global_terms - fn aggregate_global_terms(features: &[FileFeatures], top_n: usize) -> Vec<(String, f32)>"
+  ],
+  "extraction_ok": true,
+  "extracted_at": 1771633677
+}

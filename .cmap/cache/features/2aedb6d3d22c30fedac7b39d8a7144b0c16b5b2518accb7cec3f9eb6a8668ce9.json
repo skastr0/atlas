@@ -1,0 +1,218 @@
+{
+  "id": "2aedb6d3d22c30fedac7b39d8a7144b0c16b5b2518accb7cec3f9eb6a8668ce9",
+  "path": "src/extract/rust.rs",
+  "file_type": "rust",
+  "title": "Rust source extraction using tree-sitter",
+  "snippet": "Rust source extraction using tree-sitter",
+  "word_count": 12,
+  "char_count": 81,
+  "unique_term_count": 7,
+  "top_terms": [
+    {
+      "term": "source",
+      "tf": 0.22222222,
+      "tfidf": 0.0
+    },
+    {
+      "term": "rust",
+      "tf": 0.22222222,
+      "tfidf": 0.0
+    },
+    {
+      "term": "extraction",
+      "tf": 0.11111111,
+      "tfidf": 0.0
+    },
+    {
+      "term": "content",
+      "tf": 0.11111111,
+      "tfidf": 0.0
+    },
+    {
+      "term": "sitter",
+      "tf": 0.11111111,
+      "tfidf": 0.0
+    },
+    {
+      "term": "tree",
+      "tf": 0.11111111,
+      "tfidf": 0.0
+    },
+    {
+      "term": "extract",
+      "tf": 0.11111111,
+      "tfidf": 0.0
+    }
+  ],
+  "top_phrases": [
+    {
+      "phrase": "rust source",
+      "score": 2.0
+    },
+    {
+      "phrase": "content rust source",
+      "score": 1.0
+    },
+    {
+      "phrase": "tree sitter extract",
+      "score": 1.0
+    },
+    {
+      "phrase": "content rust",
+      "score": 1.0
+    },
+    {
+      "phrase": "rust source extraction",
+      "score": 1.0
+    },
+    {
+      "phrase": "extraction tree sitter",
+      "score": 1.0
+    },
+    {
+      "phrase": "extraction tree",
+      "score": 1.0
+    },
+    {
+      "phrase": "source extraction",
+      "score": 1.0
+    },
+    {
+      "phrase": "sitter extract",
+      "score": 1.0
+    },
+    {
+      "phrase": "sitter extract content",
+      "score": 1.0
+    }
+  ],
+  "rake_phrases": [
+    {
+      "phrase": "tree sitter extract content",
+      "score": 16.0
+    },
+    {
+      "phrase": "rust source extraction",
+      "score": 8.0
+    },
+    {
+      "phrase": "rust source",
+      "score": 5.0
+    }
+  ],
+  "yake_keywords": [
+    {
+      "keyword": "extract",
+      "score": 0.3125
+    },
+    {
+      "keyword": "extract content rust",
+      "score": 0.41015625
+    },
+    {
+      "keyword": "rust",
+      "score": 0.4375
+    },
+    {
+      "keyword": "rust source extraction",
+      "score": 0.4921875
+    },
+    {
+      "keyword": "rust source",
+      "score": 0.4921875
+    },
+    {
+      "keyword": "sitter",
+      "score": 0.5
+    },
+    {
+      "keyword": "extraction tree sitter",
+      "score": 0.75
+    },
+    {
+      "keyword": "tree sitter",
+      "score": 0.75
+    },
+    {
+      "keyword": "extract content",
+      "score": 0.9375
+    },
+    {
+      "keyword": "extraction",
+      "score": 1.0
+    },
+    {
+      "keyword": "source extraction",
+      "score": 1.125
+    },
+    {
+      "keyword": "source",
+      "score": 1.125
+    },
+    {
+      "keyword": "content rust",
+      "score": 1.3125
+    },
+    {
+      "keyword": "content rust source",
+      "score": 1.4765625
+    },
+    {
+      "keyword": "tree",
+      "score": 1.5
+    },
+    {
+      "keyword": "extraction tree",
+      "score": 1.5
+    },
+    {
+      "keyword": "source extraction tree",
+      "score": 1.6875
+    },
+    {
+      "keyword": "content",
+      "score": 3.0
+    }
+  ],
+  "links_out": [
+    {
+      "target": "treesitter",
+      "link_type": "internal"
+    },
+    {
+      "target": "ExtractedContent",
+      "link_type": "internal"
+    },
+    {
+      "target": "extract_rust",
+      "link_type": "internal"
+    }
+  ],
+  "headings": [
+    "pub fn extract_rust - pub fn extract_rust(path: &Path) -> Result<ExtractedContent>",
+    "fn extract_module_doc_title - fn extract_module_doc_title(text: &str) -> Option<String>",
+    "fn collect_nodes - fn collect_nodes(source: &str, node: Node, headings: &mut Vec<String>, links: &mut Vec<String>)",
+    "fn collect_doc_comments - fn collect_doc_comments(source: &str, node: Node, docs: &mut Vec<String>)",
+    "fn normalize_doc_comment - fn normalize_doc_comment(text: &str) -> String",
+    "fn extract_doc_attribute - fn extract_doc_attribute<'a>(source: &str, node: Node<'a>) -> Option<String>",
+    "fn normalize_doc_attribute_value - fn normalize_doc_attribute_value(text: &str) -> String",
+    "fn extract_identifier - fn extract_identifier<'a>(source: &str, node: Node<'a>) -> Option<String>",
+    "fn extract_impl_type_name - fn extract_impl_type_name<'a>(source: &str, node: Node<'a>) -> Option<String>",
+    "fn extract_type_label - fn extract_type_label<'a>(source: &str, node: Node<'a>) -> Option<String>",
+    "fn signature_snippet - fn signature_snippet<'a>(source: &str, node: Node<'a>) -> Option<String>",
+    "fn extract_use_target - fn extract_use_target<'a>(source: &str, node: Node<'a>) -> Option<String>",
+    "fn format_symbol - fn format_symbol(visibility: bool, kind: &str, name: &str, signature: Option<&str>) -> String",
+    "fn is_public - fn is_public<'a>(node: Node<'a>) -> bool",
+    "fn node_text - fn node_text<'a>(source: &'a str, node: Node<'a>) -> Option<&'a str>",
+    "fn normalize_whitespace - fn normalize_whitespace(text: &str) -> String",
+    "fn collect_descendants - fn collect_descendants<'a>(node: Node<'a>, kinds: &[&str], output: &mut Vec<Node<'a>>)",
+    "fn find_descendant - fn find_descendant<'a>(node: Node<'a>, kinds: &[&str]) -> Option<Node<'a>>",
+    "fn extracts_symbols_and_use_links_from_main - fn extracts_symbols_and_use_links_from_main()",
+    "fn extracts_public_symbols_from_types - fn extracts_public_symbols_from_types()",
+    "fn extracts_module_doc_title - fn extracts_module_doc_title()",
+    "fn extracts_doc_comments_as_text - fn extracts_doc_comments_as_text()",
+    "fn falls_back_to_headings_when_docs_missing - fn falls_back_to_headings_when_docs_missing()"
+  ],
+  "extraction_ok": true,
+  "extracted_at": 1771633677
+}

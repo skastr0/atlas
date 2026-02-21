@@ -1,0 +1,230 @@
+{
+  "id": "a22c7c554750ee28a50ae90d118f6feb8078b73f5ae2b2cb4aa3a48887cfb883",
+  "path": "src/scan/walker.rs",
+  "file_type": "rust",
+  "title": "Directory traversal with ignore patterns",
+  "snippet": "Directory traversal with ignore patterns",
+  "word_count": 17,
+  "char_count": 133,
+  "unique_term_count": 10,
+  "top_terms": [
+    {
+      "term": "ignore",
+      "tf": 0.15384616,
+      "tfidf": 0.0
+    },
+    {
+      "term": "patterns",
+      "tf": 0.15384616,
+      "tfidf": 0.0
+    },
+    {
+      "term": "directory",
+      "tf": 0.15384616,
+      "tfidf": 0.0
+    },
+    {
+      "term": "configuration",
+      "tf": 0.07692308,
+      "tfidf": 0.0
+    },
+    {
+      "term": "walk",
+      "tf": 0.07692308,
+      "tfidf": 0.0
+    },
+    {
+      "term": "traversal",
+      "tf": 0.07692308,
+      "tfidf": 0.0
+    },
+    {
+      "term": "all",
+      "tf": 0.07692308,
+      "tfidf": 0.0
+    },
+    {
+      "term": "respecting",
+      "tf": 0.07692308,
+      "tfidf": 0.0
+    },
+    {
+      "term": "tree",
+      "tf": 0.07692308,
+      "tfidf": 0.0
+    },
+    {
+      "term": "matching",
+      "tf": 0.07692308,
+      "tfidf": 0.0
+    }
+  ],
+  "top_phrases": [
+    {
+      "phrase": "ignore patterns",
+      "score": 2.0
+    },
+    {
+      "phrase": "directory tree",
+      "score": 1.0
+    },
+    {
+      "phrase": "respecting ignore patterns",
+      "score": 1.0
+    },
+    {
+      "phrase": "tree respecting ignore",
+      "score": 1.0
+    },
+    {
+      "phrase": "walk directory",
+      "score": 1.0
+    },
+    {
+      "phrase": "patterns all",
+      "score": 1.0
+    },
+    {
+      "phrase": "directory tree respecting",
+      "score": 1.0
+    },
+    {
+      "phrase": "directory traversal",
+      "score": 1.0
+    },
+    {
+      "phrase": "tree respecting",
+      "score": 1.0
+    },
+    {
+      "phrase": "ignore patterns walk",
+      "score": 1.0
+    }
+  ],
+  "rake_phrases": [
+    {
+      "phrase": "directory tree respecting ignore patterns",
+      "score": 21.5
+    },
+    {
+      "phrase": "ignore patterns walk",
+      "score": 11.0
+    },
+    {
+      "phrase": "directory traversal",
+      "score": 5.5
+    },
+    {
+      "phrase": "all",
+      "score": 1.0
+    },
+    {
+      "phrase": "configuration",
+      "score": 1.0
+    },
+    {
+      "phrase": "matching",
+      "score": 1.0
+    }
+  ],
+  "yake_keywords": [
+    {
+      "keyword": "walk directory",
+      "score": 0.10765551
+    },
+    {
+      "keyword": "walk",
+      "score": 0.18181819
+    },
+    {
+      "keyword": "directory traversal",
+      "score": 0.23684211
+    },
+    {
+      "keyword": "walk directory tree",
+      "score": 0.2583732
+    },
+    {
+      "keyword": "traversal ignore patterns",
+      "score": 0.26999998
+    },
+    {
+      "keyword": "patterns",
+      "score": 0.29999998
+    },
+    {
+      "keyword": "traversal",
+      "score": 0.4
+    },
+    {
+      "keyword": "directory traversal ignore",
+      "score": 0.53289473
+    },
+    {
+      "keyword": "directory",
+      "score": 0.59210527
+    },
+    {
+      "keyword": "ignore patterns",
+      "score": 0.67499995
+    },
+    {
+      "keyword": "traversal ignore",
+      "score": 0.90000004
+    },
+    {
+      "keyword": "all",
+      "score": 0.99999994
+    },
+    {
+      "keyword": "configuration",
+      "score": 1.1999999
+    },
+    {
+      "keyword": "directory tree",
+      "score": 1.4210526
+    },
+    {
+      "keyword": "respecting ignore patterns",
+      "score": 1.8899996
+    },
+    {
+      "keyword": "ignore",
+      "score": 2.25
+    },
+    {
+      "keyword": "tree",
+      "score": 2.3999999
+    },
+    {
+      "keyword": "respecting",
+      "score": 2.7999997
+    },
+    {
+      "keyword": "directory tree respecting",
+      "score": 3.9789467
+    },
+    {
+      "keyword": "all matching",
+      "score": 4.3999996
+    }
+  ],
+  "links_out": [
+    {
+      "target": "/src/config/ScanConfig",
+      "link_type": "internal"
+    },
+    {
+      "target": "/src/config",
+      "link_type": "internal"
+    }
+  ],
+  "headings": [
+    "pub struct Walker",
+    "impl Walker",
+    "pub fn new - pub fn new(root: &'a Path, config: &'a ScanConfig) -> Self",
+    "pub fn walk - pub fn walk(&self) -> Result<Vec<PathBuf>>"
+  ],
+  "extraction_ok": true,
+  "extracted_at": 1771633677
+}

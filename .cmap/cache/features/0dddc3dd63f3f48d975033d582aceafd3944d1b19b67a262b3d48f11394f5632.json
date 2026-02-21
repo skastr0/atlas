@@ -1,0 +1,318 @@
+{
+  "id": "0dddc3dd63f3f48d975033d582aceafd3944d1b19b67a262b3d48f11394f5632",
+  "path": "src/analyze/tokenize.rs",
+  "file_type": "rust",
+  "title": "Unicode-aware word tokenization",
+  "snippet": "Unicode-aware word tokenization",
+  "word_count": 37,
+  "char_count": 289,
+  "unique_term_count": 21,
+  "top_terms": [
+    {
+      "term": "filter",
+      "tf": 0.1,
+      "tfidf": 0.0
+    },
+    {
+      "term": "tokenize",
+      "tf": 0.1,
+      "tfidf": 0.0
+    },
+    {
+      "term": "stopwords",
+      "tf": 0.1,
+      "tfidf": 0.0
+    },
+    {
+      "term": "word",
+      "tf": 0.06666667,
+      "tfidf": 0.0
+    },
+    {
+      "term": "basic",
+      "tf": 0.06666667,
+      "tfidf": 0.0
+    },
+    {
+      "term": "english",
+      "tf": 0.06666667,
+      "tfidf": 0.0
+    },
+    {
+      "term": "tokens",
+      "tf": 0.033333335,
+      "tfidf": 0.0
+    },
+    {
+      "term": "configuration",
+      "tf": 0.033333335,
+      "tfidf": 0.0
+    },
+    {
+      "term": "lowercase",
+      "tf": 0.033333335,
+      "tfidf": 0.0
+    },
+    {
+      "term": "aware",
+      "tf": 0.033333335,
+      "tfidf": 0.0
+    },
+    {
+      "term": "custom",
+      "tf": 0.033333335,
+      "tfidf": 0.0
+    },
+    {
+      "term": "length",
+      "tf": 0.033333335,
+      "tfidf": 0.0
+    },
+    {
+      "term": "stopword",
+      "tf": 0.033333335,
+      "tfidf": 0.0
+    },
+    {
+      "term": "tokenization",
+      "tf": 0.033333335,
+      "tfidf": 0.0
+    },
+    {
+      "term": "unicode",
+      "tf": 0.033333335,
+      "tfidf": 0.0
+    },
+    {
+      "term": "text",
+      "tf": 0.033333335,
+      "tfidf": 0.0
+    },
+    {
+      "term": "minimum",
+      "tf": 0.033333335,
+      "tfidf": 0.0
+    },
+    {
+      "term": "check",
+      "tf": 0.033333335,
+      "tfidf": 0.0
+    },
+    {
+      "term": "words",
+      "tf": 0.033333335,
+      "tfidf": 0.0
+    },
+    {
+      "term": "technical",
+      "tf": 0.033333335,
+      "tfidf": 0.0
+    },
+    {
+      "term": "analyze",
+      "tf": 0.033333335,
+      "tfidf": 0.0
+    }
+  ],
+  "top_phrases": [
+    {
+      "phrase": "tokenize filter",
+      "score": 2.0
+    },
+    {
+      "phrase": "basic english",
+      "score": 2.0
+    },
+    {
+      "phrase": "check word stopword",
+      "score": 1.0
+    },
+    {
+      "phrase": "unicode aware",
+      "score": 1.0
+    },
+    {
+      "phrase": "english stopwords filter",
+      "score": 1.0
+    },
+    {
+      "phrase": "length tokenize filter",
+      "score": 1.0
+    },
+    {
+      "phrase": "custom minimum length",
+      "score": 1.0
+    },
+    {
+      "phrase": "lowercase words",
+      "score": 1.0
+    },
+    {
+      "phrase": "text lowercase",
+      "score": 1.0
+    },
+    {
+      "phrase": "custom minimum",
+      "score": 1.0
+    }
+  ],
+  "rake_phrases": [
+    {
+      "phrase": "unicode aware word tokenization tokenize text",
+      "score": 31.833334
+    },
+    {
+      "phrase": "stopword basic english stopwords filter stopwords",
+      "score": 26.999998
+    },
+    {
+      "phrase": "custom minimum length tokenize",
+      "score": 16.333334
+    },
+    {
+      "phrase": "tokens basic english",
+      "score": 12.0
+    },
+    {
+      "phrase": "lowercase words tokenize",
+      "score": 10.333334
+    },
+    {
+      "phrase": "analyze configuration check",
+      "score": 9.0
+    },
+    {
+      "phrase": "technical stopwords",
+      "score": 6.6666665
+    },
+    {
+      "phrase": "word",
+      "score": 3.5
+    },
+    {
+      "phrase": "filter",
+      "score": 2.6666667
+    }
+  ],
+  "yake_keywords": [
+    {
+      "keyword": "unicode aware",
+      "score": 0.0
+    },
+    {
+      "keyword": "unicode",
+      "score": 0.0
+    },
+    {
+      "keyword": "unicode aware word",
+      "score": 0.0
+    },
+    {
+      "keyword": "tokenization",
+      "score": 0.21724138
+    },
+    {
+      "keyword": "aware",
+      "score": 0.28965515
+    },
+    {
+      "keyword": "tokenize",
+      "score": 0.32183906
+    },
+    {
+      "keyword": "aware word tokenization",
+      "score": 0.3645315
+    },
+    {
+      "keyword": "check",
+      "score": 0.3971079
+    },
+    {
+      "keyword": "tokenize text",
+      "score": 0.46611172
+    },
+    {
+      "keyword": "words",
+      "score": 0.5068965
+    },
+    {
+      "keyword": "tokenize text lowercase",
+      "score": 0.81007004
+    },
+    {
+      "keyword": "length",
+      "score": 0.8689655
+    },
+    {
+      "keyword": "lowercase words",
+      "score": 0.88095117
+    },
+    {
+      "keyword": "tokenize filter",
+      "score": 0.9000778
+    },
+    {
+      "keyword": "configuration",
+      "score": 1.1586206
+    },
+    {
+      "keyword": "word tokenization",
+      "score": 1.2585018
+    },
+    {
+      "keyword": "text lowercase words",
+      "score": 1.2758603
+    },
+    {
+      "keyword": "text",
+      "score": 1.4482758
+    },
+    {
+      "keyword": "basic",
+      "score": 1.6248949
+    },
+    {
+      "keyword": "aware word",
+      "score": 1.6780021
+    }
+  ],
+  "links_out": [
+    {
+      "target": "/src/config/AnalyzeConfig",
+      "link_type": "internal"
+    },
+    {
+      "target": "/src/config",
+      "link_type": "internal"
+    },
+    {
+      "target": "/src/config/AnalyzeConfig",
+      "link_type": "internal"
+    },
+    {
+      "target": "/src/config",
+      "link_type": "internal"
+    }
+  ],
+  "headings": [
+    "fn url_regex - fn url_regex() -> &'static Regex",
+    "pub fn clean_text - pub fn clean_text(text: &str) -> String",
+    "pub fn is_valid_term - pub fn is_valid_term(term: &str, config: &AnalyzeConfig) -> bool",
+    "pub fn tokenize - pub fn tokenize(text: &str) -> Vec<String>",
+    "pub fn tokenize_min_length - pub fn tokenize_min_length(text: &str, min_length: usize) -> Vec<String>",
+    "pub fn tokenize_with_config - pub fn tokenize_with_config(text: &str, config: &AnalyzeConfig) -> Vec<String>",
+    "pub fn is_stopword - pub fn is_stopword(word: &str) -> bool",
+    "pub fn filter_stopwords - pub fn filter_stopwords(tokens: Vec<String>, custom_stopwords: &[String]) -> Vec<String>",
+    "fn test_clean_text_removes_urls - fn test_clean_text_removes_urls()",
+    "fn test_clean_text_removes_www - fn test_clean_text_removes_www()",
+    "fn test_clean_text_preserves_normal_text - fn test_clean_text_preserves_normal_text()",
+    "fn test_filter_stopwords_with_builtin_list - fn test_filter_stopwords_with_builtin_list()",
+    "fn test_filter_stopwords_with_custom_list - fn test_filter_stopwords_with_custom_list()",
+    "fn test_is_valid_term_filters_numbers_and_lengths - fn test_is_valid_term_filters_numbers_and_lengths()",
+    "fn test_is_valid_term_filters_digit_ratio - fn test_is_valid_term_filters_digit_ratio()",
+    "fn test_is_valid_term_filters_no_vowels - fn test_is_valid_term_filters_no_vowels()",
+    "fn test_is_valid_term_allows_short_version_token - fn test_is_valid_term_allows_short_version_token()"
+  ],
+  "extraction_ok": true,
+  "extracted_at": 1771633677
+}

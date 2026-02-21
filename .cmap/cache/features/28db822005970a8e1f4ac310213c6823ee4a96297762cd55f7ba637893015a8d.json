@@ -1,0 +1,1196 @@
+{
+  "id": "28db822005970a8e1f4ac310213c6823ee4a96297762cd55f7ba637893015a8d",
+  "path": "README.md",
+  "file_type": "markdown",
+  "title": "context-map",
+  "snippet": "**Deterministic knowledge base indexer for AI agents**",
+  "word_count": 445,
+  "char_count": 3979,
+  "unique_term_count": 241,
+  "top_terms": [
+    {
+      "term": "cmap",
+      "tf": 0.038251366,
+      "tfidf": 0.0
+    },
+    {
+      "term": "build",
+      "tf": 0.027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "folder",
+      "tf": 0.016393442,
+      "tfidf": 0.0
+    },
+    {
+      "term": "knowledge",
+      "tf": 0.016393442,
+      "tfidf": 0.0
+    },
+    {
+      "term": "poppler",
+      "tf": 0.013661202,
+      "tfidf": 0.0
+    },
+    {
+      "term": "top",
+      "tf": 0.013661202,
+      "tfidf": 0.0
+    },
+    {
+      "term": "install",
+      "tf": 0.013661202,
+      "tfidf": 0.0
+    },
+    {
+      "term": "problem",
+      "tf": 0.010928961,
+      "tfidf": 0.0
+    },
+    {
+      "term": "context",
+      "tf": 0.010928961,
+      "tfidf": 0.0
+    },
+    {
+      "term": "root_atlas.md",
+      "tf": 0.010928961,
+      "tfidf": 0.0
+    },
+    {
+      "term": "phase",
+      "tf": 0.010928961,
+      "tfidf": 0.0
+    },
+    {
+      "term": "terms",
+      "tf": 0.010928961,
+      "tfidf": 0.0
+    },
+    {
+      "term": "markdown",
+      "tf": 0.010928961,
+      "tfidf": 0.0
+    },
+    {
+      "term": "cargo",
+      "tf": 0.010928961,
+      "tfidf": 0.0
+    },
+    {
+      "term": "base",
+      "tf": 0.010928961,
+      "tfidf": 0.0
+    },
+    {
+      "term": "atlas",
+      "tf": 0.010928961,
+      "tfidf": 0.0
+    },
+    {
+      "term": "release",
+      "tf": 0.008196721,
+      "tfidf": 0.0
+    },
+    {
+      "term": "bash",
+      "tf": 0.008196721,
+      "tfidf": 0.0
+    },
+    {
+      "term": "map",
+      "tf": 0.008196721,
+      "tfidf": 0.0
+    },
+    {
+      "term": "scan",
+      "tf": 0.008196721,
+      "tfidf": 0.0
+    },
+    {
+      "term": "index.md",
+      "tf": 0.008196721,
+      "tfidf": 0.0
+    },
+    {
+      "term": "extraction",
+      "tf": 0.008196721,
+      "tfidf": 0.0
+    },
+    {
+      "term": "views",
+      "tf": 0.008196721,
+      "tfidf": 0.0
+    },
+    {
+      "term": "deterministic",
+      "tf": 0.008196721,
+      "tfidf": 0.0
+    },
+    {
+      "term": "agents",
+      "tf": 0.008196721,
+      "tfidf": 0.0
+    },
+    {
+      "term": "exists",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "detailed",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "init",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "first",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "path",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "listings",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "term",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "text",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "fast",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "per",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "index",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "bases",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "distinctive",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "links",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "pdftotext",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "view",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "plain",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "initialize",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "specific",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "configuration",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "before",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "quick",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "use",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "analysis",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "check",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "search",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "utils",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "exploring",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "global",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "topic",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "phrases",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "terms.md",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "planned",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "doctor",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "types",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "signatures",
+      "tf": 0.0054644807,
+      "tfidf": 0.0
+    },
+    {
+      "term": "indexed",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "unchanged",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "changes",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "retrieval",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "extracts",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "navigation",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "deep",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "rendering",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "readable",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "config.toml",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "isbn",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "existing",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "alias",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "folders",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "randomness",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "without",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "memories",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "mappings",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "always",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "cheap",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "project",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "fedora",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "building",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "pipeline",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "estimates",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "conversation",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "paragraph",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "snippet_length",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "words",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "git",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "relevant",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "optimize",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "query",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "reproducible",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "creates",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "reference",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "word",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "agent",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "update",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "development",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "cli",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "generates",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "source",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "complete",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "given",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "can't",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "corpus",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "requires",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "filename",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "debian",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "commands",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "stripped",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "mapping",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "every",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "idf",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "directory",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "doesn't",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "failures",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "edit",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "access",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "ignore",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "status",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "cross",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "works",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "mit",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "tool",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "across",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "toml",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "remove",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "cached",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "topics",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "multi",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "node_modules",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "corpora",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "solution",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "diagnostics",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "static",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "binary",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "portable",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "include",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "generate",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "loaded",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "internal",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "external",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "optimized",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "locally",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "indexes",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "embeddings",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "concept",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "working",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "supported",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "solutions",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "ubuntu",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "load",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "dive",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "bigrams",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "analyze",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "extract",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "cat",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "designed",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "second",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "rag",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "apt",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "cache",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "report",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "demand",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "aggregation",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "solving",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "stale",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "don't",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "issues",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "atlas_folder_depth",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "render",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "needed",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "arxiv",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "changed",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "cards",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "trigrams",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "searching",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "char",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "resolution",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "support",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "derived",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "doi",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "chicken",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "via",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "min_term_length",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "egg",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "clean",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "max_file_size",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "restructuredtext",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "knows",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "snippets",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "urls",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "mode",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "sub",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "instruction",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "brew",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    },
+    {
+      "term": "count",
+      "tf": 0.0027322404,
+      "tfidf": 0.0
+    }
+  ],
+  "top_phrases": [
+    {
+      "phrase": "knowledge base",
+      "score": 4.0
+    },
+    {
+      "phrase": "cargo build release",
+      "score": 3.0
+    },
+    {
+      "phrase": "top terms",
+      "score": 3.0
+    },
+    {
+      "phrase": "folder index.md",
+      "score": 3.0
+    },
+    {
+      "phrase": "cargo build",
+      "score": 3.0
+    },
+    {
+      "phrase": "install poppler",
+      "score": 3.0
+    },
+    {
+      "phrase": "build release",
+      "score": 3.0
+    },
+    {
+      "phrase": "install poppler utils",
+      "score": 2.0
+    },
+    {
+      "phrase": "folder index.md detailed",
+      "score": 2.0
+    },
+    {
+      "phrase": "detailed listings",
+      "score": 2.0
+    }
+  ],
+  "rake_phrases": [
+    {
+      "phrase": "source bash development build cargo build release build optimized stripped cargo build release install locally cargo install path license mit",
+      "score": 316.65
+    },
+    {
+      "phrase": "generate views cmap doctor report issues extraction failures stale cache cmap clean remove cached",
+      "score": 173.40475
+    },
+    {
+      "phrase": "trigrams links internal links external urls citations doi arxiv isbn word char count",
+      "score": 169.0
+    },
+    {
+      "phrase": "poppler bash macos brew install poppler ubuntu debian apt install poppler utils fedora",
+      "score": 155.7
+    },
+    {
+      "phrase": "atlas cat cmap views root_atlas.md commands cmap init initialize cmap directory cmap scan scan",
+      "score": 148.05952
+    },
+    {
+      "phrase": "configuration edit cmap config.toml toml scan ignore git cmap node_modules include_extensions",
+      "score": 118.07143
+    },
+    {
+      "phrase": "distinctive folder signatures top terms phrases per folder cross references term",
+      "score": 86.15
+    },
+    {
+      "phrase": "changes fast fingerprint check cmap build build update index",
+      "score": 78.48571
+    },
+    {
+      "phrase": "idf weighted distinctive words top phrases frequent bigrams",
+      "score": 65.4
+    },
+    {
+      "phrase": "binary cargo build release initialize",
+      "score": 57.35
+    }
+  ],
+  "yake_keywords": [
+    {
+      "keyword": "generates",
+      "score": 0.01770568
+    },
+    {
+      "keyword": "generates multi",
+      "score": 0.019302092
+    },
+    {
+      "keyword": "generates multi resolution",
+      "score": 0.023672748
+    },
+    {
+      "keyword": "existing",
+      "score": 0.10623407
+    },
+    {
+      "keyword": "solution",
+      "score": 0.14417481
+    },
+    {
+      "keyword": "concept",
+      "score": 0.21499754
+    },
+    {
+      "keyword": "incremental",
+      "score": 0.23776199
+    },
+    {
+      "keyword": "portable",
+      "score": 0.24535012
+    },
+    {
+      "keyword": "rag",
+      "score": 0.2469287
+    },
+    {
+      "keyword": "start",
+      "score": 0.27317336
+    },
+    {
+      "keyword": "deterministic",
+      "score": 0.28569815
+    },
+    {
+      "keyword": "portable plain",
+      "score": 0.3073487
+    },
+    {
+      "keyword": "indexer agents",
+      "score": 0.31061947
+    },
+    {
+      "keyword": "commands",
+      "score": 0.33134916
+    },
+    {
+      "keyword": "indexed",
+      "score": 0.41228938
+    },
+    {
+      "keyword": "title",
+      "score": 0.42240694
+    },
+    {
+      "keyword": "snippet",
+      "score": 0.43505383
+    },
+    {
+      "keyword": "ubuntu debian",
+      "score": 0.44084528
+    },
+    {
+      "keyword": "agents",
+      "score": 0.4558867
+    },
+    {
+      "keyword": "internal",
+      "score": 0.47552398
+    }
+  ],
+  "links_out": [],
+  "headings": [
+    "context-map",
+    "The Problem",
+    "The Solution",
+    "Quick Start",
+    "Commands",
+    "What Gets Indexed",
+    "Supported File Types",
+    "Configuration",
+    "PDF Support",
+    "Use with AI Agents",
+    "Project Status",
+    "Building from Source",
+    "License"
+  ],
+  "extraction_ok": true,
+  "extracted_at": 1771633677
+}

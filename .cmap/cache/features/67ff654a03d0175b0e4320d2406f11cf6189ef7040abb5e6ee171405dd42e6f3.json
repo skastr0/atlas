@@ -1,0 +1,224 @@
+{
+  "id": "67ff654a03d0175b0e4320d2406f11cf6189ef7040abb5e6ee171405dd42e6f3",
+  "path": "src/cli/build.rs",
+  "file_type": "rust",
+  "title": "`cmap build` command - Build index and generate views",
+  "snippet": "`cmap build` command - Build index and generate views",
+  "word_count": 8,
+  "char_count": 53,
+  "unique_term_count": 6,
+  "top_terms": [
+    {
+      "term": "build",
+      "tf": 0.2857143,
+      "tfidf": 0.0
+    },
+    {
+      "term": "cmap",
+      "tf": 0.14285715,
+      "tfidf": 0.0
+    },
+    {
+      "term": "views",
+      "tf": 0.14285715,
+      "tfidf": 0.0
+    },
+    {
+      "term": "command",
+      "tf": 0.14285715,
+      "tfidf": 0.0
+    },
+    {
+      "term": "generate",
+      "tf": 0.14285715,
+      "tfidf": 0.0
+    },
+    {
+      "term": "index",
+      "tf": 0.14285715,
+      "tfidf": 0.0
+    }
+  ],
+  "top_phrases": [
+    {
+      "phrase": "command build index",
+      "score": 1.0
+    },
+    {
+      "phrase": "index generate views",
+      "score": 1.0
+    },
+    {
+      "phrase": "cmap build",
+      "score": 1.0
+    },
+    {
+      "phrase": "build index generate",
+      "score": 1.0
+    },
+    {
+      "phrase": "cmap build command",
+      "score": 1.0
+    },
+    {
+      "phrase": "build command",
+      "score": 1.0
+    },
+    {
+      "phrase": "index generate",
+      "score": 1.0
+    },
+    {
+      "phrase": "build index",
+      "score": 1.0
+    },
+    {
+      "phrase": "generate views",
+      "score": 1.0
+    },
+    {
+      "phrase": "command build",
+      "score": 1.0
+    }
+  ],
+  "rake_phrases": [
+    {
+      "phrase": "cmap build command build index",
+      "score": 25.0
+    },
+    {
+      "phrase": "generate views",
+      "score": 4.0
+    }
+  ],
+  "yake_keywords": [
+    {
+      "keyword": "cmap build",
+      "score": 0.0
+    },
+    {
+      "keyword": "cmap build command",
+      "score": 0.0
+    },
+    {
+      "keyword": "cmap",
+      "score": 0.0
+    },
+    {
+      "keyword": "build command build",
+      "score": 0.16326529
+    },
+    {
+      "keyword": "command build",
+      "score": 0.19047618
+    },
+    {
+      "keyword": "build command",
+      "score": 0.19047618
+    },
+    {
+      "keyword": "command",
+      "score": 0.22222222
+    },
+    {
+      "keyword": "command build index",
+      "score": 0.33862433
+    },
+    {
+      "keyword": "views",
+      "score": 0.6666667
+    },
+    {
+      "keyword": "build",
+      "score": 0.8571428
+    },
+    {
+      "keyword": "generate views",
+      "score": 1.4814814
+    },
+    {
+      "keyword": "build index",
+      "score": 1.5238094
+    },
+    {
+      "keyword": "index",
+      "score": 1.7777778
+    },
+    {
+      "keyword": "generate",
+      "score": 2.222222
+    },
+    {
+      "keyword": "index generate views",
+      "score": 2.6337447
+    },
+    {
+      "keyword": "build index generate",
+      "score": 3.3862429
+    },
+    {
+      "keyword": "index generate",
+      "score": 3.950617
+    }
+  ],
+  "links_out": [
+    {
+      "target": "/src/config/Config",
+      "link_type": "internal"
+    },
+    {
+      "target": "/src/config",
+      "link_type": "internal"
+    },
+    {
+      "target": "/src/LogLevel",
+      "link_type": "internal"
+    },
+    {
+      "target": "/src/aggregate",
+      "link_type": "internal"
+    },
+    {
+      "target": "/src/analyze/compute_features",
+      "link_type": "internal"
+    },
+    {
+      "target": "/src/analyze",
+      "link_type": "internal"
+    },
+    {
+      "target": "/src/cache",
+      "link_type": "internal"
+    },
+    {
+      "target": "/src/extract/extract",
+      "link_type": "internal"
+    },
+    {
+      "target": "/src/extract",
+      "link_type": "internal"
+    },
+    {
+      "target": "/src/render",
+      "link_type": "internal"
+    },
+    {
+      "target": "/src/scan",
+      "link_type": "internal"
+    },
+    {
+      "target": "/src/types/FileType",
+      "link_type": "internal"
+    },
+    {
+      "target": "/src/types",
+      "link_type": "internal"
+    }
+  ],
+  "headings": [
+    "pub fn run - pub fn run(root: &Path, _changed_only: bool, force: bool, log_level: LogLevel) -> Result<()>",
+    "fn md5_path - fn md5_path(path: &Path) -> u64"
+  ],
+  "extraction_ok": true,
+  "extracted_at": 1771633677
+}

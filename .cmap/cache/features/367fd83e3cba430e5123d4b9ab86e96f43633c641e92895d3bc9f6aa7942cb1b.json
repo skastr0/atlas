@@ -1,0 +1,226 @@
+{
+  "id": "367fd83e3cba430e5123d4b9ab86e96f43633c641e92895d3bc9f6aa7942cb1b",
+  "path": "src/analyze/rake.rs",
+  "file_type": "rust",
+  "title": "RAKE (Rapid Automatic Keyword Extraction)",
+  "snippet": "RAKE (Rapid Automatic Keyword Extraction)",
+  "word_count": 12,
+  "char_count": 101,
+  "unique_term_count": 10,
+  "top_terms": [
+    {
+      "term": "keyword",
+      "tf": 0.18181819,
+      "tfidf": 0.0
+    },
+    {
+      "term": "boundaries",
+      "tf": 0.09090909,
+      "tfidf": 0.0
+    },
+    {
+      "term": "rake",
+      "tf": 0.09090909,
+      "tfidf": 0.0
+    },
+    {
+      "term": "ranked",
+      "tf": 0.09090909,
+      "tfidf": 0.0
+    },
+    {
+      "term": "stopword",
+      "tf": 0.09090909,
+      "tfidf": 0.0
+    },
+    {
+      "term": "automatic",
+      "tf": 0.09090909,
+      "tfidf": 0.0
+    },
+    {
+      "term": "extraction",
+      "tf": 0.09090909,
+      "tfidf": 0.0
+    },
+    {
+      "term": "phrases",
+      "tf": 0.09090909,
+      "tfidf": 0.0
+    },
+    {
+      "term": "rapid",
+      "tf": 0.09090909,
+      "tfidf": 0.0
+    },
+    {
+      "term": "extracts",
+      "tf": 0.09090909,
+      "tfidf": 0.0
+    }
+  ],
+  "top_phrases": [
+    {
+      "phrase": "rapid automatic",
+      "score": 1.0
+    },
+    {
+      "phrase": "extracts ranked",
+      "score": 1.0
+    },
+    {
+      "phrase": "extracts ranked keyword",
+      "score": 1.0
+    },
+    {
+      "phrase": "ranked keyword",
+      "score": 1.0
+    },
+    {
+      "phrase": "keyword extraction extracts",
+      "score": 1.0
+    },
+    {
+      "phrase": "keyword extraction",
+      "score": 1.0
+    },
+    {
+      "phrase": "stopword boundaries",
+      "score": 1.0
+    },
+    {
+      "phrase": "keyword phrases",
+      "score": 1.0
+    },
+    {
+      "phrase": "rapid automatic keyword",
+      "score": 1.0
+    },
+    {
+      "phrase": "extraction extracts",
+      "score": 1.0
+    }
+  ],
+  "rake_phrases": [
+    {
+      "phrase": "rake rapid automatic keyword extraction extracts ranked keyword phrases",
+      "score": 81.0
+    },
+    {
+      "phrase": "stopword boundaries",
+      "score": 4.0
+    }
+  ],
+  "yake_keywords": [
+    {
+      "keyword": "rake rapid",
+      "score": 0.0
+    },
+    {
+      "keyword": "rake rapid automatic",
+      "score": 0.0
+    },
+    {
+      "keyword": "rake",
+      "score": 0.0
+    },
+    {
+      "keyword": "rapid automatic",
+      "score": 0.03555556
+    },
+    {
+      "keyword": "rapid automatic keyword",
+      "score": 0.07111112
+    },
+    {
+      "keyword": "automatic keyword extraction",
+      "score": 0.10666668
+    },
+    {
+      "keyword": "rapid",
+      "score": 0.13333334
+    },
+    {
+      "keyword": "extraction",
+      "score": 0.2
+    },
+    {
+      "keyword": "extracts",
+      "score": 0.25
+    },
+    {
+      "keyword": "automatic",
+      "score": 0.26666668
+    },
+    {
+      "keyword": "keyword extraction",
+      "score": 0.4
+    },
+    {
+      "keyword": "automatic keyword",
+      "score": 0.53333336
+    },
+    {
+      "keyword": "extracts ranked",
+      "score": 0.6
+    },
+    {
+      "keyword": "boundaries",
+      "score": 1.0
+    },
+    {
+      "keyword": "extracts ranked keyword",
+      "score": 1.2
+    },
+    {
+      "keyword": "keyword",
+      "score": 2.0
+    },
+    {
+      "keyword": "ranked",
+      "score": 2.4
+    },
+    {
+      "keyword": "phrases",
+      "score": 3.2
+    },
+    {
+      "keyword": "stopword",
+      "score": 3.6
+    },
+    {
+      "keyword": "stopword boundaries",
+      "score": 3.6
+    }
+  ],
+  "links_out": [
+    {
+      "target": "/src/config/AnalyzeConfig",
+      "link_type": "internal"
+    },
+    {
+      "target": "/src/config",
+      "link_type": "internal"
+    },
+    {
+      "target": "/src/types/PhraseScore",
+      "link_type": "internal"
+    },
+    {
+      "target": "/src/types",
+      "link_type": "internal"
+    }
+  ],
+  "headings": [
+    "pub struct RakeExtractor",
+    "impl RakeExtractor",
+    "pub fn new - pub fn new(top_n: usize) -> Self",
+    "pub fn extract - pub fn extract(&self, text: &str, config: &AnalyzeConfig) -> Vec<PhraseScore>",
+    "fn split_phrases - fn split_phrases(",
+    "fn test_extract_basic_phrase_score - fn test_extract_basic_phrase_score()",
+    "fn test_extract_splits_on_stopwords - fn test_extract_splits_on_stopwords()",
+    "fn test_custom_stopwords_split_phrases - fn test_custom_stopwords_split_phrases()"
+  ],
+  "extraction_ok": true,
+  "extracted_at": 1771633677
+}

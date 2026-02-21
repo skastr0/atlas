@@ -1,9 +1,6 @@
 # Rust build output
 /target
 
-# Generated cmap output (run `cmap build` to regenerate)
-.cmap/
-
 # Editor configs
 .cursor/
 .idea/

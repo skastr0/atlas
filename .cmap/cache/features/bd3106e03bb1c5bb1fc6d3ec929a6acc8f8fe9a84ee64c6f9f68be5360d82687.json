@@ -1,0 +1,189 @@
+{
+  "id": "bd3106e03bb1c5bb1fc6d3ec929a6acc8f8fe9a84ee64c6f9f68be5360d82687",
+  "path": "src/extract/typescript.rs",
+  "file_type": "rust",
+  "title": "TypeScript and TSX extraction using tree-sitter",
+  "snippet": "TypeScript and TSX extraction using tree-sitter",
+  "word_count": 11,
+  "char_count": 95,
+  "unique_term_count": 6,
+  "top_terms": [
+    {
+      "term": "typescript",
+      "tf": 0.2857143,
+      "tfidf": 0.0
+    },
+    {
+      "term": "extract",
+      "tf": 0.14285715,
+      "tfidf": 0.0
+    },
+    {
+      "term": "content",
+      "tf": 0.14285715,
+      "tfidf": 0.0
+    },
+    {
+      "term": "sitter",
+      "tf": 0.14285715,
+      "tfidf": 0.0
+    },
+    {
+      "term": "extraction",
+      "tf": 0.14285715,
+      "tfidf": 0.0
+    },
+    {
+      "term": "tree",
+      "tf": 0.14285715,
+      "tfidf": 0.0
+    }
+  ],
+  "top_phrases": [
+    {
+      "phrase": "sitter extract",
+      "score": 1.0
+    },
+    {
+      "phrase": "extraction tree",
+      "score": 1.0
+    },
+    {
+      "phrase": "tree sitter",
+      "score": 1.0
+    },
+    {
+      "phrase": "tree sitter extract",
+      "score": 1.0
+    },
+    {
+      "phrase": "typescript extraction tree",
+      "score": 1.0
+    },
+    {
+      "phrase": "extract content",
+      "score": 1.0
+    },
+    {
+      "phrase": "typescript extraction",
+      "score": 1.0
+    },
+    {
+      "phrase": "extract content typescript",
+      "score": 1.0
+    },
+    {
+      "phrase": "content typescript",
+      "score": 1.0
+    },
+    {
+      "phrase": "extraction tree sitter",
+      "score": 1.0
+    }
+  ],
+  "rake_phrases": [
+    {
+      "phrase": "tree sitter extract content",
+      "score": 16.0
+    },
+    {
+      "phrase": "extraction",
+      "score": 1.0
+    },
+    {
+      "phrase": "typescript",
+      "score": 1.0
+    }
+  ],
+  "yake_keywords": [
+    {
+      "keyword": "extract",
+      "score": 0.33333334
+    },
+    {
+      "keyword": "extraction tree sitter",
+      "score": 0.44444448
+    },
+    {
+      "keyword": "sitter",
+      "score": 0.5
+    },
+    {
+      "keyword": "extraction",
+      "score": 0.6666667
+    },
+    {
+      "keyword": "tree sitter",
+      "score": 0.6666667
+    },
+    {
+      "keyword": "typescript extraction",
+      "score": 0.6666667
+    },
+    {
+      "keyword": "extraction tree",
+      "score": 0.88888896
+    },
+    {
+      "keyword": "typescript",
+      "score": 1.0
+    },
+    {
+      "keyword": "extract content",
+      "score": 1.1111112
+    },
+    {
+      "keyword": "extract content typescript",
+      "score": 1.1111112
+    },
+    {
+      "keyword": "tree",
+      "score": 1.3333334
+    },
+    {
+      "keyword": "content",
+      "score": 3.3333333
+    },
+    {
+      "keyword": "content typescript",
+      "score": 3.3333333
+    }
+  ],
+  "links_out": [
+    {
+      "target": "treesitter",
+      "link_type": "internal"
+    },
+    {
+      "target": "ExtractedContent",
+      "link_type": "internal"
+    },
+    {
+      "target": "extract_typescript",
+      "link_type": "internal"
+    }
+  ],
+  "headings": [
+    "pub fn extract_typescript - pub fn extract_typescript(path: &Path, is_tsx: bool) -> Result<ExtractedContent>",
+    "fn collect_nodes - fn collect_nodes(node: Node, source: &str, headings: &mut Vec<String>, links: &mut Vec<String>)",
+    "fn collect_doc_comments - fn collect_doc_comments(node: Node, source: &str, docs: &mut Vec<String>)",
+    "fn is_jsdoc_comment - fn is_jsdoc_comment(text: &str) -> bool",
+    "fn normalize_doc_comment - fn normalize_doc_comment(text: &str) -> String",
+    "fn add_heading - fn add_heading(node: Node, kind_label: &str, source: &str, headings: &mut Vec<String>)",
+    "fn extract_declaration_name - fn extract_declaration_name(node: Node, source: &str) -> Option<String>",
+    "fn is_exported - fn is_exported(node: Node, source: &str) -> bool",
+    "fn has_export_ancestor - fn has_export_ancestor(node: Node) -> bool",
+    "fn node_has_export_modifier - fn node_has_export_modifier(node: Node, source: &str) -> bool",
+    "fn extract_import_source - fn extract_import_source(node: Node, source: &str) -> Option<String>",
+    "fn string_literal_value - fn string_literal_value(node: Node, source: &str) -> Option<String>",
+    "fn node_text - fn node_text<'a>(node: Node, source: &'a str) -> Option<&'a str>",
+    "fn normalize_whitespace - fn normalize_whitespace(text: &str) -> String",
+    "fn extracts_symbols_and_imports_from_typescript - fn extracts_symbols_and_imports_from_typescript() -> Result<()>",
+    "fn extracts_symbols_from_tsx - fn extracts_symbols_from_tsx() -> Result<()>",
+    "fn extracts_doc_comments_from_typescript - fn extracts_doc_comments_from_typescript() -> Result<()>",
+    "fn extracts_doc_comments_from_tsx - fn extracts_doc_comments_from_tsx() -> Result<()>",
+    "fn falls_back_to_headings_when_docs_missing - fn falls_back_to_headings_when_docs_missing() -> Result<()>"
+  ],
+  "extraction_ok": true,
+  "extracted_at": 1771633677
+}

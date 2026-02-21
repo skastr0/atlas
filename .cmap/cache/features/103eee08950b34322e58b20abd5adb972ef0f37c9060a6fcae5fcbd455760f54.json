@@ -1,0 +1,190 @@
+{
+  "id": "103eee08950b34322e58b20abd5adb972ef0f37c9060a6fcae5fcbd455760f54",
+  "path": "src/analyze/links.rs",
+  "file_type": "rust",
+  "title": "Link and citation extraction",
+  "snippet": "Link and citation extraction",
+  "word_count": 12,
+  "char_count": 78,
+  "unique_term_count": 8,
+  "top_terms": [
+    {
+      "term": "links",
+      "tf": 0.22222222,
+      "tfidf": 0.0
+    },
+    {
+      "term": "all",
+      "tf": 0.11111111,
+      "tfidf": 0.0
+    },
+    {
+      "term": "text",
+      "tf": 0.11111111,
+      "tfidf": 0.0
+    },
+    {
+      "term": "count",
+      "tf": 0.11111111,
+      "tfidf": 0.0
+    },
+    {
+      "term": "extraction",
+      "tf": 0.11111111,
+      "tfidf": 0.0
+    },
+    {
+      "term": "extract",
+      "tf": 0.11111111,
+      "tfidf": 0.0
+    },
+    {
+      "term": "citation",
+      "tf": 0.11111111,
+      "tfidf": 0.0
+    },
+    {
+      "term": "link",
+      "tf": 0.11111111,
+      "tfidf": 0.0
+    }
+  ],
+  "top_phrases": [
+    {
+      "phrase": "extraction extract",
+      "score": 1.0
+    },
+    {
+      "phrase": "extraction extract all",
+      "score": 1.0
+    },
+    {
+      "phrase": "extract all",
+      "score": 1.0
+    },
+    {
+      "phrase": "citation extraction",
+      "score": 1.0
+    },
+    {
+      "phrase": "links text count",
+      "score": 1.0
+    },
+    {
+      "phrase": "citation extraction extract",
+      "score": 1.0
+    },
+    {
+      "phrase": "text count links",
+      "score": 1.0
+    },
+    {
+      "phrase": "links text",
+      "score": 1.0
+    },
+    {
+      "phrase": "all links text",
+      "score": 1.0
+    },
+    {
+      "phrase": "link citation",
+      "score": 1.0
+    }
+  ],
+  "rake_phrases": [
+    {
+      "phrase": "citation extraction extract all links",
+      "score": 24.0
+    },
+    {
+      "phrase": "text count links",
+      "score": 10.0
+    },
+    {
+      "phrase": "link",
+      "score": 1.0
+    }
+  ],
+  "yake_keywords": [
+    {
+      "keyword": "link citation",
+      "score": 0.0
+    },
+    {
+      "keyword": "link citation extraction",
+      "score": 0.0
+    },
+    {
+      "keyword": "link",
+      "score": 0.0
+    },
+    {
+      "keyword": "citation extraction",
+      "score": 0.17999998
+    },
+    {
+      "keyword": "extract",
+      "score": 0.20454545
+    },
+    {
+      "keyword": "extraction",
+      "score": 0.29999998
+    },
+    {
+      "keyword": "count",
+      "score": 0.47727272
+    },
+    {
+      "keyword": "extract all",
+      "score": 0.49090907
+    },
+    {
+      "keyword": "citation",
+      "score": 0.59999996
+    },
+    {
+      "keyword": "text",
+      "score": 0.9
+    },
+    {
+      "keyword": "count links",
+      "score": 2.094034
+    },
+    {
+      "keyword": "extract all links",
+      "score": 2.1538634
+    },
+    {
+      "keyword": "all",
+      "score": 2.3999999
+    },
+    {
+      "keyword": "links text",
+      "score": 3.9487498
+    },
+    {
+      "keyword": "links",
+      "score": 4.3875
+    },
+    {
+      "keyword": "all links text",
+      "score": 9.476998
+    },
+    {
+      "keyword": "all links",
+      "score": 10.529999
+    }
+  ],
+  "links_out": [
+    {
+      "target": "/src/types",
+      "link_type": "internal"
+    }
+  ],
+  "headings": [
+    "pub fn extract_links - pub fn extract_links(text: &str) -> Vec<Link>",
+    "pub fn count_links_by_type - pub fn count_links_by_type(links: &[Link]) -> (usize, usize, usize)"
+  ],
+  "extraction_ok": true,
+  "extracted_at": 1771633677
+}

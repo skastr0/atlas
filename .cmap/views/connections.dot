@@ -1,0 +1,27 @@
+digraph Connections {
+    rankdir=LR;
+    "src/aggregate/folder_sig.rs" -> "src/types.rs";
+    "src/aggregate/term_index.rs" -> "src/types.rs";
+    "src/analyze/features.rs" -> "src/types.rs";
+    "src/analyze/links.rs" -> "src/types.rs";
+    "src/analyze/rake.rs" -> "src/types.rs";
+    "src/analyze/yake.rs" -> "src/types.rs";
+    "src/analyze/features.rs" -> "src/config/mod.rs";
+    "src/analyze/rake.rs" -> "src/config/mod.rs";
+    "src/analyze/tokenize.rs" -> "src/config/mod.rs";
+    "src/analyze/yake.rs" -> "src/config/mod.rs";
+    "src/cli/build.rs" -> "src/config/mod.rs";
+    "src/cli/init.rs" -> "src/config/mod.rs";
+    "src/analyze/ngrams.rs" -> "src/analyze/tokenize.rs";
+    "src/analyze/yake.rs" -> "src/analyze/tokenize.rs";
+    "src/analyze/features.rs" -> "src/extract/mod.rs";
+    "src/cli/build.rs" -> "src/extract/mod.rs";
+    "src/extract/rust.rs" -> "src/extract/treesitter.rs";
+    "src/extract/typescript.rs" -> "src/extract/treesitter.rs";
+    "src/cache/fingerprints.rs" -> "src/scan/mod.rs";
+    "src/cli/build.rs" -> "src/scan/mod.rs";
+    "src/cli/build.rs" -> "src/aggregate/mod.rs";
+    "src/cli/build.rs" -> "src/analyze/mod.rs";
+    "src/cli/build.rs" -> "src/cache/mod.rs";
+    "src/cli/build.rs" -> "src/render/mod.rs";
+}

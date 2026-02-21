@@ -1,0 +1,233 @@
+{
+  "id": "67a3e968c56224f44034405a743fa232c438ded71a69944898df284fc6384af9",
+  "path": "src/render/mod.rs",
+  "file_type": "rust",
+  "title": "Markdown view rendering",
+  "snippet": "Markdown view rendering",
+  "word_count": 16,
+  "char_count": 133,
+  "unique_term_count": 14,
+  "top_terms": [
+    {
+      "term": "term",
+      "tf": 0.071428575,
+      "tfidf": 0.0
+    },
+    {
+      "term": "mapping",
+      "tf": 0.071428575,
+      "tfidf": 0.0
+    },
+    {
+      "term": "markdown",
+      "tf": 0.071428575,
+      "tfidf": 0.0
+    },
+    {
+      "term": "root_atlas.md",
+      "tf": 0.071428575,
+      "tfidf": 0.0
+    },
+    {
+      "term": "level",
+      "tf": 0.071428575,
+      "tfidf": 0.0
+    },
+    {
+      "term": "rendering",
+      "tf": 0.071428575,
+      "tfidf": 0.0
+    },
+    {
+      "term": "map",
+      "tf": 0.071428575,
+      "tfidf": 0.0
+    },
+    {
+      "term": "index.md",
+      "tf": 0.071428575,
+      "tfidf": 0.0
+    },
+    {
+      "term": "folder",
+      "tf": 0.071428575,
+      "tfidf": 0.0
+    },
+    {
+      "term": "top",
+      "tf": 0.071428575,
+      "tfidf": 0.0
+    },
+    {
+      "term": "per",
+      "tf": 0.071428575,
+      "tfidf": 0.0
+    },
+    {
+      "term": "view",
+      "tf": 0.071428575,
+      "tfidf": 0.0
+    },
+    {
+      "term": "generates",
+      "tf": 0.071428575,
+      "tfidf": 0.0
+    },
+    {
+      "term": "terms.md",
+      "tf": 0.071428575,
+      "tfidf": 0.0
+    }
+  ],
+  "top_phrases": [
+    {
+      "phrase": "markdown view",
+      "score": 1.0
+    },
+    {
+      "phrase": "map per",
+      "score": 1.0
+    },
+    {
+      "phrase": "view rendering generates",
+      "score": 1.0
+    },
+    {
+      "phrase": "level map per",
+      "score": 1.0
+    },
+    {
+      "phrase": "rendering generates root_atlas.md",
+      "score": 1.0
+    },
+    {
+      "phrase": "map per folder",
+      "score": 1.0
+    },
+    {
+      "phrase": "terms.md term",
+      "score": 1.0
+    },
+    {
+      "phrase": "top level map",
+      "score": 1.0
+    },
+    {
+      "phrase": "top level",
+      "score": 1.0
+    },
+    {
+      "phrase": "folder index.md",
+      "score": 1.0
+    }
+  ],
+  "rake_phrases": [
+    {
+      "phrase": "markdown view rendering generates root_atlas.md top level map per folder index.md",
+      "score": 121.0
+    },
+    {
+      "phrase": "terms.md term",
+      "score": 4.0
+    },
+    {
+      "phrase": "mapping",
+      "score": 1.0
+    }
+  ],
+  "yake_keywords": [
+    {
+      "keyword": "markdown",
+      "score": 0.0
+    },
+    {
+      "keyword": "markdown view",
+      "score": 0.0
+    },
+    {
+      "keyword": "markdown view rendering",
+      "score": 0.0
+    },
+    {
+      "keyword": "view rendering",
+      "score": 0.0362426
+    },
+    {
+      "keyword": "generates",
+      "score": 0.10769231
+    },
+    {
+      "keyword": "rendering",
+      "score": 0.13461538
+    },
+    {
+      "keyword": "top level map",
+      "score": 0.13660674
+    },
+    {
+      "keyword": "root_atlas",
+      "score": 0.14358975
+    },
+    {
+      "keyword": "top",
+      "score": 0.17948718
+    },
+    {
+      "keyword": "per folder index",
+      "score": 0.24979518
+    },
+    {
+      "keyword": "view",
+      "score": 0.26923075
+    },
+    {
+      "keyword": "per",
+      "score": 0.2871795
+    },
+    {
+      "keyword": "top level",
+      "score": 0.28994083
+    },
+    {
+      "keyword": "index",
+      "score": 0.35897437
+    },
+    {
+      "keyword": "term mapping",
+      "score": 0.37692305
+    },
+    {
+      "keyword": "terms",
+      "score": 0.3948718
+    },
+    {
+      "keyword": "term",
+      "score": 0.43076923
+    },
+    {
+      "keyword": "map",
+      "score": 0.47115386
+    },
+    {
+      "keyword": "per folder",
+      "score": 0.695858
+    },
+    {
+      "keyword": "level map",
+      "score": 0.7610947
+    }
+  ],
+  "links_out": [],
+  "headings": [
+    "pub struct CodeSymbolSummary",
+    "pub fn summarize_code_symbols - pub(crate) fn summarize_code_symbols(headings: &[String]) -> CodeSymbolSummary",
+    "pub fn format_symbol_counts - pub(crate) fn format_symbol_counts(counts: &[(String, usize)]) -> String",
+    "struct ParsedSymbol",
+    "fn parse_symbol_heading - fn parse_symbol_heading(heading: &str) -> Option<ParsedSymbol>",
+    "fn sort_symbol_counts - fn sort_symbol_counts(map: HashMap<String, usize>) -> Vec<(String, usize)>",
+    "fn pluralize_kind - fn pluralize_kind(kind: &str, count: usize) -> String",
+    "fn summarizes_code_symbols_and_exports - fn summarizes_code_symbols_and_exports()"
+  ],
+  "extraction_ok": true,
+  "extracted_at": 1771633677
+}

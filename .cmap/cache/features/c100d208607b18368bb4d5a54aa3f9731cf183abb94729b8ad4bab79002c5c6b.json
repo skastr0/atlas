@@ -1,0 +1,479 @@
+{
+  "id": "c100d208607b18368bb4d5a54aa3f9731cf183abb94729b8ad4bab79002c5c6b",
+  "path": "src/main.rs",
+  "file_type": "rust",
+  "title": "context-map: Deterministic knowledge base indexer for AI agents",
+  "snippet": "context-map: Deterministic knowledge base indexer for AI agents",
+  "word_count": 80,
+  "char_count": 650,
+  "unique_term_count": 58,
+  "top_terms": [
+    {
+      "term": "knowledge",
+      "tf": 0.04477612,
+      "tfidf": 0.0
+    },
+    {
+      "term": "views",
+      "tf": 0.029850746,
+      "tfidf": 0.0
+    },
+    {
+      "term": "base",
+      "tf": 0.029850746,
+      "tfidf": 0.0
+    },
+    {
+      "term": "cache",
+      "tf": 0.029850746,
+      "tfidf": 0.0
+    },
+    {
+      "term": "deterministic",
+      "tf": 0.029850746,
+      "tfidf": 0.0
+    },
+    {
+      "term": "update",
+      "tf": 0.029850746,
+      "tfidf": 0.0
+    },
+    {
+      "term": "remove",
+      "tf": 0.029850746,
+      "tfidf": 0.0
+    },
+    {
+      "term": "directory",
+      "tf": 0.029850746,
+      "tfidf": 0.0
+    },
+    {
+      "term": "issues",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "current",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "force",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "static",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "ignoring",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "verbosity",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "increase",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "indexer",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "index",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "report",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "initialize",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "generates",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "without",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "bases",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "doesn't",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "cheap",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "root",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "solving",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "output",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "show",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "also",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "resolution",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "generated",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "cached",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "knows",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "cmap",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "problem",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "scanned",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "markdown",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "process",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "stale",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "duplicates",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "suppress",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "extraction",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "map",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "context",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "failures",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "full",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "rebuild",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "agents",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "multi",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "generate",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "analysis",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "writing",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "scan",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "fingerprints",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "indexes",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "build",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "changed",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    },
+    {
+      "term": "all",
+      "tf": 0.014925373,
+      "tfidf": 0.0
+    }
+  ],
+  "top_phrases": [
+    {
+      "phrase": "knowledge base",
+      "score": 2.0
+    },
+    {
+      "phrase": "stale cache",
+      "score": 1.0
+    },
+    {
+      "phrase": "build update",
+      "score": 1.0
+    },
+    {
+      "phrase": "initialize cmap",
+      "score": 1.0
+    },
+    {
+      "phrase": "changed force full",
+      "score": 1.0
+    },
+    {
+      "phrase": "index generate",
+      "score": 1.0
+    },
+    {
+      "phrase": "force full rebuild",
+      "score": 1.0
+    },
+    {
+      "phrase": "generates multi resolution",
+      "score": 1.0
+    },
+    {
+      "phrase": "duplicates remove all",
+      "score": 1.0
+    },
+    {
+      "phrase": "directory increase verbosity",
+      "score": 1.0
+    }
+  ],
+  "rake_phrases": [
+    {
+      "phrase": "force full rebuild ignoring cache report issues extraction failures stale cache duplicates remove all cached",
+      "score": 219.5
+    },
+    {
+      "phrase": "cheap deterministic static analysis knowledge base root directory increase verbosity",
+      "score": 88.83333
+    },
+    {
+      "phrase": "context map deterministic knowledge base indexer",
+      "score": 40.333336
+    },
+    {
+      "phrase": "agents generates multi resolution markdown indexes",
+      "score": 36.0
+    },
+    {
+      "phrase": "scanned without writing build update index",
+      "score": 34.5
+    },
+    {
+      "phrase": "also remove generated views",
+      "score": 20.5
+    },
+    {
+      "phrase": "suppress output initialize cmap",
+      "score": 16.0
+    },
+    {
+      "phrase": "current directory scan",
+      "score": 12.5
+    },
+    {
+      "phrase": "knowledge bases solving",
+      "score": 12.333334
+    },
+    {
+      "phrase": "update fingerprints show",
+      "score": 10.5
+    }
+  ],
+  "yake_keywords": [
+    {
+      "keyword": "context map",
+      "score": 0.0
+    },
+    {
+      "keyword": "context map deterministic",
+      "score": 0.0
+    },
+    {
+      "keyword": "context",
+      "score": 0.0
+    },
+    {
+      "keyword": "generates",
+      "score": 0.07618438
+    },
+    {
+      "keyword": "generates multi",
+      "score": 0.094191596
+    },
+    {
+      "keyword": "generates multi resolution",
+      "score": 0.13101195
+    },
+    {
+      "keyword": "map deterministic",
+      "score": 0.14128739
+    },
+    {
+      "keyword": "map",
+      "score": 0.15454546
+    },
+    {
+      "keyword": "map deterministic knowledge",
+      "score": 0.16376492
+    },
+    {
+      "keyword": "indexer agents",
+      "score": 0.17913224
+    },
+    {
+      "keyword": "agents",
+      "score": 0.23181818
+    },
+    {
+      "keyword": "increase",
+      "score": 0.28297055
+    },
+    {
+      "keyword": "increase verbosity",
+      "score": 0.2951897
+    },
+    {
+      "keyword": "suppress",
+      "score": 0.3047375
+    },
+    {
+      "keyword": "initialize",
+      "score": 0.32650447
+    },
+    {
+      "keyword": "suppress output",
+      "score": 0.34144452
+    },
+    {
+      "keyword": "scan",
+      "score": 0.3700384
+    },
+    {
+      "keyword": "show",
+      "score": 0.40268883
+    },
+    {
+      "keyword": "base indexer agents",
+      "score": 0.42045185
+    },
+    {
+      "keyword": "build",
+      "score": 0.44622275
+    }
+  ],
+  "links_out": [],
+  "headings": [
+    "struct Cli",
+    "enum Commands",
+    "fn main - fn main() -> Result<()>",
+    "pub enum LogLevel",
+    "impl LogLevel",
+    "pub fn should_print - pub fn should_print(&self, level: LogLevel) -> bool"
+  ],
+  "extraction_ok": true,
+  "extracted_at": 1771633677
+}

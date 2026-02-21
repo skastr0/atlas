@@ -1,0 +1,199 @@
+{
+  "id": "983b1148053afcbbdb08fa8f531d09e6c41d3b80bf05cfaf16db20128f7cbd7a",
+  "path": "src/lib.rs",
+  "file_type": "rust",
+  "title": "context-map library",
+  "snippet": "Core types and functionality for knowledge base indexing.",
+  "word_count": 11,
+  "char_count": 78,
+  "unique_term_count": 9,
+  "top_terms": [
+    {
+      "term": "base",
+      "tf": 0.11111111,
+      "tfidf": 0.0
+    },
+    {
+      "term": "indexing",
+      "tf": 0.11111111,
+      "tfidf": 0.0
+    },
+    {
+      "term": "context",
+      "tf": 0.11111111,
+      "tfidf": 0.0
+    },
+    {
+      "term": "types",
+      "tf": 0.11111111,
+      "tfidf": 0.0
+    },
+    {
+      "term": "functionality",
+      "tf": 0.11111111,
+      "tfidf": 0.0
+    },
+    {
+      "term": "map",
+      "tf": 0.11111111,
+      "tfidf": 0.0
+    },
+    {
+      "term": "core",
+      "tf": 0.11111111,
+      "tfidf": 0.0
+    },
+    {
+      "term": "knowledge",
+      "tf": 0.11111111,
+      "tfidf": 0.0
+    },
+    {
+      "term": "library",
+      "tf": 0.11111111,
+      "tfidf": 0.0
+    }
+  ],
+  "top_phrases": [
+    {
+      "phrase": "context map",
+      "score": 1.0
+    },
+    {
+      "phrase": "base indexing",
+      "score": 1.0
+    },
+    {
+      "phrase": "knowledge base",
+      "score": 1.0
+    },
+    {
+      "phrase": "core types",
+      "score": 1.0
+    },
+    {
+      "phrase": "knowledge base indexing",
+      "score": 1.0
+    },
+    {
+      "phrase": "core types functionality",
+      "score": 1.0
+    },
+    {
+      "phrase": "functionality knowledge",
+      "score": 1.0
+    },
+    {
+      "phrase": "library core",
+      "score": 1.0
+    },
+    {
+      "phrase": "library core types",
+      "score": 1.0
+    },
+    {
+      "phrase": "types functionality",
+      "score": 1.0
+    }
+  ],
+  "rake_phrases": [
+    {
+      "phrase": "context map library core types",
+      "score": 25.0
+    },
+    {
+      "phrase": "knowledge base indexing",
+      "score": 9.0
+    },
+    {
+      "phrase": "functionality",
+      "score": 1.0
+    }
+  ],
+  "yake_keywords": [
+    {
+      "keyword": "context map library",
+      "score": 0.0
+    },
+    {
+      "keyword": "context",
+      "score": 0.0
+    },
+    {
+      "keyword": "context map",
+      "score": 0.0
+    },
+    {
+      "keyword": "map library",
+      "score": 0.05555556
+    },
+    {
+      "keyword": "core",
+      "score": 0.15
+    },
+    {
+      "keyword": "library",
+      "score": 0.16666667
+    },
+    {
+      "keyword": "core types",
+      "score": 0.20000002
+    },
+    {
+      "keyword": "core types functionality",
+      "score": 0.33333334
+    },
+    {
+      "keyword": "map",
+      "score": 0.33333334
+    },
+    {
+      "keyword": "indexing",
+      "score": 0.6666667
+    },
+    {
+      "keyword": "types",
+      "score": 1.3333334
+    },
+    {
+      "keyword": "base indexing",
+      "score": 1.5555556
+    },
+    {
+      "keyword": "functionality",
+      "score": 1.6666666
+    },
+    {
+      "keyword": "knowledge",
+      "score": 2.0
+    },
+    {
+      "keyword": "types functionality",
+      "score": 2.2222223
+    },
+    {
+      "keyword": "base",
+      "score": 2.3333333
+    },
+    {
+      "keyword": "knowledge base indexing",
+      "score": 3.1111112
+    },
+    {
+      "keyword": "functionality knowledge",
+      "score": 3.3333333
+    },
+    {
+      "keyword": "types functionality knowledge",
+      "score": 4.4444447
+    },
+    {
+      "keyword": "knowledge base",
+      "score": 4.6666665
+    }
+  ],
+  "links_out": [],
+  "headings": [],
+  "extraction_ok": true,
+  "extracted_at": 1771633677
+}

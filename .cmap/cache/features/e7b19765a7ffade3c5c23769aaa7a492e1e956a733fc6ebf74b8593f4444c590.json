@@ -1,0 +1,231 @@
+{
+  "id": "e7b19765a7ffade3c5c23769aaa7a492e1e956a733fc6ebf74b8593f4444c590",
+  "path": "src/scan/mod.rs",
+  "file_type": "rust",
+  "title": "File scanning and fingerprinting",
+  "snippet": "File scanning and fingerprinting",
+  "word_count": 21,
+  "char_count": 181,
+  "unique_term_count": 13,
+  "top_terms": [
+    {
+      "term": "fingerprinting",
+      "tf": 0.14285715,
+      "tfidf": 0.0
+    },
+    {
+      "term": "traversal",
+      "tf": 0.071428575,
+      "tfidf": 0.0
+    },
+    {
+      "term": "fingerprints",
+      "tf": 0.071428575,
+      "tfidf": 0.0
+    },
+    {
+      "term": "detection",
+      "tf": 0.071428575,
+      "tfidf": 0.0
+    },
+    {
+      "term": "ignore",
+      "tf": 0.071428575,
+      "tfidf": 0.0
+    },
+    {
+      "term": "module",
+      "tf": 0.071428575,
+      "tfidf": 0.0
+    },
+    {
+      "term": "patterns",
+      "tf": 0.071428575,
+      "tfidf": 0.0
+    },
+    {
+      "term": "comparison",
+      "tf": 0.071428575,
+      "tfidf": 0.0
+    },
+    {
+      "term": "cached",
+      "tf": 0.071428575,
+      "tfidf": 0.0
+    },
+    {
+      "term": "directory",
+      "tf": 0.071428575,
+      "tfidf": 0.0
+    },
+    {
+      "term": "scanning",
+      "tf": 0.071428575,
+      "tfidf": 0.0
+    },
+    {
+      "term": "handles",
+      "tf": 0.071428575,
+      "tfidf": 0.0
+    },
+    {
+      "term": "change",
+      "tf": 0.071428575,
+      "tfidf": 0.0
+    }
+  ],
+  "top_phrases": [
+    {
+      "phrase": "module handles",
+      "score": 1.0
+    },
+    {
+      "phrase": "detection comparison cached",
+      "score": 1.0
+    },
+    {
+      "phrase": "scanning fingerprinting module",
+      "score": 1.0
+    },
+    {
+      "phrase": "traversal ignore patterns",
+      "score": 1.0
+    },
+    {
+      "phrase": "handles directory traversal",
+      "score": 1.0
+    },
+    {
+      "phrase": "change detection",
+      "score": 1.0
+    },
+    {
+      "phrase": "handles directory",
+      "score": 1.0
+    },
+    {
+      "phrase": "comparison cached",
+      "score": 1.0
+    },
+    {
+      "phrase": "change detection comparison",
+      "score": 1.0
+    },
+    {
+      "phrase": "patterns fingerprinting change",
+      "score": 1.0
+    }
+  ],
+  "rake_phrases": [
+    {
+      "phrase": "module handles directory traversal",
+      "score": 16.0
+    },
+    {
+      "phrase": "change detection comparison",
+      "score": 9.0
+    },
+    {
+      "phrase": "cached fingerprints",
+      "score": 4.0
+    },
+    {
+      "phrase": "ignore patterns",
+      "score": 4.0
+    },
+    {
+      "phrase": "fingerprinting",
+      "score": 1.0
+    },
+    {
+      "phrase": "scanning",
+      "score": 1.0
+    }
+  ],
+  "yake_keywords": [
+    {
+      "keyword": "scanning",
+      "score": 0.0
+    },
+    {
+      "keyword": "scanning fingerprinting",
+      "score": 0.0
+    },
+    {
+      "keyword": "module handles",
+      "score": 0.072455026
+    },
+    {
+      "keyword": "directory",
+      "score": 0.18099548
+    },
+    {
+      "keyword": "module",
+      "score": 0.21978024
+    },
+    {
+      "keyword": "handles",
+      "score": 0.32967034
+    },
+    {
+      "keyword": "directory traversal",
+      "score": 0.39779228
+    },
+    {
+      "keyword": "comparison",
+      "score": 0.49773756
+    },
+    {
+      "keyword": "patterns",
+      "score": 0.76923084
+    },
+    {
+      "keyword": "fingerprinting",
+      "score": 0.98901105
+    },
+    {
+      "keyword": "directory traversal ignore",
+      "score": 1.0491226
+    },
+    {
+      "keyword": "detection",
+      "score": 1.0989012
+    },
+    {
+      "keyword": "fingerprints",
+      "score": 1.4285715
+    },
+    {
+      "keyword": "ignore patterns",
+      "score": 2.0287406
+    },
+    {
+      "keyword": "traversal",
+      "score": 2.1978023
+    },
+    {
+      "keyword": "comparison cached",
+      "score": 2.625429
+    },
+    {
+      "keyword": "ignore",
+      "score": 2.6373627
+    },
+    {
+      "keyword": "comparison cached fingerprints",
+      "score": 3.7506127
+    },
+    {
+      "keyword": "fingerprinting change",
+      "score": 3.9125714
+    },
+    {
+      "keyword": "change",
+      "score": 3.9560442
+    }
+  ],
+  "links_out": [],
+  "headings": [],
+  "extraction_ok": true,
+  "extracted_at": 1771633677
+}

@@ -1,0 +1,131 @@
+{
+  "id": "fc89d7d65a17a9399268866e18741c847e99f1003729dd75b3f2bf5fb0069080",
+  "path": "src/analyze/yake.rs",
+  "file_type": "rust",
+  "title": "YAKE keyword extraction",
+  "snippet": "YAKE keyword extraction",
+  "word_count": 3,
+  "char_count": 23,
+  "unique_term_count": 3,
+  "top_terms": [
+    {
+      "term": "keyword",
+      "tf": 0.33333334,
+      "tfidf": 0.0
+    },
+    {
+      "term": "extraction",
+      "tf": 0.33333334,
+      "tfidf": 0.0
+    },
+    {
+      "term": "yake",
+      "tf": 0.33333334,
+      "tfidf": 0.0
+    }
+  ],
+  "top_phrases": [
+    {
+      "phrase": "yake keyword",
+      "score": 1.0
+    },
+    {
+      "phrase": "keyword extraction",
+      "score": 1.0
+    },
+    {
+      "phrase": "yake keyword extraction",
+      "score": 1.0
+    }
+  ],
+  "rake_phrases": [
+    {
+      "phrase": "yake keyword extraction",
+      "score": 9.0
+    }
+  ],
+  "yake_keywords": [
+    {
+      "keyword": "yake keyword",
+      "score": 0.0
+    },
+    {
+      "keyword": "yake keyword extraction",
+      "score": 0.0
+    },
+    {
+      "keyword": "yake",
+      "score": 0.0
+    },
+    {
+      "keyword": "keyword extraction",
+      "score": 0.5
+    },
+    {
+      "keyword": "extraction",
+      "score": 0.5
+    },
+    {
+      "keyword": "keyword",
+      "score": 1.0
+    }
+  ],
+  "links_out": [
+    {
+      "target": "tokenize/is_stopword",
+      "link_type": "internal"
+    },
+    {
+      "target": "tokenize",
+      "link_type": "internal"
+    },
+    {
+      "target": "/src/config/AnalyzeConfig",
+      "link_type": "internal"
+    },
+    {
+      "target": "/src/config",
+      "link_type": "internal"
+    },
+    {
+      "target": "/src/types/KeywordScore",
+      "link_type": "internal"
+    },
+    {
+      "target": "/src/types",
+      "link_type": "internal"
+    },
+    {
+      "target": "/src/config/AnalyzeConfig",
+      "link_type": "internal"
+    },
+    {
+      "target": "/src/config",
+      "link_type": "internal"
+    }
+  ],
+  "headings": [
+    "pub struct YakeExtractor",
+    "impl YakeExtractor",
+    "pub fn new - pub fn new(max_keywords: usize) -> Self",
+    "pub fn extract - pub fn extract(&self, text: &str, config: &AnalyzeConfig) -> Vec<KeywordScore>",
+    "impl YakeExtractor",
+    "fn default - fn default() -> Self",
+    "struct TokenInfo",
+    "struct TermStats",
+    "fn split_sentences - fn split_sentences(text: &str) -> Vec<String>",
+    "fn tokenize_sentence - fn tokenize_sentence(",
+    "fn is_valid_yake_term - fn is_valid_yake_term(term: &str, config: &AnalyzeConfig) -> bool",
+    "fn is_uppercase - fn is_uppercase(word: &str) -> bool",
+    "fn is_capitalized - fn is_capitalized(word: &str) -> bool",
+    "fn median_position - fn median_position(positions: &[usize]) -> f32",
+    "fn dedupe_keywords - fn dedupe_keywords(mut candidates: Vec<KeywordScore>, max_keywords: usize) -> Vec<KeywordScore>",
+    "fn levenshtein_similarity - fn levenshtein_similarity(a: &str, b: &str) -> f32",
+    "fn levenshtein_distance - fn levenshtein_distance(a: &str, b: &str) -> usize",
+    "fn test_split_sentences_basic - fn test_split_sentences_basic()",
+    "fn test_extract_keywords_contains_rust - fn test_extract_keywords_contains_rust()",
+    "fn test_dedup_similar_phrases - fn test_dedup_similar_phrases()"
+  ],
+  "extraction_ok": true,
+  "extracted_at": 1771633677
+}

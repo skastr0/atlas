@@ -1,0 +1,155 @@
+{
+  "id": "db65fb9051f728fae0afc3e18998de00a87a19c15eb71631f5b4b4eb42fd0de6",
+  "path": "src/extract/markdown.rs",
+  "file_type": "rust",
+  "title": "Markdown text extraction",
+  "snippet": "Markdown text extraction",
+  "word_count": 8,
+  "char_count": 60,
+  "unique_term_count": 5,
+  "top_terms": [
+    {
+      "term": "markdown",
+      "tf": 0.33333334,
+      "tfidf": 0.0
+    },
+    {
+      "term": "content",
+      "tf": 0.16666667,
+      "tfidf": 0.0
+    },
+    {
+      "term": "text",
+      "tf": 0.16666667,
+      "tfidf": 0.0
+    },
+    {
+      "term": "extraction",
+      "tf": 0.16666667,
+      "tfidf": 0.0
+    },
+    {
+      "term": "extract",
+      "tf": 0.16666667,
+      "tfidf": 0.0
+    }
+  ],
+  "top_phrases": [
+    {
+      "phrase": "markdown text extraction",
+      "score": 1.0
+    },
+    {
+      "phrase": "markdown text",
+      "score": 1.0
+    },
+    {
+      "phrase": "extract content",
+      "score": 1.0
+    },
+    {
+      "phrase": "content markdown",
+      "score": 1.0
+    },
+    {
+      "phrase": "text extraction extract",
+      "score": 1.0
+    },
+    {
+      "phrase": "text extraction",
+      "score": 1.0
+    },
+    {
+      "phrase": "extract content markdown",
+      "score": 1.0
+    },
+    {
+      "phrase": "extraction extract",
+      "score": 1.0
+    },
+    {
+      "phrase": "extraction extract content",
+      "score": 1.0
+    }
+  ],
+  "rake_phrases": [
+    {
+      "phrase": "markdown text extraction extract content",
+      "score": 23.0
+    },
+    {
+      "phrase": "markdown",
+      "score": 3.0
+    }
+  ],
+  "yake_keywords": [
+    {
+      "keyword": "markdown text extraction",
+      "score": 0.16000001
+    },
+    {
+      "keyword": "extract",
+      "score": 0.3
+    },
+    {
+      "keyword": "text extraction",
+      "score": 0.32000002
+    },
+    {
+      "keyword": "markdown text",
+      "score": 0.4
+    },
+    {
+      "keyword": "extraction",
+      "score": 0.4
+    },
+    {
+      "keyword": "extract content markdown",
+      "score": 0.48000002
+    },
+    {
+      "keyword": "markdown",
+      "score": 0.5
+    },
+    {
+      "keyword": "text",
+      "score": 0.8
+    },
+    {
+      "keyword": "extract content",
+      "score": 0.96000004
+    },
+    {
+      "keyword": "content markdown",
+      "score": 1.6
+    },
+    {
+      "keyword": "content",
+      "score": 3.2
+    }
+  ],
+  "links_out": [],
+  "headings": [
+    "pub fn extract_markdown - pub fn extract_markdown(path: &Path) -> Result<ExtractedContent>",
+    "struct ExtractedMarkdown",
+    "fn extract_with_treesitter - fn extract_with_treesitter(text: &str) -> Option<ExtractedMarkdown>",
+    "fn walk_block_tree - fn walk_block_tree(",
+    "fn extract_links_from_inline - fn extract_links_from_inline(",
+    "fn walk_inline_tree - fn walk_inline_tree(node: Node, source: &str, links: &mut Vec<String>, saw_wiki_links: &mut bool)",
+    "fn atx_heading_level - fn atx_heading_level(node: Node) -> Option<u8>",
+    "fn atx_marker_level - fn atx_marker_level(kind: &str) -> Option<u8>",
+    "fn extract_heading_text - fn extract_heading_text(node: Node, source: &str) -> Option<String>",
+    "fn strip_atx_marker - fn strip_atx_marker(raw: &str) -> String",
+    "fn slice_node - fn slice_node<'a>(source: &'a str, node: Node) -> &'a str",
+    "fn clean_link_target - fn clean_link_target(value: &str) -> Option<String>",
+    "fn clean_wiki_link - fn clean_wiki_link(value: &str) -> Option<String>",
+    "fn scan_wiki_links - fn scan_wiki_links(source: &str) -> Vec<String>",
+    "fn is_inline_link_destination - fn is_inline_link_destination(node: Node) -> bool",
+    "fn extract_title_regex - fn extract_title_regex(text: &str) -> Option<String>",
+    "fn extract_headings_regex - fn extract_headings_regex(text: &str) -> Vec<String>",
+    "fn extract_links_regex - fn extract_links_regex(text: &str) -> Vec<String>",
+    "fn extracts_headings_and_links_with_treesitter - fn extracts_headings_and_links_with_treesitter()"
+  ],
+  "extraction_ok": true,
+  "extracted_at": 1771633677
+}

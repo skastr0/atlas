@@ -1,0 +1,224 @@
+{
+  "id": "1d4c979ae798b3dcea672e1e912f50a2fde3576b460cb0946fba3be3a71e05c6",
+  "path": "src/analyze/ngrams.rs",
+  "file_type": "rust",
+  "title": "N-gram extraction (bigrams, trigrams)",
+  "snippet": "N-gram extraction (bigrams, trigrams)",
+  "word_count": 16,
+  "char_count": 124,
+  "unique_term_count": 9,
+  "top_terms": [
+    {
+      "term": "bigrams",
+      "tf": 0.15384616,
+      "tfidf": 0.0
+    },
+    {
+      "term": "trigrams",
+      "tf": 0.15384616,
+      "tfidf": 0.0
+    },
+    {
+      "term": "tokens",
+      "tf": 0.15384616,
+      "tfidf": 0.0
+    },
+    {
+      "term": "extract",
+      "tf": 0.15384616,
+      "tfidf": 0.0
+    },
+    {
+      "term": "top",
+      "tf": 0.07692308,
+      "tfidf": 0.0
+    },
+    {
+      "term": "extraction",
+      "tf": 0.07692308,
+      "tfidf": 0.0
+    },
+    {
+      "term": "count",
+      "tf": 0.07692308,
+      "tfidf": 0.0
+    },
+    {
+      "term": "gram",
+      "tf": 0.07692308,
+      "tfidf": 0.0
+    },
+    {
+      "term": "grams",
+      "tf": 0.07692308,
+      "tfidf": 0.0
+    }
+  ],
+  "top_phrases": [
+    {
+      "phrase": "extract bigrams tokens",
+      "score": 1.0
+    },
+    {
+      "phrase": "gram extraction",
+      "score": 1.0
+    },
+    {
+      "phrase": "tokens top grams",
+      "score": 1.0
+    },
+    {
+      "phrase": "extraction bigrams",
+      "score": 1.0
+    },
+    {
+      "phrase": "bigrams tokens",
+      "score": 1.0
+    },
+    {
+      "phrase": "tokens extract",
+      "score": 1.0
+    },
+    {
+      "phrase": "trigrams tokens",
+      "score": 1.0
+    },
+    {
+      "phrase": "grams count",
+      "score": 1.0
+    },
+    {
+      "phrase": "bigrams trigrams extract",
+      "score": 1.0
+    },
+    {
+      "phrase": "gram extraction bigrams",
+      "score": 1.0
+    }
+  ],
+  "rake_phrases": [
+    {
+      "phrase": "gram extraction bigrams trigrams extract bigrams",
+      "score": 33.0
+    },
+    {
+      "phrase": "tokens extract trigrams",
+      "score": 11.0
+    },
+    {
+      "phrase": "tokens",
+      "score": 2.0
+    },
+    {
+      "phrase": "count",
+      "score": 1.0
+    },
+    {
+      "phrase": "grams",
+      "score": 1.0
+    },
+    {
+      "phrase": "top",
+      "score": 1.0
+    }
+  ],
+  "yake_keywords": [
+    {
+      "keyword": "gram",
+      "score": 0.0
+    },
+    {
+      "keyword": "gram extraction",
+      "score": 0.0
+    },
+    {
+      "keyword": "gram extraction bigrams",
+      "score": 0.0
+    },
+    {
+      "keyword": "extraction",
+      "score": 0.44444445
+    },
+    {
+      "keyword": "extract",
+      "score": 0.52380955
+    },
+    {
+      "keyword": "top",
+      "score": 1.111111
+    },
+    {
+      "keyword": "count",
+      "score": 1.3333334
+    },
+    {
+      "keyword": "extraction bigrams",
+      "score": 1.382716
+    },
+    {
+      "keyword": "extract trigrams",
+      "score": 1.4404763
+    },
+    {
+      "keyword": "tokens",
+      "score": 1.6666666
+    },
+    {
+      "keyword": "extract trigrams tokens",
+      "score": 2.4007938
+    },
+    {
+      "keyword": "trigrams",
+      "score": 2.75
+    },
+    {
+      "keyword": "bigrams",
+      "score": 3.111111
+    },
+    {
+      "keyword": "extraction bigrams trigrams",
+      "score": 3.8024688
+    },
+    {
+      "keyword": "trigrams tokens",
+      "score": 4.583333
+    },
+    {
+      "keyword": "grams",
+      "score": 4.888889
+    },
+    {
+      "keyword": "top grams",
+      "score": 5.4320984
+    },
+    {
+      "keyword": "grams count",
+      "score": 6.5185184
+    },
+    {
+      "keyword": "top grams count",
+      "score": 7.242798
+    },
+    {
+      "keyword": "bigrams trigrams",
+      "score": 8.555555
+    }
+  ],
+  "links_out": [
+    {
+      "target": "tokenize/is_stopword",
+      "link_type": "internal"
+    },
+    {
+      "target": "tokenize",
+      "link_type": "internal"
+    }
+  ],
+  "headings": [
+    "pub fn extract_bigrams - pub fn extract_bigrams(tokens: &[String]) -> HashMap<String, usize>",
+    "pub fn extract_trigrams - pub fn extract_trigrams(tokens: &[String]) -> HashMap<String, usize>",
+    "pub fn top_ngrams - pub fn top_ngrams(ngrams: HashMap<String, usize>, n: usize) -> Vec<(String, usize)>"
+  ],
+  "extraction_ok": true,
+  "extracted_at": 1771633677
+}

@@ -1,0 +1,61 @@
+[scan]
+# Patterns to ignore (in addition to .gitignore)
+ignore = [
+    ".git",
+    ".cmap",
+    "node_modules",
+    "__pycache__",
+    "*.pyc",
+    ".DS_Store",
+]
+
+# File extensions to index
+include_extensions = [
+    "md",
+    "txt",
+    "pdf",
+    "rst",
+    "org",
+    "rs",
+    "ts",
+    "tsx",
+]
+
+[extract]
+# Max file size to process (bytes)
+max_file_size = 10000000
+
+# Snippet length (chars)
+snippet_length = 400
+
+# Path to pdftotext binary (auto-detected if not set)
+# pdftotext_path = "/usr/bin/pdftotext"
+
+[analyze]
+# Number of top terms per file
+top_terms = 20
+
+# Number of top phrases per file
+top_phrases = 10
+
+# Minimum term length
+min_term_length = 3
+
+# Maximum term length
+max_term_length = 25
+
+# Maximum digit ratio in a term (0.0-1.0)
+max_digit_ratio = 0.4
+
+# Minimum document frequency for a term
+min_df = 2
+
+# Maximum document frequency ratio (0.0-1.0)
+max_df_ratio = 0.5
+
+[render]
+# Folder depth in ROOT_ATLAS.md
+atlas_folder_depth = 3
+
+# Max files to list per folder in atlas
+atlas_max_files_per_folder = 10

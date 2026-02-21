@@ -1,0 +1,193 @@
+{
+  "id": "db11681eb5094c945bd739d35bce31296db05e3fe83ba3455996d17175d0efcf",
+  "path": "src/extract/treesitter.rs",
+  "file_type": "rust",
+  "title": "use crate::types::FileType;",
+  "snippet": "Supported tree-sitter languages.",
+  "word_count": 11,
+  "char_count": 75,
+  "unique_term_count": 7,
+  "top_terms": [
+    {
+      "term": "sitter",
+      "tf": 0.22222222,
+      "tfidf": 0.0
+    },
+    {
+      "term": "tree",
+      "tf": 0.22222222,
+      "tfidf": 0.0
+    },
+    {
+      "term": "ast",
+      "tf": 0.11111111,
+      "tfidf": 0.0
+    },
+    {
+      "term": "supported",
+      "tf": 0.11111111,
+      "tfidf": 0.0
+    },
+    {
+      "term": "parse",
+      "tf": 0.11111111,
+      "tfidf": 0.0
+    },
+    {
+      "term": "languages",
+      "tf": 0.11111111,
+      "tfidf": 0.0
+    },
+    {
+      "term": "source",
+      "tf": 0.11111111,
+      "tfidf": 0.0
+    }
+  ],
+  "top_phrases": [
+    {
+      "phrase": "tree sitter",
+      "score": 2.0
+    },
+    {
+      "phrase": "source tree",
+      "score": 1.0
+    },
+    {
+      "phrase": "supported tree",
+      "score": 1.0
+    },
+    {
+      "phrase": "supported tree sitter",
+      "score": 1.0
+    },
+    {
+      "phrase": "sitter languages parse",
+      "score": 1.0
+    },
+    {
+      "phrase": "languages parse",
+      "score": 1.0
+    },
+    {
+      "phrase": "tree sitter languages",
+      "score": 1.0
+    },
+    {
+      "phrase": "parse source tree",
+      "score": 1.0
+    },
+    {
+      "phrase": "languages parse source",
+      "score": 1.0
+    },
+    {
+      "phrase": "sitter languages",
+      "score": 1.0
+    }
+  ],
+  "rake_phrases": [
+    {
+      "phrase": "supported tree sitter languages parse source",
+      "score": 33.0
+    },
+    {
+      "phrase": "tree sitter ast",
+      "score": 12.0
+    }
+  ],
+  "yake_keywords": [
+    {
+      "keyword": "supported",
+      "score": 0.0
+    },
+    {
+      "keyword": "supported tree",
+      "score": 0.0
+    },
+    {
+      "keyword": "supported tree sitter",
+      "score": 0.0
+    },
+    {
+      "keyword": "parse",
+      "score": 0.25
+    },
+    {
+      "keyword": "languages",
+      "score": 0.375
+    },
+    {
+      "keyword": "ast",
+      "score": 0.5
+    },
+    {
+      "keyword": "parse source",
+      "score": 0.625
+    },
+    {
+      "keyword": "sitter languages",
+      "score": 0.94921875
+    },
+    {
+      "keyword": "parse source tree",
+      "score": 1.2304688
+    },
+    {
+      "keyword": "sitter ast",
+      "score": 1.265625
+    },
+    {
+      "keyword": "tree sitter languages",
+      "score": 1.8687744
+    },
+    {
+      "keyword": "tree",
+      "score": 1.96875
+    },
+    {
+      "keyword": "tree sitter ast",
+      "score": 2.4916992
+    },
+    {
+      "keyword": "source",
+      "score": 2.5
+    },
+    {
+      "keyword": "sitter",
+      "score": 2.53125
+    },
+    {
+      "keyword": "source tree",
+      "score": 4.921875
+    },
+    {
+      "keyword": "tree sitter",
+      "score": 4.9833984
+    },
+    {
+      "keyword": "source tree sitter",
+      "score": 12.458496
+    }
+  ],
+  "links_out": [
+    {
+      "target": "/src/types/FileType",
+      "link_type": "internal"
+    },
+    {
+      "target": "/src/types",
+      "link_type": "internal"
+    }
+  ],
+  "headings": [
+    "pub enum Language",
+    "impl Language",
+    "pub fn from_file_type - pub fn from_file_type(file_type: FileType) -> Option<Self>",
+    "pub fn grammar - pub fn grammar(&self) -> TsLanguage",
+    "pub fn parse - pub fn parse(source: &str, language: Language) -> Option<Tree>",
+    "fn parses_simple_rust_snippet - fn parses_simple_rust_snippet()"
+  ],
+  "extraction_ok": true,
+  "extracted_at": 1771633677
+}
