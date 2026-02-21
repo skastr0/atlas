@@ -39,10 +39,15 @@ pub fn render_folder_index(
     }
 
     // Get files in this folder (direct children only)
-    let folder_files: Vec<_> = features
+    let mut folder_files: Vec<_> = features
         .iter()
         .filter(|f| f.path.parent() == Some(folder.as_path()))
         .collect();
+    folder_files.sort_by(|left, right| {
+        left.path
+            .cmp(&right.path)
+            .then_with(|| left.title.cmp(&right.title))
+    });
 
     if folder_files.is_empty() {
         output.push_str("_No indexed files in this folder._\n");
@@ -155,11 +160,14 @@ pub fn render_folder_index(
     }
 
     // Child folders
-    let child_folders: std::collections::HashSet<_> = features
+    let mut child_folders: Vec<_> = features
         .iter()
         .filter_map(|f| f.path.parent())
         .filter(|p| p.parent() == Some(folder.as_path()))
+        .map(|p| p.to_path_buf())
         .collect();
+    child_folders.sort();
+    child_folders.dedup();
 
     if !child_folders.is_empty() {
         output.push_str("## Subfolders\n\n");
@@ -184,11 +192,13 @@ pub fn render_all_folder_indexes(
     let mut indexes = HashMap::new();
 
     // Get all unique folders
-    let folders: std::collections::HashSet<_> = features
+    let mut folders: Vec<_> = features
         .iter()
         .filter_map(|f| f.path.parent())
         .map(|p| p.to_path_buf())
         .collect();
+    folders.sort();
+    folders.dedup();
 
     for folder in folders {
         let sig = folder_sigs.get(&folder);
@@ -197,4 +207,101 @@ pub fn render_all_folder_indexes(
     }
 
     indexes
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{render_all_folder_indexes, render_folder_index};
+    use crate::config::RenderConfig;
+    use crate::types::{FileFeatures, FileType, Link, LinkType};
+    use std::collections::HashMap;
+    use std::path::PathBuf;
+
+    fn make_feature(id: &str, path: &str, title: &str) -> FileFeatures {
+        FileFeatures {
+            id: id.to_string(),
+            path: PathBuf::from(path),
+            file_type: FileType::Markdown,
+            title: title.to_string(),
+            snippet: String::new(),
+            word_count: 0,
+            char_count: 0,
+            unique_term_count: 0,
+            top_terms: Vec::new(),
+            top_phrases: Vec::new(),
+            rake_phrases: Vec::new(),
+            yake_keywords: Vec::new(),
+            links_out: vec![Link {
+                target: "https://example.com".to_string(),
+                link_type: LinkType::External,
+            }],
+            headings: Vec::new(),
+            extraction_ok: true,
+            extracted_at: 0,
+        }
+    }
+
+    fn assert_order(content: &str, first: &str, second: &str) {
+        let first_idx = content.find(first).expect("first marker missing");
+        let second_idx = content.find(second).expect("second marker missing");
+
+        assert!(
+            first_idx < second_idx,
+            "expected `{first}` before `{second}` in:\n{content}"
+        );
+    }
+
+    #[test]
+    fn sorts_files_before_truncation_and_is_stable_for_shuffled_input() {
+        let config = RenderConfig {
+            atlas_folder_depth: 3,
+            atlas_max_files_per_folder: 1,
+        };
+        let folder = PathBuf::from("docs");
+
+        let first = make_feature("doc-b", "docs/b.md", "B Title");
+        let second = make_feature("doc-a", "docs/a.md", "A Title");
+
+        let forward = render_folder_index(&folder, &[first.clone(), second.clone()], None, &config);
+        let reversed = render_folder_index(&folder, &[second, first], None, &config);
+
+        assert_eq!(forward, reversed);
+        assert!(forward.contains("`a.md`"));
+        assert!(!forward.contains("`b.md`"));
+        assert!(forward.contains("_Showing first 1 of 2 files."));
+    }
+
+    #[test]
+    fn sorts_subfolders_alphabetically_before_rendering() {
+        let config = RenderConfig::default();
+        let folder = PathBuf::from("docs");
+        let features = vec![
+            make_feature("root", "docs/root.md", "Root"),
+            make_feature("z-child", "docs/zeta/file.md", "Z child"),
+            make_feature("a-child", "docs/alpha/file.md", "A child"),
+        ];
+
+        let rendered = render_folder_index(&folder, &features, None, &config);
+
+        assert_order(&rendered, "- [alpha](./alpha)", "- [zeta](./zeta)");
+    }
+
+    #[test]
+    fn render_all_folder_indexes_is_stable_for_shuffled_input() {
+        let config = RenderConfig::default();
+        let folder_sigs = HashMap::new();
+
+        let first = make_feature("doc-b", "docs/b.md", "B Title");
+        let second = make_feature("doc-a", "docs/a.md", "A Title");
+        let third = make_feature("doc-n", "notes/n.md", "N Title");
+
+        let forward = render_all_folder_indexes(
+            &[first.clone(), second.clone(), third.clone()],
+            &folder_sigs,
+            &config,
+        );
+        let reversed = render_all_folder_indexes(&[third, second, first], &folder_sigs, &config);
+
+        assert_eq!(forward, reversed);
+    }
 }

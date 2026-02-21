@@ -61,7 +61,12 @@ fn render_objective_slices(features: &[FileFeatures]) -> String {
     output.push_str("## Objective Slices\n\n");
 
     let mut by_size: Vec<&FileFeatures> = features.iter().collect();
-    by_size.sort_by_key(|f| std::cmp::Reverse(f.word_count));
+    by_size.sort_by(|left, right| {
+        right
+            .word_count
+            .cmp(&left.word_count)
+            .then_with(|| left.path.cmp(&right.path))
+    });
     output.push_str("### Largest Files\n\n");
     for file in by_size.into_iter().take(10) {
         push_slice_entry(&mut output, file, &file.word_count.to_string());
@@ -69,7 +74,13 @@ fn render_objective_slices(features: &[FileFeatures]) -> String {
     output.push('\n');
 
     let mut by_links: Vec<&FileFeatures> = features.iter().collect();
-    by_links.sort_by_key(|f| std::cmp::Reverse(f.links_out.len()));
+    by_links.sort_by(|left, right| {
+        right
+            .links_out
+            .len()
+            .cmp(&left.links_out.len())
+            .then_with(|| left.path.cmp(&right.path))
+    });
     output.push_str("### Most Connected\n\n");
     for file in by_links.into_iter().take(10) {
         push_slice_entry(&mut output, file, &file.links_out.len().to_string());
@@ -95,7 +106,11 @@ fn render_objective_slices(features: &[FileFeatures]) -> String {
 
     let mut by_distinctive: Vec<(&FileFeatures, f32)> =
         features.iter().map(|f| (f, max_term_tfidf(f))).collect();
-    by_distinctive.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap_or(std::cmp::Ordering::Equal));
+    by_distinctive.sort_by(|(left_file, left_score), (right_file, right_score)| {
+        right_score
+            .total_cmp(left_score)
+            .then_with(|| left_file.path.cmp(&right_file.path))
+    });
     output.push_str("### Most Distinctive\n\n");
     for (file, score) in by_distinctive.into_iter().take(10) {
         push_slice_entry(&mut output, file, &format!("{:.3}", score));
@@ -103,7 +118,12 @@ fn render_objective_slices(features: &[FileFeatures]) -> String {
     output.push('\n');
 
     let mut by_diverse: Vec<&FileFeatures> = features.iter().collect();
-    by_diverse.sort_by_key(|f| std::cmp::Reverse(f.unique_term_count));
+    by_diverse.sort_by(|left, right| {
+        right
+            .unique_term_count
+            .cmp(&left.unique_term_count)
+            .then_with(|| left.path.cmp(&right.path))
+    });
     output.push_str("### Most Diverse\n\n");
     for file in by_diverse.into_iter().take(10) {
         push_slice_entry(&mut output, file, &file.unique_term_count.to_string());
@@ -195,7 +215,151 @@ fn aggregate_global_terms(features: &[FileFeatures], top_n: usize) -> Vec<(Strin
     }
 
     let mut sorted: Vec<_> = term_scores.into_iter().collect();
-    sorted.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap_or(std::cmp::Ordering::Equal));
+    sorted.sort_by(|(left_term, left_score), (right_term, right_score)| {
+        right_score
+            .total_cmp(left_score)
+            .then_with(|| left_term.cmp(right_term))
+    });
     sorted.truncate(top_n);
     sorted
+}
+
+#[cfg(test)]
+mod tests {
+    use super::render_atlas;
+    use crate::config::RenderConfig;
+    use crate::types::{FileFeatures, FileType, FolderSignature, Link, LinkType, TermScore};
+    use std::collections::HashMap;
+    use std::path::PathBuf;
+
+    fn make_feature(
+        id: &str,
+        path: &str,
+        title: &str,
+        word_count: usize,
+        links: usize,
+        unique_term_count: usize,
+        top_terms: Vec<(&str, f32)>,
+    ) -> FileFeatures {
+        FileFeatures {
+            id: id.to_string(),
+            path: PathBuf::from(path),
+            file_type: FileType::Markdown,
+            title: title.to_string(),
+            snippet: String::new(),
+            word_count,
+            char_count: word_count,
+            unique_term_count,
+            top_terms: top_terms
+                .into_iter()
+                .map(|(term, tfidf)| TermScore {
+                    term: term.to_string(),
+                    tf: tfidf,
+                    tfidf,
+                })
+                .collect(),
+            top_phrases: Vec::new(),
+            rake_phrases: Vec::new(),
+            yake_keywords: Vec::new(),
+            links_out: (0..links)
+                .map(|idx| Link {
+                    target: format!("https://example.com/{id}/{idx}"),
+                    link_type: LinkType::External,
+                })
+                .collect(),
+            headings: Vec::new(),
+            extraction_ok: true,
+            extracted_at: 0,
+        }
+    }
+
+    fn assert_order(content: &str, first: &str, second: &str) {
+        let first_idx = content.find(first).expect("first marker missing");
+        let second_idx = content.find(second).expect("second marker missing");
+
+        assert!(
+            first_idx < second_idx,
+            "expected `{first}` before `{second}` in:\n{content}"
+        );
+    }
+
+    fn between<'a>(content: &'a str, start: &str, end: &str) -> &'a str {
+        let start_idx = content.find(start).expect("start marker missing");
+        let start_slice = &content[start_idx + start.len()..];
+        let end_idx = start_slice.find(end).expect("end marker missing");
+        &start_slice[..end_idx]
+    }
+
+    #[test]
+    fn renders_objective_slices_and_top_concepts_deterministically_for_ties() {
+        let first = make_feature(
+            "doc-z",
+            "docs/z.md",
+            "Doc Z",
+            100,
+            2,
+            7,
+            vec![("zeta", 1.0)],
+        );
+        let second = make_feature(
+            "doc-a",
+            "docs/a.md",
+            "Doc A",
+            100,
+            2,
+            7,
+            vec![("alpha", 1.0)],
+        );
+
+        let folder_sigs: HashMap<PathBuf, FolderSignature> = HashMap::new();
+        let config = RenderConfig::default();
+
+        let forward = render_atlas(&[first.clone(), second.clone()], &folder_sigs, &config);
+        let reversed = render_atlas(&[second, first], &folder_sigs, &config);
+
+        assert_eq!(forward, reversed);
+
+        let largest = between(
+            &forward,
+            "### Largest Files\n\n",
+            "### Most Connected\n\n",
+        );
+        assert_order(
+            largest,
+            "- **Doc A** (100) - docs/a.md\n",
+            "- **Doc Z** (100) - docs/z.md\n",
+        );
+
+        let connected = between(
+            &forward,
+            "### Most Connected\n\n",
+            "### Most Exported Symbols\n\n",
+        );
+        assert_order(
+            connected,
+            "- **Doc A** (2) - docs/a.md\n",
+            "- **Doc Z** (2) - docs/z.md\n",
+        );
+
+        let distinctive = between(
+            &forward,
+            "### Most Distinctive\n\n",
+            "### Most Diverse\n\n",
+        );
+        assert_order(
+            distinctive,
+            "- **Doc A** (1.000) - docs/a.md\n",
+            "- **Doc Z** (1.000) - docs/z.md\n",
+        );
+
+        let diverse = between(&forward, "### Most Diverse\n\n", "## Top Concepts\n\n");
+        assert_order(
+            diverse,
+            "- **Doc A** (7) - docs/a.md\n",
+            "- **Doc Z** (7) - docs/z.md\n",
+        );
+
+        let concepts = between(&forward, "## Top Concepts\n\n", "## Navigation\n\n");
+        assert_order(concepts, "- alpha\n", "- zeta\n");
+    }
 }
