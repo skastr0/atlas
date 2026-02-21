@@ -319,11 +319,7 @@ mod tests {
 
         assert_eq!(forward, reversed);
 
-        let largest = between(
-            &forward,
-            "### Largest Files\n\n",
-            "### Most Connected\n\n",
-        );
+        let largest = between(&forward, "### Largest Files\n\n", "### Most Connected\n\n");
         assert_order(
             largest,
             "- **Doc A** (100) - docs/a.md\n",
@@ -341,11 +337,7 @@ mod tests {
             "- **Doc Z** (2) - docs/z.md\n",
         );
 
-        let distinctive = between(
-            &forward,
-            "### Most Distinctive\n\n",
-            "### Most Diverse\n\n",
-        );
+        let distinctive = between(&forward, "### Most Distinctive\n\n", "### Most Diverse\n\n");
         assert_order(
             distinctive,
             "- **Doc A** (1.000) - docs/a.md\n",

@@ -3,7 +3,7 @@
 use crate::types::FileFeatures;
 use anyhow::{Context, Result};
 use std::path::Path;
-use tantivy::schema::{Schema, Value, STORED, STRING};
+use tantivy::schema::{Schema, Value, STORED, STRING, TEXT};
 use tantivy::{doc, Index, IndexWriter, TantivyDocument, Term};
 
 /// Initialize or open a Tantivy index at the given directory
@@ -14,6 +14,11 @@ pub fn init_index(index_dir: &Path) -> Result<Index> {
 
     let mut schema_builder = Schema::builder();
     schema_builder.add_text_field("id", STRING | STORED);
+    schema_builder.add_text_field("path", STRING | STORED);
+    schema_builder.add_text_field("title", TEXT | STORED);
+    schema_builder.add_text_field("snippet", TEXT | STORED);
+    schema_builder.add_text_field("body", TEXT | STORED);
+    schema_builder.add_text_field("file_type", STRING | STORED);
     schema_builder.add_bytes_field("features", STORED);
     let schema = schema_builder.build();
 
@@ -42,17 +47,32 @@ pub fn delete_documents(index: &Index, writer: &mut IndexWriter, ids: &[String])
 pub fn add_documents(
     index: &Index,
     writer: &mut IndexWriter,
-    features_list: &[FileFeatures],
+    features_list: &[(FileFeatures, String)],
 ) -> Result<()> {
     let schema = index.schema();
     let id_field = schema.get_field("id").unwrap();
+    let path_field = schema.get_field("path").unwrap();
+    let title_field = schema.get_field("title").unwrap();
+    let snippet_field = schema.get_field("snippet").unwrap();
+    let body_field = schema.get_field("body").unwrap();
+    let file_type_field = schema.get_field("file_type").unwrap();
     let features_field = schema.get_field("features").unwrap();
 
-    for features in features_list {
+    for (features, body) in features_list {
         let serialized = serde_json::to_vec(features).context("Failed to serialize features")?;
+        let file_type_str = serde_json::to_string(&features.file_type)
+            .unwrap_or_default()
+            .trim_matches('"')
+            .to_string();
+
         writer
             .add_document(doc!(
                 id_field => features.id.clone(),
+                path_field => features.path.to_string_lossy().into_owned(),
+                title_field => features.title.clone(),
+                snippet_field => features.snippet.clone(),
+                body_field => body.clone(),
+                file_type_field => file_type_str,
                 features_field => serialized
             ))
             .context("Failed to add document to tantivy")?;

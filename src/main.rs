@@ -81,6 +81,20 @@ enum Commands {
         #[arg(long)]
         all: bool,
     },
+
+    /// Search the knowledge base
+    Search {
+        /// Search query
+        query: String,
+
+        /// Output results as JSON
+        #[arg(long)]
+        json: bool,
+
+        /// Maximum number of results to return
+        #[arg(long, default_value = "10")]
+        limit: usize,
+    },
 }
 
 fn main() -> Result<()> {
@@ -101,6 +115,9 @@ fn main() -> Result<()> {
             changed_only,
             force,
         } => cli::build::run(&cli.root, changed_only, force, log_level),
+        Commands::Search { query, json, limit } => {
+            cli::search::run(&cli.root, &query, json, limit, log_level)
+        }
         Commands::Doctor => cli::doctor::run(&cli.root, log_level),
         Commands::Clean { all } => cli::clean::run(&cli.root, all, log_level),
     }

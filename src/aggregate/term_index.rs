@@ -148,7 +148,10 @@ mod tests {
             .expect("missing rust term")
             .top_docs;
 
-        assert_eq!(forward_docs, &vec!["doc-a".to_string(), "doc-b".to_string()]);
+        assert_eq!(
+            forward_docs,
+            &vec!["doc-a".to_string(), "doc-b".to_string()]
+        );
         assert_eq!(forward_docs, reversed_docs);
     }
 
@@ -163,15 +166,18 @@ mod tests {
             make_file("doc-b", vec![("beta", 1.0), ("alpha", 1.0)]),
         ];
 
-        let forward_json =
-            serde_json::to_string_pretty(&build_term_index(&forward, 2, 1, 1.0)).expect("serialize");
+        let forward_json = serde_json::to_string_pretty(&build_term_index(&forward, 2, 1, 1.0))
+            .expect("serialize");
         let reversed_json = serde_json::to_string_pretty(&build_term_index(&reversed, 2, 1, 1.0))
             .expect("serialize");
 
         let alpha_pos = forward_json.find("\"alpha\"").expect("alpha missing");
         let beta_pos = forward_json.find("\"beta\"").expect("beta missing");
 
-        assert!(alpha_pos < beta_pos, "expected alpha before beta: {forward_json}");
+        assert!(
+            alpha_pos < beta_pos,
+            "expected alpha before beta: {forward_json}"
+        );
         assert_eq!(forward_json, reversed_json);
     }
 

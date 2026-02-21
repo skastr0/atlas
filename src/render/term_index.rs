@@ -31,13 +31,11 @@ pub fn render_term_index(features: &[FileFeatures], top_n: usize) -> String {
             (term.clone(), total_score, files.len())
         })
         .collect();
-    term_scores.sort_by(
-        |(left_term, left_score, _), (right_term, right_score, _)| {
-            right_score
-                .total_cmp(left_score)
-                .then_with(|| left_term.cmp(right_term))
-        },
-    );
+    term_scores.sort_by(|(left_term, left_score, _), (right_term, right_score, _)| {
+        right_score
+            .total_cmp(left_score)
+            .then_with(|| left_term.cmp(right_term))
+    });
 
     // Take top N terms
     for (term, _score, doc_count) in term_scores.into_iter().take(top_n) {
