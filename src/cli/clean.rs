@@ -22,9 +22,18 @@ pub fn run(root: &Path, all: bool, log_level: LogLevel) -> Result<()> {
     if cache_path.exists() {
         fs::remove_dir_all(&cache_path).context("Failed to remove cache directory")?;
         fs::create_dir_all(cache_path.join("text"))?;
-        fs::create_dir_all(cache_path.join("features"))?;
         if log_level != LogLevel::Quiet {
             println!("✓ Cleared cache");
+        }
+    }
+
+    // Clean index
+    let index_path = cmap_path.join("index/tantivy-v1");
+    if index_path.exists() {
+        fs::remove_dir_all(&index_path).context("Failed to remove tantivy index directory")?;
+        fs::create_dir_all(&index_path)?;
+        if log_level != LogLevel::Quiet {
+            println!("✓ Cleared tantivy index");
         }
     }
 

@@ -21,8 +21,8 @@ pub fn run(root: &Path, log_level: LogLevel) -> Result<()> {
     // Create directory structure
     fs::create_dir_all(cmap_path.join("cache/text"))
         .context("Failed to create cache/text directory")?;
-    fs::create_dir_all(cmap_path.join("cache/features"))
-        .context("Failed to create cache/features directory")?;
+    fs::create_dir_all(cmap_path.join("index/tantivy-v1"))
+        .context("Failed to create index/tantivy-v1 directory")?;
     fs::create_dir_all(cmap_path.join("global")).context("Failed to create global directory")?;
     fs::create_dir_all(cmap_path.join("views/folders"))
         .context("Failed to create views/folders directory")?;

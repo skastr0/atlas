@@ -1,7 +1,6 @@
 //! Cache management for fingerprints and features
 
-mod features;
 mod fingerprints;
+pub mod tantivy_backend;
 
-pub use features::*;
 pub use fingerprints::*;

@@ -2,7 +2,7 @@
 
 use crate::config::Config;
 use crate::LogLevel;
-use anyhow::Result;
+use anyhow::{Context, Result};
 use rayon::prelude::*;
 use std::collections::HashMap;
 use std::fs;
@@ -11,7 +11,7 @@ use std::path::Path;
 // Import our modules
 use crate::aggregate::{apply_tfidf, build_term_index, compute_folder_signatures};
 use crate::analyze::compute_features;
-use crate::cache::{load_all_features, load_fingerprints, save_features, save_fingerprints};
+use crate::cache::{load_fingerprints, save_fingerprints, tantivy_backend};
 use crate::extract::extract;
 use crate::render::{
     render_all_folder_indexes, render_atlas, render_connections, render_term_index,
@@ -84,18 +84,45 @@ pub fn run(root: &Path, _changed_only: bool, force: bool, log_level: LogLevel) -
             .collect()
     };
 
-    // Step 4: Load existing features (for files we're not reprocessing)
-    let features_cache_dir = cmap_path.join("cache/features");
+    // Step 4: Load existing features and initialize Tantivy
+    let index_dir = cmap_path.join("index/tantivy-v1");
+    
+    if force && index_dir.exists() {
+        std::fs::remove_dir_all(&index_dir).context("Failed to clear index directory for force build")?;
+    }
+    
+    let tantivy_index = tantivy_backend::init_index(&index_dir)?;
+    
     let mut all_features = if force {
         Vec::new()
     } else {
-        load_all_features(&features_cache_dir).unwrap_or_default()
+        tantivy_backend::load_all_features(&tantivy_index).unwrap_or_default()
     };
 
     // Remove features for files we're reprocessing or deleted
     let reprocess_set: std::collections::HashSet<_> = files_to_process.iter().collect();
     let deleted_set: std::collections::HashSet<_> = scan_result.deleted_files.iter().collect();
+    
+    let mut ids_to_delete = Vec::new();
+    for f in &all_features {
+        if reprocess_set.contains(&f.path) || deleted_set.contains(&f.path) {
+            ids_to_delete.push(f.id.clone());
+        }
+    }
+    
     all_features.retain(|f| !reprocess_set.contains(&f.path) && !deleted_set.contains(&f.path));
+
+    let mut index_writer = tantivy_index
+        .writer(50_000_000)
+        .context("Failed to create tantivy index writer")?;
+
+    if !ids_to_delete.is_empty() {
+        if let Err(e) = tantivy_backend::delete_documents(&tantivy_index, &mut index_writer, &ids_to_delete) {
+            if log_level == LogLevel::Debug {
+                eprintln!("  Error deleting old features: {}", e);
+            }
+        }
+    }
 
     if !files_to_process.is_empty() {
         if log_level != LogLevel::Quiet {
@@ -167,15 +194,22 @@ pub fn run(root: &Path, _changed_only: bool, force: bool, log_level: LogLevel) -
             .collect();
 
         // Save new features to cache
-        for features in &new_features {
-            if let Err(e) = save_features(&features_cache_dir, features) {
-                if log_level == LogLevel::Debug {
-                    eprintln!("  Error caching {}: {}", features.path.display(), e);
-                }
+        if let Err(e) = tantivy_backend::add_documents(&tantivy_index, &mut index_writer, &new_features) {
+            if log_level == LogLevel::Debug {
+                eprintln!("  Error caching features to Tantivy: {}", e);
             }
         }
 
         all_features.extend(new_features);
+    }
+    
+    // Commit any changes to the index
+    if !ids_to_delete.is_empty() || !files_to_process.is_empty() {
+        if let Err(e) = index_writer.commit() {
+            if log_level == LogLevel::Debug {
+                eprintln!("  Error committing tantivy index: {}", e);
+            }
+        }
     }
 
     if log_level != LogLevel::Quiet {
