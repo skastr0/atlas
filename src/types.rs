@@ -1,7 +1,7 @@
 //! Core data types for the indexer
 
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 use std::path::PathBuf;
 
 /// File fingerprint for change detection
@@ -152,7 +152,7 @@ pub struct GlobalTermIndex {
     /// Total number of documents indexed
     pub total_docs: usize,
     /// Term -> stats mapping
-    pub terms: HashMap<String, TermStats>,
+    pub terms: BTreeMap<String, TermStats>,
 }
 
 /// Statistics for a single term across the corpus
