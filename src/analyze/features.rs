@@ -155,7 +155,7 @@ fn extract_code_links(file_type: FileType, links: &[String]) -> Vec<Link> {
                     });
                 }
             }
-            FileType::TypeScript | FileType::Tsx => {
+            FileType::JavaScript | FileType::Jsx | FileType::TypeScript | FileType::Tsx => {
                 if let Some(normalized) = normalize_typescript_import(target) {
                     output.push(Link {
                         target: normalized,

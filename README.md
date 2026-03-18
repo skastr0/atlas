@@ -70,11 +70,17 @@ Across the corpus:
 
 ## Supported File Types
 
+By default, `cmap` indexes:
+
 - Markdown (`.md`)
-- Plain text (`.txt`)
+- Plain text and notes (`.txt`, `.rst`, `.org`)
 - PDF (`.pdf`) — via `pdftotext` (Poppler)
-- reStructuredText (`.rst`)
-- Org mode (`.org`)
+- Rust (`.rs`)
+- TypeScript / TSX (`.ts`, `.tsx`)
+- JavaScript / JSX (`.js`, `.jsx`, `.mjs`, `.cjs`) — using the same code extractor as TypeScript/TSX when possible
+- Common config/text files (`.json`, `.yml`, `.yaml`, `.toml`, `.sh`, `.sql`) — plaintext fallback
+
+Structured formats such as Markdown and code get richer extraction (headings, symbols, links) where supported. Config-style files still contribute snippets and terms through plaintext extraction.
 
 ## Configuration
 
@@ -82,8 +88,27 @@ Edit `.cmap/config.toml`:
 
 ```toml
 [scan]
-ignore = [".git", ".cmap", "node_modules"]
-include_extensions = ["md", "txt", "pdf"]
+ignore = [".git", ".cmap", "node_modules", "__pycache__", "*.pyc", ".DS_Store"]
+include_extensions = [
+  "md",
+  "txt",
+  "pdf",
+  "rst",
+  "org",
+  "rs",
+  "ts",
+  "tsx",
+  "js",
+  "jsx",
+  "mjs",
+  "cjs",
+  "json",
+  "yml",
+  "yaml",
+  "toml",
+  "sh",
+  "sql",
+]
 
 [extract]
 max_file_size = 10000000  # 10MB
@@ -91,8 +116,12 @@ snippet_length = 400
 
 [analyze]
 top_terms = 20
-top_phrases = 20
+top_phrases = 10
 min_term_length = 3
+max_term_length = 25
+max_digit_ratio = 0.4
+min_df = 2
+max_df_ratio = 0.5
 
 [render]
 atlas_folder_depth = 3

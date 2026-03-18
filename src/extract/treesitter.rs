@@ -15,8 +15,8 @@ impl Language {
         match file_type {
             FileType::Markdown => Some(Self::Markdown),
             FileType::Rust => Some(Self::Rust),
-            FileType::TypeScript => Some(Self::TypeScript),
-            FileType::Tsx => Some(Self::Tsx),
+            FileType::JavaScript | FileType::TypeScript => Some(Self::TypeScript),
+            FileType::Jsx | FileType::Tsx => Some(Self::Tsx),
             _ => None,
         }
     }

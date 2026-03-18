@@ -28,6 +28,8 @@ pub enum FileType {
     Rst,
     Org,
     Rust,
+    JavaScript,
+    Jsx,
     TypeScript,
     Tsx,
     Unknown,
@@ -37,11 +39,13 @@ impl FileType {
     pub fn from_extension(ext: &str) -> Self {
         match ext.to_lowercase().as_str() {
             "md" | "markdown" => Self::Markdown,
-            "txt" | "text" => Self::PlainText,
+            "txt" | "text" | "json" | "yml" | "yaml" | "toml" | "sh" | "sql" => Self::PlainText,
             "pdf" => Self::Pdf,
             "rst" => Self::Rst,
             "org" => Self::Org,
             "rs" => Self::Rust,
+            "js" | "mjs" | "cjs" => Self::JavaScript,
+            "jsx" => Self::Jsx,
             "ts" => Self::TypeScript,
             "tsx" => Self::Tsx,
             _ => Self::Unknown,
@@ -50,7 +54,35 @@ impl FileType {
 
     /// Check if this file type is source code
     pub fn is_code(&self) -> bool {
-        matches!(self, Self::Rust | Self::TypeScript | Self::Tsx)
+        matches!(
+            self,
+            Self::Rust | Self::JavaScript | Self::Jsx | Self::TypeScript | Self::Tsx
+        )
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::FileType;
+
+    #[test]
+    fn maps_javascript_and_common_text_extensions() {
+        assert_eq!(FileType::from_extension("js"), FileType::JavaScript);
+        assert_eq!(FileType::from_extension("mjs"), FileType::JavaScript);
+        assert_eq!(FileType::from_extension("cjs"), FileType::JavaScript);
+        assert_eq!(FileType::from_extension("jsx"), FileType::Jsx);
+        assert_eq!(FileType::from_extension("json"), FileType::PlainText);
+        assert_eq!(FileType::from_extension("yaml"), FileType::PlainText);
+        assert_eq!(FileType::from_extension("toml"), FileType::PlainText);
+        assert_eq!(FileType::from_extension("sh"), FileType::PlainText);
+        assert_eq!(FileType::from_extension("sql"), FileType::PlainText);
+    }
+
+    #[test]
+    fn javascript_family_is_treated_as_code() {
+        assert!(FileType::JavaScript.is_code());
+        assert!(FileType::Jsx.is_code());
+        assert!(!FileType::PlainText.is_code());
     }
 }
 

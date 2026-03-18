@@ -1,4 +1,4 @@
-//! TypeScript and TSX extraction using tree-sitter
+//! TypeScript, JavaScript, TSX, and JSX extraction using tree-sitter
 
 use super::treesitter::{parse, Language};
 use super::ExtractedContent;
@@ -7,7 +7,7 @@ use std::fs;
 use std::path::Path;
 use tree_sitter::Node;
 
-/// Extract content from a TypeScript or TSX file.
+/// Extract content from a TypeScript/JavaScript or TSX/JSX file.
 pub fn extract_typescript(path: &Path, is_tsx: bool) -> Result<ExtractedContent> {
     let source = fs::read_to_string(path)?;
     let language = if is_tsx {
@@ -271,6 +271,54 @@ import { useState } from "react";
 
 export function Button() {
   return <div />;
+}
+"#;
+        fs::write(&path, source)?;
+
+        let content = extract_typescript(&path, true)?;
+
+        assert!(content.success);
+        assert!(content
+            .headings
+            .contains(&"export function Button".to_string()));
+        assert!(content.links.contains(&"react".to_string()));
+
+        Ok(())
+    }
+
+    #[test]
+    fn extracts_symbols_from_javascript() -> Result<()> {
+        let dir = tempfile::tempdir()?;
+        let path = dir.path().join("sample.js");
+        let source = r#"
+import { helper } from './helper';
+
+class Internal {}
+export function run() {}
+"#;
+        fs::write(&path, source)?;
+
+        let content = extract_typescript(&path, false)?;
+
+        assert!(content.success);
+        assert!(content.headings.contains(&"class Internal".to_string()));
+        assert!(content
+            .headings
+            .contains(&"export function run".to_string()));
+        assert!(content.links.contains(&"./helper".to_string()));
+
+        Ok(())
+    }
+
+    #[test]
+    fn extracts_symbols_from_jsx() -> Result<()> {
+        let dir = tempfile::tempdir()?;
+        let path = dir.path().join("sample.jsx");
+        let source = r#"
+import React from 'react';
+
+export function Button() {
+  return <section />;
 }
 "#;
         fs::write(&path, source)?;

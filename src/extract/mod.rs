@@ -2,10 +2,12 @@
 //!
 //! Supports:
 //! - Markdown (.md)
-//! - Plain text (.txt)
+//! - Plain text and common config/text files (.txt, .json, .yml, .yaml, .toml, .sh, .sql)
 //! - PDF (.pdf) via pdftotext
 //! - reStructuredText (.rst)
 //! - Org mode (.org)
+//! - JavaScript/TypeScript (.js, .mjs, .cjs, .ts)
+//! - JSX/TSX (.jsx, .tsx)
 
 mod markdown;
 mod pdf;
@@ -53,8 +55,59 @@ pub fn extract(
         FileType::Pdf => extract_pdf(path, config),
         // Code files: use tree-sitter where available
         FileType::Rust => extract_rust(path),
-        FileType::TypeScript => extract_typescript(path, false),
-        FileType::Tsx => extract_typescript(path, true),
+        FileType::JavaScript | FileType::TypeScript => extract_typescript(path, false),
+        FileType::Jsx | FileType::Tsx => extract_typescript(path, true),
         FileType::Unknown => extract_plaintext(path),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::extract;
+    use crate::config::ExtractConfig;
+    use crate::types::FileType;
+    use anyhow::Result;
+    use std::fs;
+
+    #[test]
+    fn extracts_mjs_via_javascript_path() -> Result<()> {
+        let dir = tempfile::tempdir()?;
+        let path = dir.path().join("sample.mjs");
+        fs::write(
+            &path,
+            "import { helper } from './helper.mjs';\nexport function run() {}\n",
+        )?;
+
+        let content = extract(
+            &path,
+            FileType::from_extension("mjs"),
+            &ExtractConfig::default(),
+        )?;
+
+        assert!(content.success);
+        assert!(content
+            .headings
+            .contains(&"export function run".to_string()));
+        assert!(content.links.contains(&"./helper.mjs".to_string()));
+
+        Ok(())
+    }
+
+    #[test]
+    fn extracts_cjs_via_javascript_path() -> Result<()> {
+        let dir = tempfile::tempdir()?;
+        let path = dir.path().join("sample.cjs");
+        fs::write(&path, "class Worker {}\nmodule.exports = { Worker };\n")?;
+
+        let content = extract(
+            &path,
+            FileType::from_extension("cjs"),
+            &ExtractConfig::default(),
+        )?;
+
+        assert!(content.success);
+        assert!(content.headings.contains(&"class Worker".to_string()));
+
+        Ok(())
     }
 }

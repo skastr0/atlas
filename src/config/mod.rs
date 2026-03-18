@@ -55,6 +55,20 @@ pub struct ScanConfig {
     pub include_extensions: Vec<String>,
 }
 
+pub const DEFAULT_INCLUDE_EXTENSIONS: &[&str] = &[
+    // Prose
+    "md", "txt", "pdf", "rst", "org", // Code
+    "rs", "ts", "tsx", "js", "jsx", "mjs", "cjs", // Common config/text
+    "json", "yml", "yaml", "toml", "sh", "sql",
+];
+
+fn default_include_extensions() -> Vec<String> {
+    DEFAULT_INCLUDE_EXTENSIONS
+        .iter()
+        .map(|ext| (*ext).to_string())
+        .collect()
+}
+
 impl Default for ScanConfig {
     fn default() -> Self {
         Self {
@@ -66,18 +80,7 @@ impl Default for ScanConfig {
                 "*.pyc".to_string(),
                 ".DS_Store".to_string(),
             ],
-            include_extensions: vec![
-                // Prose
-                "md".to_string(),
-                "txt".to_string(),
-                "pdf".to_string(),
-                "rst".to_string(),
-                "org".to_string(),
-                // Code
-                "rs".to_string(),
-                "ts".to_string(),
-                "tsx".to_string(),
-            ],
+            include_extensions: default_include_extensions(),
         }
     }
 }
@@ -162,7 +165,7 @@ impl Default for RenderConfig {
 
 #[cfg(test)]
 mod tests {
-    use super::Config;
+    use super::{Config, DEFAULT_INCLUDE_EXTENSIONS};
     use std::fs;
     use tempfile::tempdir;
 
@@ -202,6 +205,7 @@ mod tests {
         let content = r#"
 [scan]
 ignore = ["target"]
+include_extensions = ["js", "json"]
 
 [extract]
 max_file_size = 1234
@@ -222,9 +226,24 @@ atlas_max_files_per_folder = 3
         let config = Config::load(dir.path()).expect("load should succeed");
 
         assert_eq!(config.scan.ignore, vec!["target".to_string()]);
+        assert_eq!(
+            config.scan.include_extensions,
+            vec!["js".to_string(), "json".to_string()]
+        );
         assert_eq!(config.extract.snippet_length, 321);
         assert_eq!(config.analyze.top_terms, 7);
         assert_eq!(config.analyze.custom_stopwords, vec!["alpha", "beta"]);
         assert_eq!(config.render.atlas_max_files_per_folder, 3);
+    }
+
+    #[test]
+    fn default_scan_extensions_cover_common_repo_files() {
+        let config = Config::default();
+        let expected: Vec<String> = DEFAULT_INCLUDE_EXTENSIONS
+            .iter()
+            .map(|ext| (*ext).to_string())
+            .collect();
+
+        assert_eq!(config.scan.include_extensions, expected);
     }
 }

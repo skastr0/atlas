@@ -114,3 +114,21 @@ fn toml_string(config: &Config) -> String {
 
     s
 }
+
+#[cfg(test)]
+mod tests {
+    use super::toml_string;
+    use crate::config::{Config, DEFAULT_INCLUDE_EXTENSIONS};
+
+    #[test]
+    fn renders_default_extensions_into_generated_config() {
+        let rendered = toml_string(&Config::default());
+        let parsed: Config = toml::from_str(&rendered).expect("generated config should parse");
+        let expected: Vec<String> = DEFAULT_INCLUDE_EXTENSIONS
+            .iter()
+            .map(|ext| (*ext).to_string())
+            .collect();
+
+        assert_eq!(parsed.scan.include_extensions, expected);
+    }
+}
