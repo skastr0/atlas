@@ -47,8 +47,25 @@ cat .cmap/views/ROOT_ATLAS.md
 cmap init     # Initialize .cmap directory
 cmap scan     # Scan for changes (fast fingerprint check)
 cmap build    # Build/update index and generate views
+cmap search   # Lexical search with deterministic ranking and highlights
 cmap doctor   # Report issues (extraction failures, stale cache)
 cmap clean    # Remove cached data
+```
+
+## Search
+
+`cmap search` stays lexical and deterministic. Results are ranked by relevance score descending,
+then by path ascending for exact score ties.
+
+```bash
+# Human-readable output with one excerpt per hit
+cmap search programming --path alpha --type markdown --limit 5
+
+# Stable JSON envelope with matched fields, reasons, and highlight payloads
+cmap search programming --json
+
+# Include raw Tantivy explanation trees without changing the default JSON shape
+cmap search programming --json --explain
 ```
 
 ## What Gets Indexed

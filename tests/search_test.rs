@@ -112,6 +112,174 @@ fn search_supports_path_type_and_ext_filters_with_stable_json_envelope() {
 }
 
 #[test]
+fn search_human_output_shows_rank_score_type_and_excerpt() {
+    let fixture_root = TempDir::new().expect("create temp corpus root");
+    write_test_files(fixture_root.path()).expect("write test files");
+
+    run_cmap(fixture_root.path(), &["init"]);
+    run_cmap(fixture_root.path(), &["build"]);
+
+    let output = run_cmap_output(fixture_root.path(), &["search", "teams", "--limit", "1"]);
+    assert!(output.status.success(), "search command should succeed");
+
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    assert!(stdout.contains("Search results for 'teams':"));
+    assert!(stdout.contains("1. alpha/file1.md"));
+    assert!(stdout.contains("Score:"));
+    assert!(stdout.contains("Type: markdown"));
+    assert!(stdout.contains("Excerpt:"));
+    assert!(stdout.contains("**teams**"));
+}
+
+#[test]
+fn search_json_reports_title_matches() {
+    let fixture_root = TempDir::new().expect("create temp corpus root");
+    write_test_files(fixture_root.path()).expect("write test files");
+
+    run_cmap(fixture_root.path(), &["init"]);
+    run_cmap(fixture_root.path(), &["build"]);
+
+    let output = run_cmap_output(
+        fixture_root.path(),
+        &["search", "orbit", "--json", "--limit", "5"],
+    );
+    assert!(output.status.success(), "search command should succeed");
+
+    let parsed: serde_json::Value =
+        serde_json::from_slice(&output.stdout).expect("search output should be valid JSON");
+    let result = parsed["results"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|item| item["path"].as_str() == Some("alpha/title-only.md"))
+        .expect("title-only result should exist");
+
+    let matched_fields = result["matched_fields"].as_array().unwrap();
+    let reasons = result["reasons"].as_array().unwrap();
+
+    assert!(matched_fields.contains(&serde_json::json!("title")));
+    assert!(reasons.contains(&serde_json::json!("title match")));
+    assert!(matches!(
+        result["highlight"]["field"].as_str(),
+        Some("title") | Some("body")
+    ));
+    assert_eq!(result["highlight"]["fallback"].as_bool(), Some(false));
+    assert!(result["highlight"]["html"]
+        .as_str()
+        .unwrap()
+        .contains("<b>Orbit</b>"));
+}
+
+#[test]
+fn search_json_includes_body_highlights() {
+    let fixture_root = TempDir::new().expect("create temp corpus root");
+    write_test_files(fixture_root.path()).expect("write test files");
+
+    run_cmap(fixture_root.path(), &["init"]);
+    run_cmap(fixture_root.path(), &["build"]);
+
+    let output = run_cmap_output(
+        fixture_root.path(),
+        &["search", "teams", "--json", "--limit", "1"],
+    );
+    assert!(output.status.success(), "search command should succeed");
+
+    let parsed: serde_json::Value =
+        serde_json::from_slice(&output.stdout).expect("search output should be valid JSON");
+    let result = &parsed["results"].as_array().unwrap()[0];
+
+    assert_eq!(result["path"].as_str(), Some("alpha/file1.md"));
+    assert_eq!(result["matched_fields"], serde_json::json!(["body"]));
+    assert_eq!(result["reasons"], serde_json::json!(["body match"]));
+    assert_eq!(result["highlight"]["field"].as_str(), Some("body"));
+    assert_eq!(result["highlight"]["fallback"].as_bool(), Some(false));
+    assert!(result["highlight"]["text"]
+        .as_str()
+        .unwrap()
+        .contains("teams"));
+    assert!(result["highlight"]["html"]
+        .as_str()
+        .unwrap()
+        .contains("<b>teams</b>"));
+}
+
+#[test]
+fn search_explain_mode_adds_raw_explanation_tree() {
+    let fixture_root = TempDir::new().expect("create temp corpus root");
+    write_test_files(fixture_root.path()).expect("write test files");
+
+    run_cmap(fixture_root.path(), &["init"]);
+    run_cmap(fixture_root.path(), &["build"]);
+
+    let default_output = run_cmap_output(
+        fixture_root.path(),
+        &["search", "programming", "--json", "--limit", "1"],
+    );
+    assert!(
+        default_output.status.success(),
+        "default search should succeed"
+    );
+    let default_parsed: serde_json::Value =
+        serde_json::from_slice(&default_output.stdout).expect("search output should be valid JSON");
+    assert!(default_parsed["results"][0].get("explanation").is_none());
+
+    let explain_output = run_cmap_output(
+        fixture_root.path(),
+        &[
+            "search",
+            "programming",
+            "--json",
+            "--explain",
+            "--limit",
+            "1",
+        ],
+    );
+    assert!(
+        explain_output.status.success(),
+        "explain search should succeed"
+    );
+
+    let explain_parsed: serde_json::Value =
+        serde_json::from_slice(&explain_output.stdout).expect("search output should be valid JSON");
+    let explanation = explain_parsed["results"][0]
+        .get("explanation")
+        .expect("explanation should be included with --explain");
+
+    assert!(explanation.get("value").is_some());
+    assert!(explanation.get("description").is_some());
+}
+
+#[test]
+fn search_falls_back_to_stored_snippet_for_path_only_matches() {
+    let fixture_root = TempDir::new().expect("create temp corpus root");
+    write_test_files(fixture_root.path()).expect("write test files");
+
+    run_cmap(fixture_root.path(), &["init"]);
+    run_cmap(fixture_root.path(), &["build"]);
+
+    let output = run_cmap_output(
+        fixture_root.path(),
+        &["search", "file1", "--json", "--limit", "1"],
+    );
+    assert!(output.status.success(), "search command should succeed");
+
+    let parsed: serde_json::Value =
+        serde_json::from_slice(&output.stdout).expect("search output should be valid JSON");
+    let result = &parsed["results"].as_array().unwrap()[0];
+
+    assert_eq!(result["path"].as_str(), Some("alpha/file1.md"));
+    assert_eq!(result["matched_fields"], serde_json::json!(["path"]));
+    assert_eq!(result["reasons"], serde_json::json!(["path match"]));
+    assert_eq!(result["highlight"]["field"].as_str(), Some("snippet"));
+    assert_eq!(result["highlight"]["fallback"].as_bool(), Some(true));
+    assert_eq!(result["highlight"]["ranges"], serde_json::json!([]));
+    assert!(result["highlight"]["text"]
+        .as_str()
+        .unwrap()
+        .contains("Rust programming for systems teams."));
+}
+
+#[test]
 fn search_applies_scope_filters_before_ranking() {
     let fixture_root = TempDir::new().expect("create temp corpus root");
     write_test_files(fixture_root.path()).expect("write test files");
@@ -237,6 +405,10 @@ fn write_test_files(root: &Path) -> std::io::Result<()> {
     write_file(
         root.join("beta/file4.rs"),
         "fn programming_rust_guide() {\n    let _topic = \"programming rust guide\";\n}\n",
+    )?;
+    write_file(
+        root.join("alpha/title-only.md"),
+        "# Orbit Search Title Hit\n\nNothing interesting in the body.\n",
     )?;
     write_file(
         root.join("alpha/tie-a.md"),

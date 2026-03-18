@@ -103,6 +103,10 @@ enum Commands {
         #[arg(long)]
         json: bool,
 
+        /// Include raw Tantivy explanation trees per result
+        #[arg(long)]
+        explain: bool,
+
         /// Maximum number of results to return
         #[arg(long, default_value = "10")]
         limit: usize,
@@ -133,6 +137,7 @@ fn main() -> Result<()> {
             type_filters,
             ext_filters,
             json,
+            explain,
             limit,
         } => cli::search::run(
             &cli.root,
@@ -141,6 +146,7 @@ fn main() -> Result<()> {
             &type_filters,
             &ext_filters,
             json,
+            explain,
             limit,
             log_level,
         ),

@@ -181,6 +181,11 @@ pub struct SearchResultItem {
     pub extension: String,
     pub title: String,
     pub snippet: String,
+    pub matched_fields: Vec<String>,
+    pub highlight: SearchHighlight,
+    pub reasons: Vec<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub explanation: Option<serde_json::Value>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -190,6 +195,22 @@ pub struct SearchResultsEnvelope {
     pub query: SearchQueryMetadata,
     pub result_count: usize,
     pub results: Vec<SearchResultItem>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct SearchHighlight {
+    pub field: String,
+    pub text: String,
+    pub html: String,
+    pub ranges: Vec<SearchHighlightRange>,
+    #[serde(default)]
+    pub fallback: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct SearchHighlightRange {
+    pub start: usize,
+    pub end: usize,
 }
 
 /// Term with TF-IDF score
