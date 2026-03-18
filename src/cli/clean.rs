@@ -1,5 +1,6 @@
 //! `cmap clean` command - Remove cached data
 
+use crate::cache::tantivy_backend;
 use crate::LogLevel;
 use anyhow::{Context, Result};
 use std::fs;
@@ -28,7 +29,7 @@ pub fn run(root: &Path, all: bool, log_level: LogLevel) -> Result<()> {
     }
 
     // Clean index
-    let index_path = cmap_path.join("index/tantivy-v1");
+    let index_path = tantivy_backend::index_dir(&cmap_path);
     if index_path.exists() {
         fs::remove_dir_all(&index_path).context("Failed to remove tantivy index directory")?;
         fs::create_dir_all(&index_path)?;

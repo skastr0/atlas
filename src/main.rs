@@ -87,6 +87,18 @@ enum Commands {
         /// Search query
         query: String,
 
+        /// Restrict results to a path scope or exact path prefix
+        #[arg(long = "path")]
+        path_filters: Vec<String>,
+
+        /// Restrict results to one or more file types
+        #[arg(long = "type")]
+        type_filters: Vec<String>,
+
+        /// Restrict results to one or more file extensions
+        #[arg(long = "ext")]
+        ext_filters: Vec<String>,
+
         /// Output results as JSON
         #[arg(long)]
         json: bool,
@@ -115,9 +127,23 @@ fn main() -> Result<()> {
             changed_only,
             force,
         } => cli::build::run(&cli.root, changed_only, force, log_level),
-        Commands::Search { query, json, limit } => {
-            cli::search::run(&cli.root, &query, json, limit, log_level)
-        }
+        Commands::Search {
+            query,
+            path_filters,
+            type_filters,
+            ext_filters,
+            json,
+            limit,
+        } => cli::search::run(
+            &cli.root,
+            &query,
+            &path_filters,
+            &type_filters,
+            &ext_filters,
+            json,
+            limit,
+            log_level,
+        ),
         Commands::Doctor => cli::doctor::run(&cli.root, log_level),
         Commands::Clean { all } => cli::clean::run(&cli.root, all, log_level),
     }

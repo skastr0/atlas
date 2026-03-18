@@ -59,6 +59,30 @@ impl FileType {
             Self::Rust | Self::JavaScript | Self::Jsx | Self::TypeScript | Self::Tsx
         )
     }
+
+    pub fn search_term(&self) -> &'static str {
+        match self {
+            Self::Markdown => "markdown",
+            Self::PlainText => "plaintext",
+            Self::Pdf => "pdf",
+            Self::Rst => "rst",
+            Self::Org => "org",
+            Self::Rust => "rust",
+            Self::JavaScript => "javascript",
+            Self::Jsx => "jsx",
+            Self::TypeScript => "typescript",
+            Self::Tsx => "tsx",
+            Self::Unknown => "unknown",
+        }
+    }
+
+    pub fn normalize_search_term(term: &str) -> String {
+        term.trim()
+            .chars()
+            .filter(|ch| ch.is_ascii_alphanumeric())
+            .collect::<String>()
+            .to_ascii_lowercase()
+    }
 }
 
 #[cfg(test)]
@@ -84,7 +108,16 @@ mod tests {
         assert!(FileType::Jsx.is_code());
         assert!(!FileType::PlainText.is_code());
     }
+
+    #[test]
+    fn normalizes_search_terms_for_filters() {
+        assert_eq!(FileType::normalize_search_term("plain-text"), "plaintext");
+        assert_eq!(FileType::normalize_search_term("Type_Script"), "typescript");
+        assert_eq!(FileType::Markdown.search_term(), "markdown");
+    }
 }
+
+pub const SEARCH_RESULTS_CONTRACT_VERSION: u32 = 2;
 
 /// Per-file extracted features
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -124,6 +157,39 @@ pub struct FileFeatures {
     pub extraction_ok: bool,
     /// Unix timestamp of extraction
     pub extracted_at: u64,
+}
+
+#[derive(Debug, Clone, Default, Serialize, Deserialize, PartialEq, Eq)]
+pub struct SearchFilters {
+    pub paths: Vec<String>,
+    pub types: Vec<String>,
+    pub extensions: Vec<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct SearchQueryMetadata {
+    pub text: String,
+    pub limit: usize,
+    pub filters: SearchFilters,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+pub struct SearchResultItem {
+    pub score: f32,
+    pub path: String,
+    pub file_type: FileType,
+    pub extension: String,
+    pub title: String,
+    pub snippet: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+pub struct SearchResultsEnvelope {
+    pub version: u32,
+    pub index_version: String,
+    pub query: SearchQueryMetadata,
+    pub result_count: usize,
+    pub results: Vec<SearchResultItem>,
 }
 
 /// Term with TF-IDF score

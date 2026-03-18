@@ -72,8 +72,20 @@ pub fn run(root: &Path, _changed_only: bool, force: bool, log_level: LogLevel) -
         );
     }
 
+    // Step 4: Load existing features and initialize Tantivy
+    let index_dir = tantivy_backend::index_dir(&cmap_path);
+
+    if force && index_dir.exists() {
+        std::fs::remove_dir_all(&index_dir)
+            .context("Failed to clear index directory for force build")?;
+    }
+
+    let prepared_index = tantivy_backend::prepare_index(&index_dir)?;
+    let tantivy_index = prepared_index.index;
+    let needs_full_reindex = force || prepared_index.needs_reindex;
+
     // Step 3: Determine which files to process
-    let files_to_process: Vec<_> = if force {
+    let files_to_process: Vec<_> = if needs_full_reindex {
         files.clone()
     } else {
         scan_result
@@ -84,17 +96,7 @@ pub fn run(root: &Path, _changed_only: bool, force: bool, log_level: LogLevel) -
             .collect()
     };
 
-    // Step 4: Load existing features and initialize Tantivy
-    let index_dir = cmap_path.join("index/tantivy-v1");
-
-    if force && index_dir.exists() {
-        std::fs::remove_dir_all(&index_dir)
-            .context("Failed to clear index directory for force build")?;
-    }
-
-    let tantivy_index = tantivy_backend::init_index(&index_dir)?;
-
-    let mut all_features = if force {
+    let mut all_features = if needs_full_reindex {
         Vec::new()
     } else {
         tantivy_backend::load_all_features(&tantivy_index).unwrap_or_default()
