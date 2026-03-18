@@ -32,6 +32,12 @@ impl Config {
             Err(_) => Ok(Self::default()),
         }
     }
+
+    pub fn load_explicit(cmap_dir: &Path) -> Result<Self> {
+        let config_path = cmap_dir.join("config.toml");
+        let content = fs::read_to_string(&config_path)?;
+        Ok(toml::from_str(&content)?)
+    }
 }
 
 /// Scanning configuration
@@ -223,6 +229,19 @@ atlas_max_files_per_folder = 3
         assert_eq!(config.analyze.top_terms, 7);
         assert_eq!(config.analyze.custom_stopwords, vec!["alpha", "beta"]);
         assert_eq!(config.render.atlas_max_files_per_folder, 3);
+    }
+
+    #[test]
+    fn load_explicit_reports_missing_or_invalid_config() {
+        let dir = tempdir().expect("tempdir should work");
+        let missing = Config::load_explicit(dir.path());
+        assert!(missing.is_err());
+
+        let config_path = dir.path().join("config.toml");
+        fs::write(&config_path, "[scan]\ninclude_extensions = [\"md\"").expect("write should work");
+
+        let malformed = Config::load_explicit(dir.path());
+        assert!(malformed.is_err());
     }
 
     #[test]

@@ -84,6 +84,7 @@ fn write_file(path: PathBuf, content: &str) -> std::io::Result<()> {
 fn collect_artifacts(root: &Path) -> std::io::Result<BTreeMap<String, ArtifactSnapshot>> {
     let cmap = root.join(".cmap");
     let mut artifact_paths = vec![
+        PathBuf::from("last-build.json"),
         PathBuf::from("views/ROOT_ATLAS.md"),
         PathBuf::from("views/TERMS.md"),
         PathBuf::from("views/CONNECTIONS.md"),

@@ -119,6 +119,8 @@ mod tests {
 
 pub const SEARCH_RESULTS_CONTRACT_VERSION: u32 = 2;
 pub const SCAN_RESULTS_CONTRACT_VERSION: u32 = 1;
+pub const DOCTOR_RESULTS_CONTRACT_VERSION: u32 = 1;
+pub const LAST_BUILD_MANIFEST_VERSION: u32 = 1;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct ScanDeltaGroup {
@@ -151,6 +153,125 @@ pub struct ScanDeltaReport {
     pub indexed_candidates: usize,
     pub summary: ScanDeltaSummary,
     pub groups: ScanDeltaGroups,
+}
+
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(rename_all = "snake_case")]
+pub enum BuildFileIssueReason {
+    FileTooLarge,
+    MetadataUnreadable,
+    ExtractionFailed,
+    PdftotextUnavailable,
+}
+
+impl BuildFileIssueReason {
+    pub fn label(&self) -> &'static str {
+        match self {
+            Self::FileTooLarge => "file_too_large",
+            Self::MetadataUnreadable => "metadata_unreadable",
+            Self::ExtractionFailed => "extraction_failed",
+            Self::PdftotextUnavailable => "pdftotext_unavailable",
+        }
+    }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct BuildFileIssue {
+    pub path: String,
+    pub reason: BuildFileIssueReason,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub detail: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct LastBuildManifest {
+    pub version: u32,
+    pub index_version: String,
+    pub indexed_candidates: usize,
+    pub indexed_documents: usize,
+    pub processed_files: usize,
+    pub full_reindex: bool,
+    pub skipped: Vec<BuildFileIssue>,
+    pub failed: Vec<BuildFileIssue>,
+}
+
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(rename_all = "snake_case")]
+pub enum DoctorState {
+    Clean,
+    Stale,
+    Broken,
+}
+
+impl DoctorState {
+    pub fn label(&self) -> &'static str {
+        match self {
+            Self::Clean => "clean",
+            Self::Stale => "stale",
+            Self::Broken => "broken",
+        }
+    }
+}
+
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(rename_all = "snake_case")]
+pub enum DoctorSeverity {
+    Error,
+    Warning,
+    Info,
+}
+
+impl DoctorSeverity {
+    pub fn label(&self) -> &'static str {
+        match self {
+            Self::Error => "error",
+            Self::Warning => "warning",
+            Self::Info => "info",
+        }
+    }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct DoctorCheck {
+    pub id: String,
+    pub label: String,
+    pub severity: DoctorSeverity,
+    pub summary: String,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub details: Vec<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct DoctorSeverityCounts {
+    pub error: usize,
+    pub warning: usize,
+    pub info: usize,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct DoctorSummary {
+    pub indexed_candidates: usize,
+    pub index_documents: usize,
+    pub requires_build: bool,
+    pub changed_files: usize,
+    pub skipped_files: usize,
+    pub failed_files: usize,
+    pub severity_counts: DoctorSeverityCounts,
+}
+
+#[derive(Debug, Clone, Default, Serialize, Deserialize, PartialEq, Eq)]
+pub struct DoctorCheckGroups {
+    pub error: Vec<DoctorCheck>,
+    pub warning: Vec<DoctorCheck>,
+    pub info: Vec<DoctorCheck>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct DoctorReport {
+    pub version: u32,
+    pub state: DoctorState,
+    pub summary: DoctorSummary,
+    pub checks: DoctorCheckGroups,
 }
 
 /// Per-file extracted features

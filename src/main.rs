@@ -77,7 +77,11 @@ enum Commands {
     },
 
     /// Report issues (extraction failures, stale cache, duplicates)
-    Doctor,
+    Doctor {
+        /// Output doctor report as JSON
+        #[arg(long)]
+        json: bool,
+    },
 
     /// Remove all cached data
     Clean {
@@ -154,7 +158,7 @@ fn main() -> Result<()> {
             limit,
             log_level,
         ),
-        Commands::Doctor => cli::doctor::run(&cli.root, log_level),
+        Commands::Doctor { json } => cli::doctor::run(&cli.root, json, log_level),
         Commands::Clean { all } => cli::clean::run(&cli.root, all, log_level),
     }
 }

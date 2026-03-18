@@ -9,7 +9,6 @@ use crate::types::{
 use crate::{compare_fingerprints, LogLevel, Walker};
 use anyhow::{Context, Result};
 use std::collections::BTreeSet;
-use std::fs;
 use std::path::{Path, PathBuf};
 
 const CMAP_DIR: &str = ".cmap";
@@ -47,12 +46,10 @@ pub fn run(root: &Path, _dry_run: bool, json: bool, log_level: LogLevel) -> Resu
 }
 
 fn load_scan_config(cmap_path: &Path) -> Result<Config> {
-    let config_path = cmap_path.join("config.toml");
-    let content = fs::read_to_string(&config_path)
-        .with_context(|| format!("Failed to load scan config from {}", config_path.display()))?;
-
-    toml::from_str(&content)
-        .with_context(|| format!("Failed to parse scan config from {}", config_path.display()))
+    Config::load_explicit(cmap_path).with_context(|| {
+        let config_path = cmap_path.join("config.toml");
+        format!("Failed to load scan config from {}", config_path.display())
+    })
 }
 
 fn build_report(current_files: &[PathBuf], scan_result: &crate::ScanResult) -> ScanDeltaReport {

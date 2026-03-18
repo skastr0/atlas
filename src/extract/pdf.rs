@@ -9,7 +9,7 @@ use std::process::Command;
 /// Extract text from PDF using pdftotext
 pub fn extract_pdf(path: &Path, config: &ExtractConfig) -> Result<ExtractedContent> {
     // Try to find pdftotext
-    let pdftotext = find_pdftotext(config.pdftotext_path.as_deref())?;
+    let pdftotext = resolve_pdftotext(config.pdftotext_path.as_deref())?;
 
     // Run pdftotext with output to stdout
     let output = Command::new(&pdftotext)
@@ -49,7 +49,7 @@ pub fn extract_pdf(path: &Path, config: &ExtractConfig) -> Result<ExtractedConte
 }
 
 /// Find pdftotext binary
-fn find_pdftotext(custom_path: Option<&str>) -> Result<String> {
+pub fn resolve_pdftotext(custom_path: Option<&str>) -> Result<String> {
     if let Some(custom_path) = custom_path {
         if Path::new(custom_path).exists() {
             return Ok(custom_path.to_string());
@@ -101,5 +101,5 @@ fn find_pdftotext(custom_path: Option<&str>) -> Result<String> {
 
 /// Check if pdftotext is available
 pub fn is_pdftotext_available() -> bool {
-    find_pdftotext(None).is_ok()
+    resolve_pdftotext(None).is_ok()
 }

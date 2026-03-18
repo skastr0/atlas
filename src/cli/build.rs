@@ -11,15 +11,27 @@ use std::path::Path;
 // Import our modules
 use crate::aggregate::{apply_tfidf, build_term_index, compute_folder_signatures};
 use crate::analyze::compute_features;
-use crate::cache::{load_fingerprints, save_fingerprints, tantivy_backend};
+use crate::cache::{
+    last_build_manifest_path, load_fingerprints, save_fingerprints, save_last_build_manifest,
+    tantivy_backend,
+};
 use crate::extract::extract;
 use crate::render::{
     render_all_folder_indexes, render_atlas, render_connections, render_term_index,
 };
 use crate::scan::{compare_fingerprints, compute_content_hash, Walker};
-use crate::types::FileType;
+use crate::types::{
+    BuildFileIssue, BuildFileIssueReason, FileFeatures, FileType, LastBuildManifest,
+    LAST_BUILD_MANIFEST_VERSION,
+};
 
 const CMAP_DIR: &str = ".cmap";
+
+enum ProcessedFileOutcome {
+    Indexed(Box<(FileFeatures, String)>),
+    Skipped(BuildFileIssue),
+    Failed(BuildFileIssue),
+}
 
 pub fn run(root: &Path, _changed_only: bool, force: bool, log_level: LogLevel) -> Result<()> {
     let cmap_path = root.join(CMAP_DIR);
@@ -44,7 +56,8 @@ pub fn run(root: &Path, _changed_only: bool, force: bool, log_level: LogLevel) -
 
     // Step 1: Scan for files
     let walker = Walker::new(root, &config.scan);
-    let files = walker.walk()?;
+    let mut files = walker.walk()?;
+    files.sort();
 
     if log_level != LogLevel::Quiet {
         println!("Found {} files", files.len());
@@ -85,7 +98,7 @@ pub fn run(root: &Path, _changed_only: bool, force: bool, log_level: LogLevel) -
     let needs_full_reindex = force || prepared_index.needs_reindex;
 
     // Step 3: Determine which files to process
-    let files_to_process: Vec<_> = if needs_full_reindex {
+    let mut files_to_process: Vec<_> = if needs_full_reindex {
         files.clone()
     } else {
         scan_result
@@ -95,12 +108,15 @@ pub fn run(root: &Path, _changed_only: bool, force: bool, log_level: LogLevel) -
             .cloned()
             .collect()
     };
+    files_to_process.sort();
 
     let mut all_features = if needs_full_reindex {
         Vec::new()
     } else {
         tantivy_backend::load_all_features(&tantivy_index).unwrap_or_default()
     };
+    let mut build_skips = Vec::new();
+    let mut build_failures = Vec::new();
 
     // Remove features for files we're reprocessing or deleted
     let reprocess_set: std::collections::HashSet<_> = files_to_process.iter().collect();
@@ -135,68 +151,25 @@ pub fn run(root: &Path, _changed_only: bool, force: bool, log_level: LogLevel) -
         }
 
         // Step 5: Extract and analyze files (in parallel)
-        let new_features: Vec<_> = files_to_process
+        let processed_files: Vec<_> = files_to_process
             .par_iter()
-            .filter_map(|rel_path| {
-                let full_path = root.join(rel_path);
-
-                // Determine file type
-                let ext = rel_path
-                    .extension()
-                    .map(|e| e.to_string_lossy().to_string())
-                    .unwrap_or_default();
-                let file_type = FileType::from_extension(&ext);
-
-                let metadata = match fs::metadata(&full_path) {
-                    Ok(metadata) => metadata,
-                    Err(e) => {
-                        if log_level == LogLevel::Debug {
-                            eprintln!("  Error reading metadata {}: {}", rel_path.display(), e);
-                        }
-                        return None;
-                    }
-                };
-
-                if metadata.len() > config.extract.max_file_size as u64 {
-                    if log_level == LogLevel::Debug {
-                        eprintln!(
-                            "  Skipping {} ({} bytes > max {})",
-                            rel_path.display(),
-                            metadata.len(),
-                            config.extract.max_file_size
-                        );
-                    }
-                    return None;
-                }
-
-                // Extract text
-                let content = match extract(&full_path, file_type, &config.extract) {
-                    Ok(c) => c,
-                    Err(e) => {
-                        if log_level == LogLevel::Debug {
-                            eprintln!("  Error extracting {}: {}", rel_path.display(), e);
-                        }
-                        return None;
-                    }
-                };
-
-                // Compute content hash for ID
-                let id = compute_content_hash(&full_path)
-                    .unwrap_or_else(|_| format!("{:x}", md5_path(rel_path)));
-
-                // Compute features
-                let features = compute_features(
-                    &id,
-                    rel_path.clone(),
-                    file_type,
-                    &content,
-                    &config.analyze,
-                    &config.extract,
-                );
-
-                Some((features, content.text))
-            })
+            .map(|rel_path| process_file(root, rel_path, &config, log_level))
             .collect();
+
+        let mut new_features = Vec::new();
+        let mut skipped_files = Vec::new();
+        let mut failed_files = Vec::new();
+
+        for processed in processed_files {
+            match processed {
+                ProcessedFileOutcome::Indexed(features) => new_features.push(*features),
+                ProcessedFileOutcome::Skipped(issue) => skipped_files.push(issue),
+                ProcessedFileOutcome::Failed(issue) => failed_files.push(issue),
+            }
+        }
+
+        skipped_files.sort_by(|a, b| a.path.cmp(&b.path));
+        failed_files.sort_by(|a, b| a.path.cmp(&b.path));
 
         // Save new features to cache
         if let Err(e) =
@@ -208,6 +181,9 @@ pub fn run(root: &Path, _changed_only: bool, force: bool, log_level: LogLevel) -
         }
 
         all_features.extend(new_features.into_iter().map(|(f, _)| f));
+
+        build_skips = skipped_files;
+        build_failures = failed_files;
     }
 
     // Commit any changes to the index
@@ -263,10 +239,7 @@ pub fn run(root: &Path, _changed_only: bool, force: bool, log_level: LogLevel) -
 
     let folder_indexes = render_all_folder_indexes(&all_features, &folder_sigs, &config.render);
     for (folder, content) in folder_indexes {
-        let folder_slug = folder
-            .to_string_lossy()
-            .replace('/', "_")
-            .replace('\\', "_");
+        let folder_slug = folder.to_string_lossy().replace(['/', '\\'], "_");
         let folder_slug = if folder_slug.is_empty() {
             "root".to_string()
         } else {
@@ -283,6 +256,19 @@ pub fn run(root: &Path, _changed_only: bool, force: bool, log_level: LogLevel) -
     fs::create_dir_all(&global_dir)?;
     let term_index_json = serde_json::to_string_pretty(&term_index)?;
     fs::write(global_dir.join("term_index.json"), term_index_json)?;
+
+    let manifest = LastBuildManifest {
+        version: LAST_BUILD_MANIFEST_VERSION,
+        index_version: tantivy_backend::SEARCH_INDEX_VERSION.to_string(),
+        indexed_candidates: scan_result.total_files,
+        indexed_documents: all_features.len(),
+        processed_files: files_to_process.len(),
+        full_reindex: needs_full_reindex,
+        skipped: build_skips,
+        failed: build_failures,
+    };
+    let manifest_path = last_build_manifest_path(&cmap_path);
+    save_last_build_manifest(&manifest_path, &manifest)?;
 
     if log_level != LogLevel::Quiet {
         println!("✓ Done!");
@@ -305,4 +291,113 @@ fn md5_path(path: &Path) -> u64 {
     let mut hasher = DefaultHasher::new();
     path.hash(&mut hasher);
     hasher.finish()
+}
+
+fn process_file(
+    root: &Path,
+    rel_path: &Path,
+    config: &Config,
+    log_level: LogLevel,
+) -> ProcessedFileOutcome {
+    let full_path = root.join(rel_path);
+    let ext = rel_path
+        .extension()
+        .map(|e| e.to_string_lossy().to_string())
+        .unwrap_or_default();
+    let file_type = FileType::from_extension(&ext);
+
+    let metadata = match fs::metadata(&full_path) {
+        Ok(metadata) => metadata,
+        Err(error) => {
+            if log_level == LogLevel::Debug {
+                eprintln!("  Error reading metadata {}: {}", rel_path.display(), error);
+            }
+            return ProcessedFileOutcome::Failed(build_issue(
+                rel_path,
+                BuildFileIssueReason::MetadataUnreadable,
+                None,
+            ));
+        }
+    };
+
+    if metadata.len() > config.extract.max_file_size as u64 {
+        if log_level == LogLevel::Debug {
+            eprintln!(
+                "  Skipping {} ({} bytes > max {})",
+                rel_path.display(),
+                metadata.len(),
+                config.extract.max_file_size
+            );
+        }
+        return ProcessedFileOutcome::Skipped(build_issue(
+            rel_path,
+            BuildFileIssueReason::FileTooLarge,
+            Some(format!(
+                "{} bytes > max {}",
+                metadata.len(),
+                config.extract.max_file_size
+            )),
+        ));
+    }
+
+    let content = match extract(&full_path, file_type, &config.extract) {
+        Ok(content) => content,
+        Err(error) => {
+            if log_level == LogLevel::Debug {
+                eprintln!("  Error extracting {}: {}", rel_path.display(), error);
+            }
+            return ProcessedFileOutcome::Failed(build_issue(
+                rel_path,
+                classify_extraction_failure(file_type, &error),
+                extraction_detail(file_type, &error),
+            ));
+        }
+    };
+
+    let id =
+        compute_content_hash(&full_path).unwrap_or_else(|_| format!("{:x}", md5_path(rel_path)));
+    let features = compute_features(
+        &id,
+        rel_path.to_path_buf(),
+        file_type,
+        &content,
+        &config.analyze,
+        &config.extract,
+    );
+
+    ProcessedFileOutcome::Indexed(Box::new((features, content.text)))
+}
+
+fn build_issue(
+    path: &Path,
+    reason: BuildFileIssueReason,
+    detail: Option<String>,
+) -> BuildFileIssue {
+    BuildFileIssue {
+        path: path.to_string_lossy().replace('\\', "/"),
+        reason,
+        detail,
+    }
+}
+
+fn classify_extraction_failure(file_type: FileType, error: &anyhow::Error) -> BuildFileIssueReason {
+    if file_type == FileType::Pdf && error_mentions_pdftotext(error) {
+        BuildFileIssueReason::PdftotextUnavailable
+    } else {
+        BuildFileIssueReason::ExtractionFailed
+    }
+}
+
+fn extraction_detail(file_type: FileType, error: &anyhow::Error) -> Option<String> {
+    if file_type == FileType::Pdf && error_mentions_pdftotext(error) {
+        Some("pdftotext is unavailable for PDF extraction".to_string())
+    } else {
+        None
+    }
+}
+
+fn error_mentions_pdftotext(error: &anyhow::Error) -> bool {
+    error
+        .chain()
+        .any(|cause| cause.to_string().contains("pdftotext"))
 }
