@@ -54,11 +54,15 @@ enum Commands {
     /// Initialize .cmap in current directory
     Init,
 
-    /// Scan files and update fingerprints
+    /// Preview corpus changes against saved fingerprints
     Scan {
-        /// Show what would be scanned without writing
+        /// Accepted for compatibility; scan is always read-only
         #[arg(long)]
         dry_run: bool,
+
+        /// Output scan delta as JSON
+        #[arg(long)]
+        json: bool,
     },
 
     /// Build/update index and generate views
@@ -126,7 +130,7 @@ fn main() -> Result<()> {
 
     match cli.command {
         Commands::Init => cli::init::run(&cli.root, log_level),
-        Commands::Scan { dry_run } => cli::scan::run(&cli.root, dry_run, log_level),
+        Commands::Scan { dry_run, json } => cli::scan::run(&cli.root, dry_run, json, log_level),
         Commands::Build {
             changed_only,
             force,

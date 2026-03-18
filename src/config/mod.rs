@@ -6,24 +6,13 @@ use std::fs;
 use std::path::Path;
 
 /// Root configuration
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 #[serde(default)]
 pub struct Config {
     pub scan: ScanConfig,
     pub extract: ExtractConfig,
     pub analyze: AnalyzeConfig,
     pub render: RenderConfig,
-}
-
-impl Default for Config {
-    fn default() -> Self {
-        Self {
-            scan: ScanConfig::default(),
-            extract: ExtractConfig::default(),
-            analyze: AnalyzeConfig::default(),
-            render: RenderConfig::default(),
-        }
-    }
 }
 
 impl Config {

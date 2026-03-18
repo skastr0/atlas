@@ -118,6 +118,40 @@ mod tests {
 }
 
 pub const SEARCH_RESULTS_CONTRACT_VERSION: u32 = 2;
+pub const SCAN_RESULTS_CONTRACT_VERSION: u32 = 1;
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct ScanDeltaGroup {
+    pub count: usize,
+    pub paths: Vec<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct ScanDeltaGroups {
+    pub new_files: ScanDeltaGroup,
+    pub modified_files: ScanDeltaGroup,
+    pub deleted_files: ScanDeltaGroup,
+    pub unchanged_files: ScanDeltaGroup,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct ScanDeltaSummary {
+    pub changed_files: usize,
+    pub new_files: usize,
+    pub modified_files: usize,
+    pub deleted_files: usize,
+    pub unchanged_files: usize,
+    pub requires_build: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct ScanDeltaReport {
+    pub version: u32,
+    pub read_only: bool,
+    pub indexed_candidates: usize,
+    pub summary: ScanDeltaSummary,
+    pub groups: ScanDeltaGroups,
+}
 
 /// Per-file extracted features
 #[derive(Debug, Clone, Serialize, Deserialize)]
