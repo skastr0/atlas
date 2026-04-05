@@ -1,0 +1,85 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg-cmap" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#081c28"/>
+      <stop offset="100%" stop-color="#061018"/>
+    </linearGradient>
+    <linearGradient id="sweep" x1="0" y1="0" x2="0.7" y2="1">
+      <stop offset="0%" stop-color="#50e8ff" stop-opacity="0.25"/>
+      <stop offset="60%" stop-color="#50e8ff" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#50e8ff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="cm-glow">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="cm-bloom">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+    <clipPath id="radar-clip">
+      <circle cx="256" cy="256" r="175"/>
+    </clipPath>
+  </defs>
+
+  <rect width="512" height="512" fill="url(#bg-cmap)" rx="96"/>
+  <circle cx="256" cy="256" r="140" fill="#50e8ff" opacity="0.07" filter="url(#cm-bloom)"/>
+
+  <!-- Radar rings -->
+  <circle cx="256" cy="256" r="175" fill="none" stroke="#2898b0" stroke-width="1.1" opacity="0.5"/>
+  <circle cx="256" cy="256" r="130" fill="none" stroke="#2898b0" stroke-width="0.9" opacity="0.38"/>
+  <circle cx="256" cy="256" r="85" fill="none" stroke="#2898b0" stroke-width="0.9" opacity="0.42"/>
+  <circle cx="256" cy="256" r="42" fill="none" stroke="#2898b0" stroke-width="1" opacity="0.48"/>
+
+  <!-- Cross-hairs -->
+  <line x1="256" y1="78" x2="256" y2="434" stroke="#2898b0" stroke-width="0.6" opacity="0.22"/>
+  <line x1="78" y1="256" x2="434" y2="256" stroke="#2898b0" stroke-width="0.6" opacity="0.22"/>
+  <line x1="132" y1="132" x2="380" y2="380" stroke="#2898b0" stroke-width="0.4" opacity="0.12"/>
+  <line x1="380" y1="132" x2="132" y2="380" stroke="#2898b0" stroke-width="0.4" opacity="0.12"/>
+
+  <!-- Sweep -->
+  <g clip-path="url(#radar-clip)">
+    <path d="M 256 256 L 256 81 A 175 175 0 0 1 400 158 Z" fill="url(#sweep)"/>
+  </g>
+  <line x1="256" y1="256" x2="400" y2="158" stroke="#60f0ff" stroke-width="1.3" opacity="0.55"/>
+
+  <!-- Nodes — brighter -->
+  <circle cx="280" cy="232" r="5" fill="#60f0ff" opacity="0.85" filter="url(#cm-glow)"/>
+  <circle cx="236" cy="225" r="4" fill="#70f0ff" opacity="0.7" filter="url(#cm-glow)"/>
+
+  <circle cx="310" cy="185" r="4.5" fill="#60f0ff" opacity="0.75" filter="url(#cm-glow)"/>
+  <circle cx="192" cy="195" r="3.8" fill="#50d8f0" opacity="0.6" filter="url(#cm-glow)"/>
+  <circle cx="320" cy="270" r="4" fill="#60f0ff" opacity="0.7" filter="url(#cm-glow)"/>
+  <circle cx="200" cy="310" r="3.5" fill="#40c0d8" opacity="0.52"/>
+  <circle cx="295" cy="330" r="3.2" fill="#40c0d8" opacity="0.5"/>
+
+  <circle cx="360" cy="210" r="3.5" fill="#50e8ff" opacity="0.58"/>
+  <circle cx="148" cy="240" r="3" fill="#40b8d0" opacity="0.42"/>
+  <circle cx="345" cy="330" r="2.8" fill="#38a8c0" opacity="0.38"/>
+  <circle cx="170" cy="345" r="2.5" fill="#3098b0" opacity="0.35"/>
+  <circle cx="390" cy="270" r="3" fill="#40b8d0" opacity="0.42"/>
+  <circle cx="130" cy="290" r="2.5" fill="#3098b0" opacity="0.32"/>
+
+  <!-- Ping ripples -->
+  <circle cx="310" cy="185" r="12" fill="none" stroke="#60f0ff" stroke-width="0.8" opacity="0.3"/>
+  <circle cx="310" cy="185" r="22" fill="none" stroke="#60f0ff" stroke-width="0.5" opacity="0.15"/>
+  <circle cx="280" cy="232" r="12" fill="none" stroke="#70f0ff" stroke-width="0.7" opacity="0.25"/>
+
+  <!-- Label tags -->
+  <line x1="284" y1="232" x2="312" y2="228" stroke="#60f0ff" stroke-width="0.6" opacity="0.3"/>
+  <rect x="314" y="224" width="30" height="8" rx="2" fill="#50e8ff" fill-opacity="0.1" stroke="#60f0ff" stroke-width="0.5" opacity="0.38"/>
+
+  <line x1="323" y1="270" x2="350" y2="268" stroke="#60f0ff" stroke-width="0.5" opacity="0.25"/>
+  <rect x="352" y="264" width="24" height="8" rx="2" fill="#50e8ff" fill-opacity="0.07" stroke="#40c0d8" stroke-width="0.45" opacity="0.3"/>
+
+  <line x1="194" y1="195" x2="164" y2="188" stroke="#50d8f0" stroke-width="0.45" opacity="0.22"/>
+  <rect x="134" y="184" width="28" height="8" rx="2" fill="#50e8ff" fill-opacity="0.06" stroke="#40c0d8" stroke-width="0.45" opacity="0.26"/>
+
+  <!-- Center -->
+  <circle cx="256" cy="256" r="7" fill="#50e8ff" opacity="0.35" filter="url(#cm-glow)"/>
+  <circle cx="256" cy="256" r="3.5" fill="#c0f8ff" opacity="0.85"/>
+
+  <!-- Corner text -->
+  <text x="100" y="435" font-family="monospace" font-size="9" fill="#2898b0" opacity="0.32">0x00</text>
+  <text x="385" y="435" font-family="monospace" font-size="9" fill="#2898b0" opacity="0.32">0xff</text>
+  <text x="100" y="100" font-family="monospace" font-size="9" fill="#2898b0" opacity="0.25">idx</text>
+</svg>
