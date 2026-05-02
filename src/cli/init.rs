@@ -167,6 +167,21 @@ mod tests {
     use crate::LogLevel;
     use std::fs;
 
+    fn run_init_with_gitignore(content: Option<&str>) -> String {
+        let temp = tempfile::tempdir().expect("tempdir should be created");
+        let root = temp.path();
+        let gitignore_path = root.join(".gitignore");
+
+        if let Some(content) = content {
+            fs::write(&gitignore_path, content).expect("gitignore should be seeded");
+        }
+
+        run(root, LogLevel::Quiet).expect("init should succeed");
+        run(root, LogLevel::Quiet).expect("second init should succeed");
+
+        fs::read_to_string(&gitignore_path).expect("gitignore should be readable")
+    }
+
     #[test]
     fn renders_default_extensions_into_generated_config() {
         let rendered = toml_string(&Config::default());
@@ -197,9 +212,36 @@ mod tests {
     }
 
     #[test]
+    fn creates_missing_gitignore_with_cmap_entry() {
+        let gitignore = run_init_with_gitignore(None);
+
+        assert_eq!(gitignore, ".cmap/\n");
+    }
+
+    #[test]
+    fn adds_missing_gitignore_entry_when_cmap_already_exists() {
+        let temp = tempfile::tempdir().expect("tempdir should be created");
+        let root = temp.path();
+        let gitignore_path = root.join(".gitignore");
+
+        fs::create_dir_all(root.join(".cmap")).expect(".cmap should be seeded");
+
+        run(root, LogLevel::Quiet).expect("init should succeed");
+        run(root, LogLevel::Quiet).expect("second init should succeed");
+
+        let gitignore = fs::read_to_string(&gitignore_path).expect("gitignore should be readable");
+        assert_eq!(gitignore, ".cmap/\n");
+    }
+
+    #[test]
     fn recognizes_existing_cmap_gitignore_variants() {
-        assert!(gitignore_has_cmap_entry(".cmap\n"));
-        assert!(gitignore_has_cmap_entry("/.cmap/\n"));
+        for variant in [".cmap", ".cmap/", "/.cmap", "/.cmap/"] {
+            let gitignore = run_init_with_gitignore(Some(&format!("target\n{variant}\n")));
+
+            assert_eq!(gitignore, format!("target\n{variant}\n"));
+            assert!(gitignore_has_cmap_entry(&gitignore));
+        }
+
         assert!(!gitignore_has_cmap_entry("# .cmap/\n"));
     }
 }

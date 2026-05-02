@@ -1,5 +1,5 @@
 import type { Hooks } from "@opencode-ai/plugin";
-import { Effect } from "effect";
+import { Effect, Fiber } from "effect";
 import { BUILD_DEBOUNCE_MS } from "../shared/constants";
 import { formatError, ShellCommandError } from "../shared/errors";
 import { PluginLogger } from "../shared/logger";
@@ -18,7 +18,9 @@ const cmapInitializationEvents = new Set(["server.connected", "session.created"]
 const textFileChangedEvents = new Set(["file.edited", "file.watcher.updated"]);
 const atlasRefreshEvents = new Set(["session.created", "session.compacted"]);
 
-let changedOnlyBuildTimeout: ReturnType<typeof setTimeout> | undefined;
+let changedOnlyBuildFiber: Fiber.RuntimeFiber<void, never> | undefined;
+let changedOnlyBuildInFlight = false;
+let changedOnlyBuildPending = false;
 
 export const getSessionId = (event: { properties?: unknown }): string | undefined => {
   const properties = event.properties;
@@ -86,6 +88,50 @@ const runChangedOnlyBuild = Effect.fn("Cmap.runChangedOnlyBuild")(function* () {
   }).pipe(Effect.ignore);
 });
 
+const logChangedOnlyBuildError = (error: unknown) =>
+  Effect.gen(function* () {
+    const context = yield* CmapPluginContext;
+    const logger = yield* PluginLogger;
+
+    yield* logger.log({
+      level: "error",
+      message: "Changed-only cmap build failed",
+      extra: { root: context.root, error: formatError(error) },
+    }).pipe(Effect.ignore);
+  });
+
+const runQueuedChangedOnlyBuild = Effect.fn("Cmap.runQueuedChangedOnlyBuild")(function* () {
+  if (changedOnlyBuildInFlight) {
+    changedOnlyBuildPending = true;
+    return;
+  }
+
+  changedOnlyBuildInFlight = true;
+  yield* Effect.gen(function* () {
+    do {
+      changedOnlyBuildPending = false;
+      yield* runChangedOnlyBuild().pipe(Effect.catchAll(logChangedOnlyBuildError));
+    } while (changedOnlyBuildPending);
+  }).pipe(
+    Effect.ensuring(
+      Effect.sync(() => {
+        changedOnlyBuildInFlight = false;
+      }),
+    ),
+  );
+});
+
+const scheduleChangedOnlyBuild = Effect.fn("Cmap.scheduleChangedOnlyBuild")(function* () {
+  if (changedOnlyBuildFiber) {
+    yield* Fiber.interrupt(changedOnlyBuildFiber).pipe(Effect.ignore);
+  }
+
+  changedOnlyBuildFiber = yield* Effect.sleep(BUILD_DEBOUNCE_MS).pipe(
+    Effect.andThen(runQueuedChangedOnlyBuild()),
+    Effect.forkDaemon,
+  );
+});
+
 export const injectAtlasIntoSystem = Effect.fn("ServerHooks.injectAtlasIntoSystem")(
   function* ({
     input,
@@ -134,23 +180,5 @@ export const onEvent = Effect.fn("ServerHooks.onEvent")(function* (input: EventI
 
   if (!shouldRunChangedOnlyBuild(eventType)) return;
 
-  const context = yield* CmapPluginContext;
-  yield* Effect.sync(() => {
-    if (changedOnlyBuildTimeout) clearTimeout(changedOnlyBuildTimeout);
-    changedOnlyBuildTimeout = setTimeout(() => {
-      void Effect.runPromise(
-        runChangedOnlyBuild().pipe(
-          Effect.provideService(CmapPluginContext, context),
-          Effect.provideService(PluginLogger, logger),
-          Effect.catchAll((error) =>
-            logger.log({
-              level: "error",
-              message: "Changed-only cmap build failed",
-              extra: { root: context.root, error: formatError(error) },
-            }).pipe(Effect.ignore),
-          ),
-        ),
-      );
-    }, BUILD_DEBOUNCE_MS);
-  });
+  yield* scheduleChangedOnlyBuild();
 });
