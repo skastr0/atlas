@@ -1,7 +1,9 @@
-import type { Plugin, PluginInput, PluginModule } from "@opencode-ai/plugin";
+import type { Hooks, Plugin, PluginInput, PluginModule } from "@opencode-ai/plugin";
+import { promptWithSessionContext } from "./session-prompt";
 
 type ShellTextRunner = PluginInput["$"];
 type OpencodeClient = PluginInput["client"];
+type ChatMessageInput = Parameters<NonNullable<Hooks["chat.message"]>>[0];
 
 const SERVICE_NAME = "context-map-opencode-plugin";
 const BUILD_DEBOUNCE_MS = 2_000;
@@ -58,32 +60,40 @@ export const getSessionId = (event: { properties?: unknown }): string | undefine
   return typeof sessionID === "string" && sessionID.length > 0 ? sessionID : undefined;
 };
 
+const getMessageSessionId = (input: ChatMessageInput): string | undefined =>
+  typeof input.sessionID === "string" && input.sessionID.length > 0 ? input.sessionID : undefined;
+
 export const shouldRunChangedOnlyBuild = (eventType: string): boolean =>
   textFileChangedEvents.has(eventType);
 
-const injectAtlas = async (
+const readAtlas = async (
+  $: ShellTextRunner,
+  root: string,
+): Promise<string | undefined> => {
+  const atlasPath = `${root}/.cmap/views/ROOT_ATLAS.md`;
+  return readText($, atlasPath);
+};
+
+export const buildAtlasPromptPart = (content: string) => ({
+  type: "text" as const,
+  text: `[System] Knowledge Base Atlas for this repository:\n\n${content}`,
+  synthetic: true,
+});
+
+const injectAtlasPrompt = async (
   client: OpencodeClient,
   $: ShellTextRunner,
   root: string,
   sessionID: string,
-): Promise<void> => {
-  const atlasPath = `${root}/.cmap/views/ROOT_ATLAS.md`;
-  const content = await readText($, atlasPath);
-  if (!content) return;
+): Promise<boolean> => {
+  const content = await readAtlas($, root);
+  if (!content) return false;
 
-  await client.session.prompt({
-    path: { id: sessionID },
-    body: {
-      noReply: true,
-      parts: [
-        {
-          type: "text",
-          text: `[System] Knowledge Base Atlas for this repository:\n\n${content}`,
-          synthetic: true,
-        },
-      ],
-    },
+  await promptWithSessionContext(client, sessionID, {
+    noReply: true,
+    parts: [buildAtlasPromptPart(content)],
   });
+  return true;
 };
 
 const runChangedOnlyBuild = async (
@@ -98,44 +108,46 @@ const runChangedOnlyBuild = async (
 
 export const CmapOpenCodePlugin: Plugin = async ({ $, client, directory, worktree }) => {
   const root = getWorkspaceRoot(worktree, directory);
+  const atlasInjectedSessions = new Set<string>();
   let buildTimeout: ReturnType<typeof setTimeout> | undefined;
 
   await log(client, "info", "Plugin initialized", { directory, worktree, root });
 
   return {
-    event: async ({ event }) => {
-      if (event.type === "session.created") {
-        const sessionID = getSessionId(event);
-        if (!sessionID) return;
+    "chat.message": async (input) => {
+      const sessionID = getMessageSessionId(input);
+      if (!sessionID || atlasInjectedSessions.has(sessionID)) return;
 
-        try {
-          await injectAtlas(client, $, root, sessionID);
-        } catch (error) {
-          await log(client, "error", "Failed to inject ROOT_ATLAS.md", {
-            root,
-            sessionID,
-            error: formatError(error),
-          });
+      try {
+        if (await injectAtlasPrompt(client, $, root, sessionID)) {
+          atlasInjectedSessions.add(sessionID);
         }
-        return;
+      } catch (error) {
+        await log(client, "error", "Failed to inject ROOT_ATLAS.md", {
+          root,
+          sessionID,
+          error: formatError(error),
+        });
       }
+    },
 
-      if (!shouldRunChangedOnlyBuild(event.type)) return;
-
-      if (buildTimeout) clearTimeout(buildTimeout);
-      buildTimeout = setTimeout(() => {
-        void (async () => {
-          try {
-            await runChangedOnlyBuild($, root);
-            await log(client, "debug", "Changed-only cmap build completed", { root });
-          } catch (error) {
-            await log(client, "error", "Changed-only cmap build failed", {
-              root,
-              error: formatError(error),
-            });
-          }
-        })();
-      }, BUILD_DEBOUNCE_MS);
+    event: async ({ event }) => {
+      if (shouldRunChangedOnlyBuild(event.type)) {
+        if (buildTimeout) clearTimeout(buildTimeout);
+        buildTimeout = setTimeout(() => {
+          void (async () => {
+            try {
+              await runChangedOnlyBuild($, root);
+              await log(client, "debug", "Changed-only cmap build completed", { root });
+            } catch (error) {
+              await log(client, "error", "Changed-only cmap build failed", {
+                root,
+                error: formatError(error),
+              });
+            }
+          })();
+        }, BUILD_DEBOUNCE_MS);
+      }
     },
   };
 };

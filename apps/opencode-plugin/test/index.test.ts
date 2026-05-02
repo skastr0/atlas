@@ -1,10 +1,12 @@
 import { describe, expect, test } from "bun:test";
 
 import {
+  buildAtlasPromptPart,
   getSessionId,
   getWorkspaceRoot,
   shouldRunChangedOnlyBuild,
 } from "../src/index.ts";
+import { promptWithSessionContext } from "../src/session-prompt.ts";
 
 describe("context-map OpenCode hook helpers", () => {
   test("uses the git worktree when OpenCode provides one", () => {
@@ -22,5 +24,53 @@ describe("context-map OpenCode hook helpers", () => {
     expect(shouldRunChangedOnlyBuild("file.edited")).toBe(true);
     expect(shouldRunChangedOnlyBuild("file.watcher.updated")).toBe(true);
     expect(shouldRunChangedOnlyBuild("message.updated")).toBe(false);
+  });
+
+  test("injects atlas context as a prompt part for separate synthetic prompts", () => {
+    expect(buildAtlasPromptPart("Root facts")).toEqual({
+      type: "text",
+      text: "[System] Knowledge Base Atlas for this repository:\n\nRoot facts",
+      synthetic: true,
+    });
+  });
+
+  test("safe prompt helper preserves latest user agent and model context", async () => {
+    const promptCalls: unknown[] = [];
+    const client = {
+      session: {
+        messages: async () => ({
+          data: [
+            {
+              info: {
+                role: "user",
+                agent: "orchestrator-engineer",
+                model: { providerID: "openai", modelID: "gpt-5.5", variant: "high" },
+              },
+            },
+          ],
+        }),
+        prompt: async (options: unknown) => {
+          promptCalls.push(options);
+        },
+      },
+    };
+
+    await promptWithSessionContext(client, "ses_123", {
+      noReply: true,
+      parts: [buildAtlasPromptPart("Root facts")],
+    });
+
+    expect(promptCalls).toEqual([
+      {
+        path: { id: "ses_123" },
+        body: {
+          agent: "orchestrator-engineer",
+          model: { providerID: "openai", modelID: "gpt-5.5" },
+          variant: "high",
+          noReply: true,
+          parts: [buildAtlasPromptPart("Root facts")],
+        },
+      },
+    ]);
   });
 });
