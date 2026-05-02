@@ -5,41 +5,85 @@ use crate::config::Config;
 use crate::LogLevel;
 use anyhow::{Context, Result};
 use std::fs;
+use std::io::ErrorKind;
 use std::path::Path;
 
 const CMAP_DIR: &str = ".cmap";
+const GITIGNORE_CMAP_ENTRY: &str = ".cmap/";
 
 pub fn run(root: &Path, log_level: LogLevel) -> Result<()> {
     let cmap_path = root.join(CMAP_DIR);
+    let already_initialized = cmap_path.exists();
 
-    if cmap_path.exists() {
+    if already_initialized {
         if log_level != LogLevel::Quiet {
             println!("✓ .cmap already exists at {}", cmap_path.display());
         }
-        return Ok(());
+    } else {
+        // Create directory structure
+        fs::create_dir_all(cmap_path.join("cache/text"))
+            .context("Failed to create cache/text directory")?;
+        fs::create_dir_all(tantivy_backend::index_dir(&cmap_path))
+            .context("Failed to create current tantivy index directory")?;
+        fs::create_dir_all(cmap_path.join("global"))
+            .context("Failed to create global directory")?;
+        fs::create_dir_all(cmap_path.join("views/folders"))
+            .context("Failed to create views/folders directory")?;
+
+        // Write default config
+        let config = Config::default();
+        let config_path = cmap_path.join("config.toml");
+        let config_toml = toml_string(&config);
+        fs::write(&config_path, config_toml).context("Failed to write config.toml")?;
     }
 
-    // Create directory structure
-    fs::create_dir_all(cmap_path.join("cache/text"))
-        .context("Failed to create cache/text directory")?;
-    fs::create_dir_all(tantivy_backend::index_dir(&cmap_path))
-        .context("Failed to create current tantivy index directory")?;
-    fs::create_dir_all(cmap_path.join("global")).context("Failed to create global directory")?;
-    fs::create_dir_all(cmap_path.join("views/folders"))
-        .context("Failed to create views/folders directory")?;
-
-    // Write default config
-    let config = Config::default();
-    let config_path = cmap_path.join("config.toml");
-    let config_toml = toml_string(&config);
-    fs::write(&config_path, config_toml).context("Failed to write config.toml")?;
+    let gitignore_updated = ensure_gitignore_ignores_cmap(root)?;
 
     if log_level != LogLevel::Quiet {
-        println!("✓ Initialized .cmap at {}", cmap_path.display());
-        println!("  Edit .cmap/config.toml to customize settings");
+        if !already_initialized {
+            println!("✓ Initialized .cmap at {}", cmap_path.display());
+            println!("  Edit .cmap/config.toml to customize settings");
+        }
+        if gitignore_updated {
+            println!("✓ Added .cmap/ to {}", root.join(".gitignore").display());
+        }
     }
 
     Ok(())
+}
+
+fn ensure_gitignore_ignores_cmap(root: &Path) -> Result<bool> {
+    let gitignore_path = root.join(".gitignore");
+    let existing = match fs::read_to_string(&gitignore_path) {
+        Ok(content) => content,
+        Err(error) if error.kind() == ErrorKind::NotFound => String::new(),
+        Err(error) => {
+            return Err(error)
+                .with_context(|| format!("Failed to read {}", gitignore_path.display()))
+        }
+    };
+
+    if gitignore_has_cmap_entry(&existing) {
+        return Ok(false);
+    }
+
+    let mut updated = existing;
+    if !updated.is_empty() && !updated.ends_with('\n') {
+        updated.push('\n');
+    }
+    updated.push_str(GITIGNORE_CMAP_ENTRY);
+    updated.push('\n');
+
+    fs::write(&gitignore_path, updated)
+        .with_context(|| format!("Failed to write {}", gitignore_path.display()))?;
+
+    Ok(true)
+}
+
+fn gitignore_has_cmap_entry(content: &str) -> bool {
+    content
+        .lines()
+        .any(|line| matches!(line.trim(), ".cmap" | ".cmap/" | "/.cmap" | "/.cmap/"))
 }
 
 fn toml_string(config: &Config) -> String {
@@ -118,8 +162,10 @@ fn toml_string(config: &Config) -> String {
 
 #[cfg(test)]
 mod tests {
-    use super::toml_string;
+    use super::{gitignore_has_cmap_entry, run, toml_string};
     use crate::config::{Config, DEFAULT_INCLUDE_EXTENSIONS};
+    use crate::LogLevel;
+    use std::fs;
 
     #[test]
     fn renders_default_extensions_into_generated_config() {
@@ -131,5 +177,29 @@ mod tests {
             .collect();
 
         assert_eq!(parsed.scan.include_extensions, expected);
+    }
+
+    #[test]
+    fn initializes_cmap_and_adds_gitignore_entry_idempotently() {
+        let temp = tempfile::tempdir().expect("tempdir should be created");
+        let root = temp.path();
+        let gitignore_path = root.join(".gitignore");
+
+        fs::write(&gitignore_path, "target\n").expect("gitignore should be seeded");
+
+        run(root, LogLevel::Quiet).expect("init should succeed");
+        run(root, LogLevel::Quiet).expect("second init should succeed");
+
+        let gitignore = fs::read_to_string(&gitignore_path).expect("gitignore should be readable");
+        assert!(root.join(".cmap/config.toml").is_file());
+        assert_eq!(gitignore.matches(".cmap/").count(), 1);
+        assert!(gitignore_has_cmap_entry(&gitignore));
+    }
+
+    #[test]
+    fn recognizes_existing_cmap_gitignore_variants() {
+        assert!(gitignore_has_cmap_entry(".cmap\n"));
+        assert!(gitignore_has_cmap_entry("/.cmap/\n"));
+        assert!(!gitignore_has_cmap_entry("# .cmap/\n"));
     }
 }
