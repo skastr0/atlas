@@ -3,20 +3,12 @@ import { Effect, Fiber } from "effect";
 import { BUILD_DEBOUNCE_MS } from "../shared/constants";
 import { formatError, ShellCommandError } from "../shared/errors";
 import { PluginLogger } from "../shared/logger";
-import { buildAtlasSystemContext, readAtlas } from "./atlas";
 import { CmapPluginContext } from "./layers";
 
 type EventInput = Parameters<NonNullable<Hooks["event"]>>[0];
-type SystemTransformInput = Parameters<
-  NonNullable<Hooks["experimental.chat.system.transform"]>
->[0];
-type SystemTransformOutput = Parameters<
-  NonNullable<Hooks["experimental.chat.system.transform"]>
->[1];
 
 const cmapInitializationEvents = new Set(["server.connected", "session.created"]);
 const textFileChangedEvents = new Set(["file.edited", "file.watcher.updated"]);
-const atlasRefreshEvents = new Set(["session.created", "session.compacted"]);
 
 let changedOnlyBuildFiber: Fiber.RuntimeFiber<void, never> | undefined;
 let changedOnlyBuildInFlight = false;
@@ -35,9 +27,6 @@ export const shouldRunChangedOnlyBuild = (eventType: string): boolean =>
 
 export const shouldRunCmapInit = (eventType: string): boolean =>
   cmapInitializationEvents.has(eventType);
-
-export const shouldRefreshAtlasContext = (eventType: string): boolean =>
-  atlasRefreshEvents.has(eventType);
 
 const runCmapInit = Effect.fn("Cmap.runInit")(function* (reason: string) {
   const context = yield* CmapPluginContext;
@@ -132,28 +121,6 @@ const scheduleChangedOnlyBuild = Effect.fn("Cmap.scheduleChangedOnlyBuild")(func
   );
 });
 
-export const injectAtlasIntoSystem = Effect.fn("ServerHooks.injectAtlasIntoSystem")(
-  function* ({
-    input,
-    output,
-  }: {
-    readonly input: SystemTransformInput;
-    readonly output: SystemTransformOutput;
-  }) {
-    const atlas = yield* readAtlas();
-    if (!atlas) return;
-
-    output.system.push(buildAtlasSystemContext(atlas));
-
-    const logger = yield* PluginLogger;
-    yield* logger.log({
-      level: "debug",
-      message: "Injected ROOT_ATLAS.md into system prompt",
-      extra: { sessionID: input.sessionID },
-    }).pipe(Effect.ignore);
-  },
-);
-
 export const onEvent = Effect.fn("ServerHooks.onEvent")(function* (input: EventInput) {
   const eventType = input.event.type;
   const logger = yield* PluginLogger;
@@ -168,14 +135,6 @@ export const onEvent = Effect.fn("ServerHooks.onEvent")(function* (input: EventI
         }).pipe(Effect.ignore),
       ),
     );
-  }
-
-  if (shouldRefreshAtlasContext(eventType)) {
-    yield* logger.log({
-      level: "debug",
-      message: "Atlas context will be refreshed on next model request",
-      extra: { eventType, sessionID: getSessionId(input.event) },
-    }).pipe(Effect.ignore);
   }
 
   if (!shouldRunChangedOnlyBuild(eventType)) return;
