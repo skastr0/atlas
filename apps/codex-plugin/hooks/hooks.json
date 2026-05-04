@@ -1,0 +1,30 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "command -v cmap >/dev/null 2>&1 || exit 0; root=\"$(git rev-parse --show-toplevel 2>/dev/null || pwd)\"; cmap init --root \"$root\" --quiet",
+            "timeout": 60,
+            "statusMessage": "Initializing ContextMap"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "^apply_patch$|^Edit$|^Write$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "command -v cmap >/dev/null 2>&1 || exit 0; root=\"$(git rev-parse --show-toplevel 2>/dev/null || pwd)\"; if test -d \"$root/.cmap\"; then cmap build --root \"$root\" --changed-only; fi",
+            "timeout": 120,
+            "statusMessage": "Refreshing ContextMap"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "@context-map/codex-plugin",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "node --test",
+    "validate": "node --test"
+  },
+  "devDependencies": {}
+}
