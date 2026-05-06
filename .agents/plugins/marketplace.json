@@ -1,0 +1,20 @@
+{
+  "name": "context-map-local",
+  "interface": {
+    "displayName": "ContextMap Local Plugins"
+  },
+  "plugins": [
+    {
+      "name": "context-map",
+      "source": {
+        "source": "local",
+        "path": "./apps/codex-plugin"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
