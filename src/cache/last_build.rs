@@ -5,8 +5,8 @@ use std::path::{Path, PathBuf};
 
 pub const LAST_BUILD_MANIFEST_FILE: &str = "last-build.json";
 
-pub fn last_build_manifest_path(cmap_path: &Path) -> PathBuf {
-    cmap_path.join(LAST_BUILD_MANIFEST_FILE)
+pub fn last_build_manifest_path(atlas_path: &Path) -> PathBuf {
+    atlas_path.join(LAST_BUILD_MANIFEST_FILE)
 }
 
 pub fn load_last_build_manifest(path: &Path) -> Result<LastBuildManifest> {

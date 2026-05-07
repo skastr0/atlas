@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "@context-map/opencode-plugin",
+      "name": "@skastr0/atlas-opencode-plugin",
       "dependencies": {
         "@opencode-ai/plugin": "1.3.17",
         "effect": "^3.13.10",

@@ -14,7 +14,7 @@ use tantivy::schema::{Field, IndexRecordOption, Schema, Value};
 use tantivy::snippet::{Snippet, SnippetGenerator};
 use tantivy::{DocAddress, Searcher, TantivyDocument, Term};
 
-const CMAP_DIR: &str = ".cmap";
+const ATLAS_DIR: &str = ".atlas";
 
 // These boosts are the whole lexical ranking policy: titles win first, then path text,
 // then stored snippets, and finally full-body matches.
@@ -35,8 +35,8 @@ pub fn run(
     limit: usize,
     log_level: LogLevel,
 ) -> Result<()> {
-    let cmap_path = root.join(CMAP_DIR);
-    let index_dir = tantivy_backend::index_dir(&cmap_path);
+    let atlas_path = root.join(ATLAS_DIR);
+    let index_dir = tantivy_backend::index_dir(&atlas_path);
     let filters = normalized_filters(path_filters, type_filters, ext_filters);
 
     let index = tantivy_backend::open_index(&index_dir)?;

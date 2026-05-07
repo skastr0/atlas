@@ -1,5 +1,5 @@
 {
-  "name": "@context-map/opencode-plugin",
+  "name": "@skastr0/atlas-opencode-plugin",
   "version": "0.1.0",
   "type": "module",
   "private": true,

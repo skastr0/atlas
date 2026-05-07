@@ -1,4 +1,4 @@
-//! `cmap doctor` command - Report index health and drift
+//! `atlas doctor` command - Report index health and drift
 
 use crate::cache::{
     last_build_manifest_path, load_fingerprints, load_last_build_manifest, tantivy_backend,
@@ -16,7 +16,7 @@ use std::collections::BTreeSet;
 use std::fs;
 use std::path::{Path, PathBuf};
 
-const CMAP_DIR: &str = ".cmap";
+const ATLAS_DIR: &str = ".atlas";
 const MAX_DETAIL_ITEMS: usize = 5;
 const REQUIRED_ARTIFACTS: [&str; 6] = [
     "views/ROOT_ATLAS.md",
@@ -40,7 +40,7 @@ pub fn run(root: &Path, json: bool, log_level: LogLevel) -> Result<()> {
 }
 
 fn inspect(root: &Path) -> DoctorReport {
-    let cmap_path = root.join(CMAP_DIR);
+    let atlas_path = root.join(ATLAS_DIR);
     let mut checks = DoctorCheckGroups::default();
 
     let mut indexed_candidates = 0usize;
@@ -49,13 +49,13 @@ fn inspect(root: &Path) -> DoctorReport {
     let mut skipped_files = 0usize;
     let mut failed_files = 0usize;
 
-    if !cmap_path.exists() {
+    if !atlas_path.exists() {
         add_check(
             &mut checks,
             DoctorSeverity::Error,
             "initialization",
             "Initialization",
-            "`.cmap` is missing; run `cmap init` first".to_string(),
+            "`.atlas` is missing; run `atlas init` first".to_string(),
             Vec::new(),
         );
         return finalize_report(
@@ -73,18 +73,18 @@ fn inspect(root: &Path) -> DoctorReport {
         DoctorSeverity::Info,
         "initialization",
         "Initialization",
-        format!("Found `{}`", cmap_path.display()),
+        format!("Found `{}`", atlas_path.display()),
         Vec::new(),
     );
 
-    let config = match Config::load_explicit(&cmap_path) {
+    let config = match Config::load_explicit(&atlas_path) {
         Ok(config) => {
             add_check(
                 &mut checks,
                 DoctorSeverity::Info,
                 "config",
                 "Config",
-                "Loaded `.cmap/config.toml`".to_string(),
+                "Loaded `.atlas/config.toml`".to_string(),
                 Vec::new(),
             );
             Some(config)
@@ -95,7 +95,7 @@ fn inspect(root: &Path) -> DoctorReport {
                 DoctorSeverity::Error,
                 "config",
                 "Config",
-                "Failed to load `.cmap/config.toml`".to_string(),
+                "Failed to load `.atlas/config.toml`".to_string(),
                 vec![error.to_string()],
             );
             None
@@ -123,15 +123,15 @@ fn inspect(root: &Path) -> DoctorReport {
         None => None,
     };
 
-    let fingerprints_path = cmap_path.join("fingerprints.jsonl");
+    let fingerprints_path = atlas_path.join("fingerprints.jsonl");
     let cached_fingerprints = if !fingerprints_path.exists() {
         add_check(
             &mut checks,
             DoctorSeverity::Error,
             "fingerprints",
             "Fingerprints",
-            "Saved fingerprints are missing; run `cmap build`".to_string(),
-            vec![relative_cmap_path(&cmap_path, &fingerprints_path)],
+            "Saved fingerprints are missing; run `atlas build`".to_string(),
+            vec![relative_atlas_path(&atlas_path, &fingerprints_path)],
         );
         None
     } else {
@@ -161,15 +161,15 @@ fn inspect(root: &Path) -> DoctorReport {
         }
     };
 
-    let manifest_path = last_build_manifest_path(&cmap_path);
+    let manifest_path = last_build_manifest_path(&atlas_path);
     let manifest = if !manifest_path.exists() {
         add_check(
             &mut checks,
             DoctorSeverity::Error,
             "last_build_manifest",
             "Last build manifest",
-            "The last build manifest is missing; run `cmap build`".to_string(),
-            vec![relative_cmap_path(&cmap_path, &manifest_path)],
+            "The last build manifest is missing; run `atlas build`".to_string(),
+            vec![relative_atlas_path(&atlas_path, &manifest_path)],
         );
         None
     } else {
@@ -234,7 +234,7 @@ fn inspect(root: &Path) -> DoctorReport {
     };
 
     let indexed_features =
-        match tantivy_backend::open_index(&tantivy_backend::index_dir(&cmap_path)) {
+        match tantivy_backend::open_index(&tantivy_backend::index_dir(&atlas_path)) {
             Ok(index) => match tantivy_backend::load_all_features(&index) {
                 Ok(features) => {
                     index_documents = features.len();
@@ -301,7 +301,7 @@ fn inspect(root: &Path) -> DoctorReport {
             .map(|manifest| manifest.indexed_documents)
             .unwrap_or(0),
     );
-    report_artifacts(&cmap_path, expected_documents, &mut checks);
+    report_artifacts(&atlas_path, expected_documents, &mut checks);
 
     if let (Some(current_files), Some(cached_fingerprints)) =
         (current_files.as_ref(), cached_fingerprints.as_ref())
@@ -496,15 +496,15 @@ fn walk_current_files(root: &Path, config: &Config) -> Result<Vec<PathBuf>> {
     Ok(files)
 }
 
-fn report_artifacts(cmap_path: &Path, expected_documents: usize, checks: &mut DoctorCheckGroups) {
+fn report_artifacts(atlas_path: &Path, expected_documents: usize, checks: &mut DoctorCheckGroups) {
     let mut missing = REQUIRED_ARTIFACTS
         .iter()
         .map(PathBuf::from)
-        .filter(|relative| !cmap_path.join(relative).is_file())
+        .filter(|relative| !atlas_path.join(relative).is_file())
         .map(|relative| normalize_path(&relative))
         .collect::<Vec<_>>();
 
-    let folders_dir = cmap_path.join("views/folders");
+    let folders_dir = atlas_path.join("views/folders");
     if !folders_dir.is_dir() {
         missing.push("views/folders".to_string());
     } else if expected_documents > 0 {
@@ -826,8 +826,8 @@ fn bound_details(details: Vec<String>) -> Vec<String> {
     bounded
 }
 
-fn relative_cmap_path(cmap_path: &Path, path: &Path) -> String {
-    path.strip_prefix(cmap_path)
+fn relative_atlas_path(atlas_path: &Path, path: &Path) -> String {
+    path.strip_prefix(atlas_path)
         .map(normalize_path)
         .unwrap_or_else(|_| normalize_path(path))
 }

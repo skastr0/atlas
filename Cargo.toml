@@ -1,15 +1,15 @@
 [package]
-name = "context-map"
+name = "atlas"
 version = "0.1.0"
 edition = "2021"
 description = "Deterministic knowledge base indexer for AI agents"
 license = "MIT"
-repository = "https://github.com/your-username/context-map"
+repository = "https://github.com/your-username/atlas"
 keywords = ["knowledge-base", "indexer", "ai", "cli"]
 categories = ["command-line-utilities", "text-processing"]
 
 [[bin]]
-name = "cmap"
+name = "atlas"
 path = "src/main.rs"
 
 [dependencies]

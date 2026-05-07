@@ -1,4 +1,4 @@
-//! `cmap clean` command - Remove cached data
+//! `atlas clean` command - Remove cached data
 
 use crate::cache::tantivy_backend;
 use crate::LogLevel;
@@ -6,20 +6,20 @@ use anyhow::{Context, Result};
 use std::fs;
 use std::path::Path;
 
-const CMAP_DIR: &str = ".cmap";
+const ATLAS_DIR: &str = ".atlas";
 
 pub fn run(root: &Path, all: bool, log_level: LogLevel) -> Result<()> {
-    let cmap_path = root.join(CMAP_DIR);
+    let atlas_path = root.join(ATLAS_DIR);
 
-    if !cmap_path.exists() {
+    if !atlas_path.exists() {
         if log_level != LogLevel::Quiet {
-            println!("No .cmap directory found at {}", root.display());
+            println!("No .atlas directory found at {}", root.display());
         }
         return Ok(());
     }
 
     // Clean cache directories
-    let cache_path = cmap_path.join("cache");
+    let cache_path = atlas_path.join("cache");
     if cache_path.exists() {
         fs::remove_dir_all(&cache_path).context("Failed to remove cache directory")?;
         fs::create_dir_all(cache_path.join("text"))?;
@@ -29,7 +29,7 @@ pub fn run(root: &Path, all: bool, log_level: LogLevel) -> Result<()> {
     }
 
     // Clean index
-    let index_path = tantivy_backend::index_dir(&cmap_path);
+    let index_path = tantivy_backend::index_dir(&atlas_path);
     if index_path.exists() {
         fs::remove_dir_all(&index_path).context("Failed to remove tantivy index directory")?;
         fs::create_dir_all(&index_path)?;
@@ -39,7 +39,7 @@ pub fn run(root: &Path, all: bool, log_level: LogLevel) -> Result<()> {
     }
 
     // Clean fingerprints
-    let fingerprints_path = cmap_path.join("fingerprints.jsonl");
+    let fingerprints_path = atlas_path.join("fingerprints.jsonl");
     if fingerprints_path.exists() {
         fs::remove_file(&fingerprints_path).context("Failed to remove fingerprints")?;
         if log_level != LogLevel::Quiet {
@@ -48,7 +48,7 @@ pub fn run(root: &Path, all: bool, log_level: LogLevel) -> Result<()> {
     }
 
     // Clean global stats
-    let global_path = cmap_path.join("global");
+    let global_path = atlas_path.join("global");
     if global_path.exists() {
         fs::remove_dir_all(&global_path).context("Failed to remove global directory")?;
         fs::create_dir_all(&global_path)?;
@@ -59,7 +59,7 @@ pub fn run(root: &Path, all: bool, log_level: LogLevel) -> Result<()> {
 
     // Optionally clean views
     if all {
-        let views_path = cmap_path.join("views");
+        let views_path = atlas_path.join("views");
         if views_path.exists() {
             fs::remove_dir_all(&views_path).context("Failed to remove views directory")?;
             fs::create_dir_all(views_path.join("folders"))?;

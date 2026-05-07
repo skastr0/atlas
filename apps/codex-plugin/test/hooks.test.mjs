@@ -26,12 +26,12 @@ const runHookCommand = async (command, cwd, binDir) =>
     },
   });
 
-const makeFakeCmap = async (dir) => {
+const makeFakeAtlas = async (dir) => {
   const binDir = join(dir, "bin");
-  const logPath = join(dir, "cmap.log");
+  const logPath = join(dir, "atlas.log");
   await mkdir(binDir);
   await writeFile(
-    join(binDir, "cmap"),
+    join(binDir, "atlas"),
     `#!/bin/sh
 printf '%s\\n' "$*" >> "${logPath}"
 `,
@@ -43,7 +43,7 @@ printf '%s\\n' "$*" >> "${logPath}"
 test("manifest points at bundled hooks with plugin-root relative paths", async () => {
   const manifest = await readJson(manifestPath);
 
-  assert.equal(manifest.name, "context-map");
+  assert.equal(manifest.name, "atlas");
   assert.equal(manifest.hooks, "./hooks/hooks.json");
   assert.ok(manifest.interface.displayName);
 });
@@ -53,8 +53,8 @@ test("hooks wire Codex session and edit events", async () => {
 
   assert.equal(hooks.hooks.SessionStart[0].matcher, "startup|resume|clear");
   assert.equal(hooks.hooks.PostToolUse[0].matcher, "^apply_patch$|^Edit$|^Write$");
-  assert.match(getCommand(hooks, "SessionStart"), /cmap init --root "\$root" --quiet/);
-  assert.match(getCommand(hooks, "PostToolUse"), /cmap build --root "\$root" --changed-only/);
+  assert.match(getCommand(hooks, "SessionStart"), /atlas init --root "\$root" --quiet/);
+  assert.match(getCommand(hooks, "PostToolUse"), /atlas build --root "\$root" --changed-only/);
 });
 
 test("post-tool matcher ignores non-edit tools", async () => {
@@ -70,7 +70,7 @@ test("post-tool matcher ignores non-edit tools", async () => {
 
 test("repo marketplace exposes the local plugin package", async () => {
   const marketplace = await readJson(marketplacePath);
-  const plugin = marketplace.plugins.find((entry) => entry.name === "context-map");
+  const plugin = marketplace.plugins.find((entry) => entry.name === "atlas");
 
   assert.ok(plugin);
   assert.equal(plugin.source.source, "local");
@@ -78,10 +78,10 @@ test("repo marketplace exposes the local plugin package", async () => {
   assert.equal(plugin.policy.installation, "AVAILABLE");
 });
 
-test("session start initializes ContextMap at the git root", async () => {
-  const temp = await mkdtemp(join(tmpdir(), "cmap-codex-plugin-"));
+test("session start initializes Atlas at the git root", async () => {
+  const temp = await mkdtemp(join(tmpdir(), "atlas-codex-plugin-"));
   try {
-    const { binDir, logPath } = await makeFakeCmap(temp);
+    const { binDir, logPath } = await makeFakeAtlas(temp);
     const repo = join(temp, "repo");
     const child = join(repo, "docs");
     await mkdir(child, { recursive: true });
@@ -100,12 +100,12 @@ test("session start initializes ContextMap at the git root", async () => {
   }
 });
 
-test("edit refresh runs changed-only build when .cmap exists", async () => {
-  const temp = await mkdtemp(join(tmpdir(), "cmap-codex-plugin-"));
+test("edit refresh runs changed-only build when .atlas exists", async () => {
+  const temp = await mkdtemp(join(tmpdir(), "atlas-codex-plugin-"));
   try {
-    const { binDir, logPath } = await makeFakeCmap(temp);
+    const { binDir, logPath } = await makeFakeAtlas(temp);
     const repo = join(temp, "repo");
-    await mkdir(join(repo, ".cmap"), { recursive: true });
+    await mkdir(join(repo, ".atlas"), { recursive: true });
     await execFileAsync("git", ["init"], { cwd: repo });
 
     const hooks = await readJson(hooksPath);
@@ -121,10 +121,10 @@ test("edit refresh runs changed-only build when .cmap exists", async () => {
   }
 });
 
-test("edit refresh is a no-op before ContextMap is initialized", async () => {
-  const temp = await mkdtemp(join(tmpdir(), "cmap-codex-plugin-"));
+test("edit refresh is a no-op before Atlas is initialized", async () => {
+  const temp = await mkdtemp(join(tmpdir(), "atlas-codex-plugin-"));
   try {
-    const { binDir, logPath } = await makeFakeCmap(temp);
+    const { binDir, logPath } = await makeFakeAtlas(temp);
     const repo = join(temp, "repo");
     await mkdir(repo);
 

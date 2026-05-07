@@ -7,11 +7,11 @@ import { join } from "node:path";
 import { tmpdir } from "node:os";
 
 import {
-  CmapOpenCodePlugin,
+  AtlasOpenCodePlugin,
   getSessionId,
   getWorkspaceRoot,
   shouldRunChangedOnlyBuild,
-  shouldRunCmapInit,
+  shouldRunAtlasInit,
 } from "../src/index.ts";
 
 const makePluginInput = (root: string): PluginInput => ({
@@ -27,7 +27,7 @@ const makePluginInput = (root: string): PluginInput => ({
   $,
 });
 
-describe("context-map OpenCode hook helpers", () => {
+describe("atlas OpenCode hook helpers", () => {
   test("uses the git worktree when OpenCode provides one", () => {
     expect(getWorkspaceRoot("/repo", "/repo/subdir")).toBe("/repo");
     expect(getWorkspaceRoot("", "/repo/subdir")).toBe("/repo/subdir");
@@ -45,15 +45,15 @@ describe("context-map OpenCode hook helpers", () => {
     expect(shouldRunChangedOnlyBuild("message.updated")).toBe(false);
   });
 
-  test("runs cmap init on startup and session lifecycle events", () => {
-    expect(shouldRunCmapInit("server.connected")).toBe(true);
-    expect(shouldRunCmapInit("session.created")).toBe(true);
-    expect(shouldRunCmapInit("file.edited")).toBe(false);
+  test("runs atlas init on startup and session lifecycle events", () => {
+    expect(shouldRunAtlasInit("server.connected")).toBe(true);
+    expect(shouldRunAtlasInit("session.created")).toBe(true);
+    expect(shouldRunAtlasInit("file.edited")).toBe(false);
   });
 
   test("does not register atlas/session prompt injection hooks", async () => {
-    const root = await mkdtemp(join(tmpdir(), "cmap-opencode-plugin-"));
-    const hooks = await CmapOpenCodePlugin(makePluginInput(root));
+    const root = await mkdtemp(join(tmpdir(), "atlas-opencode-plugin-"));
+    const hooks = await AtlasOpenCodePlugin(makePluginInput(root));
 
     expect(Reflect.has(hooks, "chat.message")).toBe(false);
     expect(Reflect.has(hooks, "experimental.chat.system.transform")).toBe(false);
@@ -61,8 +61,8 @@ describe("context-map OpenCode hook helpers", () => {
   });
 
   test("does not register compaction context mutation", async () => {
-    const root = await mkdtemp(join(tmpdir(), "cmap-opencode-plugin-"));
-    const hooks = await CmapOpenCodePlugin(makePluginInput(root));
+    const root = await mkdtemp(join(tmpdir(), "atlas-opencode-plugin-"));
+    const hooks = await AtlasOpenCodePlugin(makePluginInput(root));
 
     expect(Reflect.has(hooks, "experimental.session.compacting")).toBe(false);
   });

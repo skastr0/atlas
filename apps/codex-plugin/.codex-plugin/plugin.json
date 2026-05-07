@@ -1,20 +1,20 @@
 {
-  "name": "context-map",
+  "name": "atlas",
   "version": "0.1.0",
-  "description": "Keep a ContextMap atlas initialized and refreshed during Codex sessions.",
-  "repository": "https://github.com/your-username/context-map",
+  "description": "Keep a Atlas atlas initialized and refreshed during Codex sessions.",
+  "repository": "https://github.com/your-username/atlas",
   "license": "MIT",
-  "keywords": ["context-map", "codex", "hooks", "knowledge-base"],
+  "keywords": ["atlas", "codex", "hooks", "knowledge-base"],
   "hooks": "./hooks/hooks.json",
   "interface": {
-    "displayName": "ContextMap",
-    "shortDescription": "Refreshes ContextMap indexes from Codex lifecycle hooks.",
-    "longDescription": "Initializes ContextMap at session start and rebuilds changed files after Codex edit tools run.",
-    "developerName": "ContextMap",
+    "displayName": "Atlas",
+    "shortDescription": "Refreshes Atlas indexes from Codex lifecycle hooks.",
+    "longDescription": "Initializes Atlas at session start and rebuilds changed files after Codex edit tools run.",
+    "developerName": "Atlas",
     "category": "Productivity",
     "capabilities": ["Read", "Write"],
     "defaultPrompt": [
-      "Use ContextMap to keep the workspace atlas current while editing."
+      "Use Atlas to keep the workspace atlas current while editing."
     ],
     "brandColor": "#10A37F"
   }

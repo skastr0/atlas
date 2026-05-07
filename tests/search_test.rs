@@ -8,10 +8,10 @@ fn search_supports_path_type_and_ext_filters_with_stable_json_envelope() {
     let fixture_root = TempDir::new().expect("create temp corpus root");
     write_test_files(fixture_root.path()).expect("write test files");
 
-    run_cmap(fixture_root.path(), &["init"]);
-    run_cmap(fixture_root.path(), &["build"]);
+    run_atlas(fixture_root.path(), &["init"]);
+    run_atlas(fixture_root.path(), &["build"]);
 
-    let output = run_cmap_output(
+    let output = run_atlas_output(
         fixture_root.path(),
         &[
             "search",
@@ -116,10 +116,10 @@ fn search_human_output_shows_rank_score_type_and_excerpt() {
     let fixture_root = TempDir::new().expect("create temp corpus root");
     write_test_files(fixture_root.path()).expect("write test files");
 
-    run_cmap(fixture_root.path(), &["init"]);
-    run_cmap(fixture_root.path(), &["build"]);
+    run_atlas(fixture_root.path(), &["init"]);
+    run_atlas(fixture_root.path(), &["build"]);
 
-    let output = run_cmap_output(fixture_root.path(), &["search", "teams", "--limit", "1"]);
+    let output = run_atlas_output(fixture_root.path(), &["search", "teams", "--limit", "1"]);
     assert!(output.status.success(), "search command should succeed");
 
     let stdout = String::from_utf8_lossy(&output.stdout);
@@ -136,10 +136,10 @@ fn search_json_reports_title_matches() {
     let fixture_root = TempDir::new().expect("create temp corpus root");
     write_test_files(fixture_root.path()).expect("write test files");
 
-    run_cmap(fixture_root.path(), &["init"]);
-    run_cmap(fixture_root.path(), &["build"]);
+    run_atlas(fixture_root.path(), &["init"]);
+    run_atlas(fixture_root.path(), &["build"]);
 
-    let output = run_cmap_output(
+    let output = run_atlas_output(
         fixture_root.path(),
         &["search", "orbit", "--json", "--limit", "5"],
     );
@@ -175,10 +175,10 @@ fn search_json_includes_body_highlights() {
     let fixture_root = TempDir::new().expect("create temp corpus root");
     write_test_files(fixture_root.path()).expect("write test files");
 
-    run_cmap(fixture_root.path(), &["init"]);
-    run_cmap(fixture_root.path(), &["build"]);
+    run_atlas(fixture_root.path(), &["init"]);
+    run_atlas(fixture_root.path(), &["build"]);
 
-    let output = run_cmap_output(
+    let output = run_atlas_output(
         fixture_root.path(),
         &["search", "teams", "--json", "--limit", "1"],
     );
@@ -208,10 +208,10 @@ fn search_explain_mode_adds_raw_explanation_tree() {
     let fixture_root = TempDir::new().expect("create temp corpus root");
     write_test_files(fixture_root.path()).expect("write test files");
 
-    run_cmap(fixture_root.path(), &["init"]);
-    run_cmap(fixture_root.path(), &["build"]);
+    run_atlas(fixture_root.path(), &["init"]);
+    run_atlas(fixture_root.path(), &["build"]);
 
-    let default_output = run_cmap_output(
+    let default_output = run_atlas_output(
         fixture_root.path(),
         &["search", "programming", "--json", "--limit", "1"],
     );
@@ -223,7 +223,7 @@ fn search_explain_mode_adds_raw_explanation_tree() {
         serde_json::from_slice(&default_output.stdout).expect("search output should be valid JSON");
     assert!(default_parsed["results"][0].get("explanation").is_none());
 
-    let explain_output = run_cmap_output(
+    let explain_output = run_atlas_output(
         fixture_root.path(),
         &[
             "search",
@@ -254,10 +254,10 @@ fn search_falls_back_to_stored_snippet_for_path_only_matches() {
     let fixture_root = TempDir::new().expect("create temp corpus root");
     write_test_files(fixture_root.path()).expect("write test files");
 
-    run_cmap(fixture_root.path(), &["init"]);
-    run_cmap(fixture_root.path(), &["build"]);
+    run_atlas(fixture_root.path(), &["init"]);
+    run_atlas(fixture_root.path(), &["build"]);
 
-    let output = run_cmap_output(
+    let output = run_atlas_output(
         fixture_root.path(),
         &["search", "file1", "--json", "--limit", "1"],
     );
@@ -284,10 +284,10 @@ fn search_applies_scope_filters_before_ranking() {
     let fixture_root = TempDir::new().expect("create temp corpus root");
     write_test_files(fixture_root.path()).expect("write test files");
 
-    run_cmap(fixture_root.path(), &["init"]);
-    run_cmap(fixture_root.path(), &["build"]);
+    run_atlas(fixture_root.path(), &["init"]);
+    run_atlas(fixture_root.path(), &["build"]);
 
-    let output = run_cmap_output(
+    let output = run_atlas_output(
         fixture_root.path(),
         &[
             "search",
@@ -320,29 +320,29 @@ fn search_rebuilds_when_current_index_version_is_missing() {
     let fixture_root = TempDir::new().expect("create temp corpus root");
     write_test_files(fixture_root.path()).expect("write test files");
 
-    run_cmap(fixture_root.path(), &["init"]);
-    run_cmap(fixture_root.path(), &["build"]);
+    run_atlas(fixture_root.path(), &["init"]);
+    run_atlas(fixture_root.path(), &["build"]);
 
-    let current_index = fixture_root.path().join(".cmap/index/tantivy-v2");
-    let old_index = fixture_root.path().join(".cmap/index/tantivy-v1");
+    let current_index = fixture_root.path().join(".atlas/index/tantivy-v2");
+    let old_index = fixture_root.path().join(".atlas/index/tantivy-v1");
     fs::rename(&current_index, &old_index).expect("rename current index to old version");
 
-    let failed_search = run_cmap_output(fixture_root.path(), &["search", "rust"]);
+    let failed_search = run_atlas_output(fixture_root.path(), &["search", "rust"]);
     assert!(
         !failed_search.status.success(),
         "search should fail without v2 index"
     );
     let stderr = String::from_utf8_lossy(&failed_search.stderr);
     assert!(stderr.contains("tantivy-v2"));
-    assert!(stderr.contains("cmap build"));
+    assert!(stderr.contains("atlas build"));
 
-    run_cmap(fixture_root.path(), &["build"]);
+    run_atlas(fixture_root.path(), &["build"]);
     assert!(
         current_index.exists(),
         "build should recreate the current index version"
     );
 
-    let rebuilt_search = run_cmap_output(
+    let rebuilt_search = run_atlas_output(
         fixture_root.path(),
         &["search", "programming", "--json", "--limit", "10"],
     );
@@ -368,10 +368,10 @@ fn search_breaks_score_ties_by_path() {
     let fixture_root = TempDir::new().expect("create temp corpus root");
     write_test_files(fixture_root.path()).expect("write test files");
 
-    run_cmap(fixture_root.path(), &["init"]);
-    run_cmap(fixture_root.path(), &["build"]);
+    run_atlas(fixture_root.path(), &["init"]);
+    run_atlas(fixture_root.path(), &["build"]);
 
-    let output = run_cmap_output(
+    let output = run_atlas_output(
         fixture_root.path(),
         &["search", "sharedterm", "--json", "--limit", "10"],
     );
@@ -429,22 +429,22 @@ fn write_file(path: PathBuf, content: &str) -> std::io::Result<()> {
     fs::write(path, content)
 }
 
-fn run_cmap(root: &Path, args: &[&str]) {
-    let output = run_cmap_output(root, args);
+fn run_atlas(root: &Path, args: &[&str]) {
+    let output = run_atlas_output(root, args);
     assert!(
         output.status.success(),
-        "cmap command failed: {:?}\nstdout:\n{}\nstderr:\n{}",
+        "atlas command failed: {:?}\nstdout:\n{}\nstderr:\n{}",
         args,
         String::from_utf8_lossy(&output.stdout),
         String::from_utf8_lossy(&output.stderr)
     );
 }
 
-fn run_cmap_output(root: &Path, args: &[&str]) -> std::process::Output {
-    Command::new(env!("CARGO_BIN_EXE_cmap"))
+fn run_atlas_output(root: &Path, args: &[&str]) -> std::process::Output {
+    Command::new(env!("CARGO_BIN_EXE_atlas"))
         .arg("--root")
         .arg(root)
         .args(args)
         .output()
-        .expect("execute cmap command")
+        .expect("execute atlas command")
 }

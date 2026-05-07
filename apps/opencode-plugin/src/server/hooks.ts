@@ -3,11 +3,11 @@ import { Effect, Fiber } from "effect";
 import { BUILD_DEBOUNCE_MS } from "../shared/constants";
 import { formatError, ShellCommandError } from "../shared/errors";
 import { PluginLogger } from "../shared/logger";
-import { CmapPluginContext } from "./layers";
+import { AtlasPluginContext } from "./layers";
 
 type EventInput = Parameters<NonNullable<Hooks["event"]>>[0];
 
-const cmapInitializationEvents = new Set(["server.connected", "session.created"]);
+const atlasInitializationEvents = new Set(["server.connected", "session.created"]);
 const textFileChangedEvents = new Set(["file.edited", "file.watcher.updated"]);
 
 let changedOnlyBuildFiber: Fiber.RuntimeFiber<void, never> | undefined;
@@ -25,71 +25,71 @@ export const getSessionId = (event: { properties?: unknown }): string | undefine
 export const shouldRunChangedOnlyBuild = (eventType: string): boolean =>
   textFileChangedEvents.has(eventType);
 
-export const shouldRunCmapInit = (eventType: string): boolean =>
-  cmapInitializationEvents.has(eventType);
+export const shouldRunAtlasInit = (eventType: string): boolean =>
+  atlasInitializationEvents.has(eventType);
 
-const runCmapInit = Effect.fn("Cmap.runInit")(function* (reason: string) {
-  const context = yield* CmapPluginContext;
+const runAtlasInit = Effect.fn("Atlas.runInit")(function* (reason: string) {
+  const context = yield* AtlasPluginContext;
   const logger = yield* PluginLogger;
 
   yield* Effect.tryPromise({
-    try: () => context.$`cmap init --root ${context.root} --quiet`.text(),
+    try: () => context.$`atlas init --root ${context.root} --quiet`.text(),
     catch: (cause) =>
       new ShellCommandError({
-        command: "cmap init",
-        message: "cmap init failed",
+        command: "atlas init",
+        message: "atlas init failed",
         cause,
       }),
   });
 
   yield* logger.log({
     level: "info",
-    message: "cmap init completed",
+    message: "atlas init completed",
     extra: { root: context.root, reason },
   }).pipe(Effect.ignore);
 });
 
-const runChangedOnlyBuild = Effect.fn("Cmap.runChangedOnlyBuild")(function* () {
-  const context = yield* CmapPluginContext;
+const runChangedOnlyBuild = Effect.fn("Atlas.runChangedOnlyBuild")(function* () {
+  const context = yield* AtlasPluginContext;
   const logger = yield* PluginLogger;
 
   const initialized = yield* Effect.tryPromise({
     try: async () =>
-      (await context.$`test -d ${context.root}/.cmap && echo "yes"`.text()).trim() === "yes",
+      (await context.$`test -d ${context.root}/.atlas && echo "yes"`.text()).trim() === "yes",
     catch: () => false,
   });
   if (!initialized) return;
 
   yield* Effect.tryPromise({
-    try: () => context.$`cmap build --root ${context.root} --changed-only`.text(),
+    try: () => context.$`atlas build --root ${context.root} --changed-only`.text(),
     catch: (cause) =>
       new ShellCommandError({
-        command: "cmap build --changed-only",
-        message: "Changed-only cmap build failed",
+        command: "atlas build --changed-only",
+        message: "Changed-only atlas build failed",
         cause,
       }),
   });
 
   yield* logger.log({
     level: "debug",
-    message: "Changed-only cmap build completed",
+    message: "Changed-only atlas build completed",
     extra: { root: context.root },
   }).pipe(Effect.ignore);
 });
 
 const logChangedOnlyBuildError = (error: unknown) =>
   Effect.gen(function* () {
-    const context = yield* CmapPluginContext;
+    const context = yield* AtlasPluginContext;
     const logger = yield* PluginLogger;
 
     yield* logger.log({
       level: "error",
-      message: "Changed-only cmap build failed",
+      message: "Changed-only atlas build failed",
       extra: { root: context.root, error: formatError(error) },
     }).pipe(Effect.ignore);
   });
 
-const runQueuedChangedOnlyBuild = Effect.fn("Cmap.runQueuedChangedOnlyBuild")(function* () {
+const runQueuedChangedOnlyBuild = Effect.fn("Atlas.runQueuedChangedOnlyBuild")(function* () {
   if (changedOnlyBuildInFlight) {
     changedOnlyBuildPending = true;
     return;
@@ -110,7 +110,7 @@ const runQueuedChangedOnlyBuild = Effect.fn("Cmap.runQueuedChangedOnlyBuild")(fu
   );
 });
 
-const scheduleChangedOnlyBuild = Effect.fn("Cmap.scheduleChangedOnlyBuild")(function* () {
+const scheduleChangedOnlyBuild = Effect.fn("Atlas.scheduleChangedOnlyBuild")(function* () {
   if (changedOnlyBuildFiber) {
     yield* Fiber.interrupt(changedOnlyBuildFiber).pipe(Effect.ignore);
   }
@@ -125,12 +125,12 @@ export const onEvent = Effect.fn("ServerHooks.onEvent")(function* (input: EventI
   const eventType = input.event.type;
   const logger = yield* PluginLogger;
 
-  if (shouldRunCmapInit(eventType)) {
-    yield* runCmapInit(eventType).pipe(
+  if (shouldRunAtlasInit(eventType)) {
+    yield* runAtlasInit(eventType).pipe(
       Effect.catchAll((error) =>
         logger.log({
           level: "error",
-          message: "cmap init failed",
+          message: "atlas init failed",
           extra: { reason: eventType, error: formatError(error) },
         }).pipe(Effect.ignore),
       ),

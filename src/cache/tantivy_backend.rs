@@ -27,8 +27,8 @@ pub struct PreparedIndex {
     pub needs_reindex: bool,
 }
 
-pub fn index_dir(cmap_path: &Path) -> PathBuf {
-    cmap_path.join("index").join(INDEX_DIR_NAME)
+pub fn index_dir(atlas_path: &Path) -> PathBuf {
+    atlas_path.join("index").join(INDEX_DIR_NAME)
 }
 
 pub fn prepare_index(index_dir: &Path) -> Result<PreparedIndex> {
@@ -68,7 +68,7 @@ pub fn prepare_index(index_dir: &Path) -> Result<PreparedIndex> {
 pub fn open_index(index_dir: &Path) -> Result<Index> {
     if !index_dir.join("meta.json").exists() {
         bail!(
-            "Search index {} not found. Run `cmap build` first.",
+            "Search index {} not found. Run `atlas build` first.",
             SEARCH_INDEX_VERSION
         );
     }
@@ -76,7 +76,7 @@ pub fn open_index(index_dir: &Path) -> Result<Index> {
     let index = Index::open_in_dir(index_dir).context("Failed to open tantivy index")?;
     if !has_compatible_schema(&index.schema()) {
         bail!(
-            "Search index {} is incompatible with this build. Run `cmap build` first.",
+            "Search index {} is incompatible with this build. Run `atlas build` first.",
             SEARCH_INDEX_VERSION
         );
     }

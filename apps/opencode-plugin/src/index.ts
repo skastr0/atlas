@@ -9,16 +9,16 @@ import { PluginLogger } from "./shared/logger";
 export {
   getSessionId,
   shouldRunChangedOnlyBuild,
-  shouldRunCmapInit,
+  shouldRunAtlasInit,
 } from "./server/hooks";
 export { getWorkspaceRoot } from "./server/layers";
 
-export const CmapOpenCodePlugin: Plugin = async (input) => {
+export const AtlasOpenCodePlugin: Plugin = async (input) => {
   const runtime = ManagedRuntime.make(makeServerLayer(input));
 
   const run = <A>(name: string, effect: Effect.Effect<A, unknown, ServerRuntimeEnv>) =>
     runtime
-      .runPromise(effect.pipe(Effect.withSpan(`context-map.opencode-plugin.${name}`)))
+      .runPromise(effect.pipe(Effect.withSpan(`atlas.opencode-plugin.${name}`)))
       .catch((error) => {
         throw toThrowable(error);
       });
@@ -45,5 +45,5 @@ export const CmapOpenCodePlugin: Plugin = async (input) => {
 
 export default {
   id: PLUGIN_ID,
-  server: CmapOpenCodePlugin,
+  server: AtlasOpenCodePlugin,
 } satisfies PluginModule;

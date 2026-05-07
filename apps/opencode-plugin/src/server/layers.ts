@@ -5,10 +5,10 @@ import { makeServerLoggerLayer, PluginLogger } from "../shared/logger";
 export type ShellTextRunner = PluginInput["$"];
 export type OpencodeClient = PluginInput["client"];
 
-export class CmapPluginContext extends Context.Tag(
-  "@context-map/opencode-plugin/CmapPluginContext",
+export class AtlasPluginContext extends Context.Tag(
+  "@skastr0/atlas-opencode-plugin/AtlasPluginContext",
 )<
-  CmapPluginContext,
+  AtlasPluginContext,
   {
     readonly client: OpencodeClient;
     readonly $: ShellTextRunner;
@@ -18,7 +18,7 @@ export class CmapPluginContext extends Context.Tag(
   }
 >() {}
 
-export type ServerRuntimeEnv = CmapPluginContext | PluginLogger;
+export type ServerRuntimeEnv = AtlasPluginContext | PluginLogger;
 
 export const getWorkspaceRoot = (worktree: string, directory: string): string =>
   worktree || directory;
@@ -27,7 +27,7 @@ export const makeServerLayer = (input: PluginInput) => {
   const root = getWorkspaceRoot(input.worktree, input.directory);
 
   return Layer.mergeAll(
-    Layer.succeed(CmapPluginContext, {
+    Layer.succeed(AtlasPluginContext, {
       client: input.client,
       $: input.$,
       directory: input.directory,

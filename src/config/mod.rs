@@ -16,8 +16,8 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn load(cmap_dir: &Path) -> Result<Self> {
-        let config_path = cmap_dir.join("config.toml");
+    pub fn load(atlas_dir: &Path) -> Result<Self> {
+        let config_path = atlas_dir.join("config.toml");
         if !config_path.exists() {
             return Ok(Self::default());
         }
@@ -33,8 +33,8 @@ impl Config {
         }
     }
 
-    pub fn load_explicit(cmap_dir: &Path) -> Result<Self> {
-        let config_path = cmap_dir.join("config.toml");
+    pub fn load_explicit(atlas_dir: &Path) -> Result<Self> {
+        let config_path = atlas_dir.join("config.toml");
         let content = fs::read_to_string(&config_path)?;
         Ok(toml::from_str(&content)?)
     }
@@ -69,7 +69,7 @@ impl Default for ScanConfig {
         Self {
             ignore: vec![
                 ".git".to_string(),
-                ".cmap".to_string(),
+                ".atlas".to_string(),
                 "node_modules".to_string(),
                 "__pycache__".to_string(),
                 "*.pyc".to_string(),

@@ -1,4 +1,4 @@
-//! `cmap scan` command - Read-only delta preview over the configured corpus
+//! `atlas scan` command - Read-only delta preview over the configured corpus
 
 use crate::cache::load_fingerprints;
 use crate::config::Config;
@@ -11,21 +11,21 @@ use anyhow::{Context, Result};
 use std::collections::BTreeSet;
 use std::path::{Path, PathBuf};
 
-const CMAP_DIR: &str = ".cmap";
+const ATLAS_DIR: &str = ".atlas";
 const MAX_RENDERED_PATHS: usize = 5;
 
 pub fn run(root: &Path, _dry_run: bool, json: bool, log_level: LogLevel) -> Result<()> {
-    let cmap_path = root.join(CMAP_DIR);
-    if !cmap_path.exists() {
-        anyhow::bail!("Not initialized. Run `cmap init` first.");
+    let atlas_path = root.join(ATLAS_DIR);
+    if !atlas_path.exists() {
+        anyhow::bail!("Not initialized. Run `atlas init` first.");
     }
 
-    let config = load_scan_config(&cmap_path)?;
+    let config = load_scan_config(&atlas_path)?;
     let walker = Walker::new(root, &config.scan);
     let mut files = walker.walk().context("Failed to walk configured corpus")?;
     files.sort_by_cached_key(|path| normalize_path(path));
 
-    let fingerprints_path = cmap_path.join("fingerprints.jsonl");
+    let fingerprints_path = atlas_path.join("fingerprints.jsonl");
     let cached_fingerprints = load_fingerprints(&fingerprints_path).with_context(|| {
         format!(
             "Failed to load saved fingerprints from {}",
@@ -45,9 +45,9 @@ pub fn run(root: &Path, _dry_run: bool, json: bool, log_level: LogLevel) -> Resu
     Ok(())
 }
 
-fn load_scan_config(cmap_path: &Path) -> Result<Config> {
-    Config::load_explicit(cmap_path).with_context(|| {
-        let config_path = cmap_path.join("config.toml");
+fn load_scan_config(atlas_path: &Path) -> Result<Config> {
+    Config::load_explicit(atlas_path).with_context(|| {
+        let config_path = atlas_path.join("config.toml");
         format!("Failed to load scan config from {}", config_path.display())
     })
 }

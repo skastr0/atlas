@@ -6,9 +6,9 @@
         "hooks": [
           {
             "type": "command",
-            "command": "command -v cmap >/dev/null 2>&1 || exit 0; root=\"$(git rev-parse --show-toplevel 2>/dev/null || pwd)\"; cmap init --root \"$root\" --quiet",
+            "command": "command -v atlas >/dev/null 2>&1 || exit 0; root=\"$(git rev-parse --show-toplevel 2>/dev/null || pwd)\"; atlas init --root \"$root\" --quiet",
             "timeout": 60,
-            "statusMessage": "Initializing ContextMap"
+            "statusMessage": "Initializing Atlas"
           }
         ]
       }
@@ -19,9 +19,9 @@
         "hooks": [
           {
             "type": "command",
-            "command": "command -v cmap >/dev/null 2>&1 || exit 0; root=\"$(git rev-parse --show-toplevel 2>/dev/null || pwd)\"; if test -d \"$root/.cmap\"; then cmap build --root \"$root\" --changed-only; fi",
+            "command": "command -v atlas >/dev/null 2>&1 || exit 0; root=\"$(git rev-parse --show-toplevel 2>/dev/null || pwd)\"; if test -d \"$root/.atlas\"; then atlas build --root \"$root\" --changed-only; fi",
             "timeout": 120,
-            "statusMessage": "Refreshing ContextMap"
+            "statusMessage": "Refreshing Atlas"
           }
         ]
       }

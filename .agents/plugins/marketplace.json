@@ -1,11 +1,11 @@
 {
-  "name": "context-map-local",
+  "name": "atlas-local",
   "interface": {
-    "displayName": "ContextMap Local Plugins"
+    "displayName": "Atlas Local Plugins"
   },
   "plugins": [
     {
-      "name": "context-map",
+      "name": "atlas",
       "source": {
         "source": "local",
         "path": "./apps/codex-plugin"

@@ -10,7 +10,7 @@ export type LogEntry = {
   readonly extra?: unknown;
 };
 
-export class PluginLogger extends Context.Tag("@context-map/opencode-plugin/PluginLogger")<
+export class PluginLogger extends Context.Tag("@skastr0/atlas-opencode-plugin/PluginLogger")<
   PluginLogger,
   {
     readonly log: (entry: LogEntry) => Effect.Effect<void, OpencodeClientError>;

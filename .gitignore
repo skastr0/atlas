@@ -5,7 +5,7 @@
 node_modules/
 
 # Generated context map artifacts
-.cmap/
+.atlas/
 
 # Editor configs
 .cursor/

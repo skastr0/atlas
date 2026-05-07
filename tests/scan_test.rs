@@ -10,10 +10,10 @@ fn scan_reports_noop_delta_and_keeps_dry_run_compatibility() {
     let fixture_root = TempDir::new().expect("create temp corpus root");
     write_baseline_files(fixture_root.path()).expect("write baseline files");
 
-    run_cmap(fixture_root.path(), &["init"]);
-    run_cmap(fixture_root.path(), &["build"]);
+    run_atlas(fixture_root.path(), &["init"]);
+    run_atlas(fixture_root.path(), &["build"]);
 
-    let json_output = run_cmap_output(fixture_root.path(), &["scan", "--json"]);
+    let json_output = run_atlas_output(fixture_root.path(), &["scan", "--json"]);
     assert!(json_output.status.success(), "scan command should succeed");
     let parsed = parse_json(&json_output);
 
@@ -31,7 +31,7 @@ fn scan_reports_noop_delta_and_keeps_dry_run_compatibility() {
         serde_json::json!(["docs/alpha.md", "docs/beta.md", "src/lib.rs"])
     );
 
-    let dry_run_output = run_cmap_output(fixture_root.path(), &["scan", "--dry-run", "--json"]);
+    let dry_run_output = run_atlas_output(fixture_root.path(), &["scan", "--dry-run", "--json"]);
     assert!(
         dry_run_output.status.success(),
         "scan --dry-run should succeed"
@@ -40,14 +40,14 @@ fn scan_reports_noop_delta_and_keeps_dry_run_compatibility() {
 }
 
 #[test]
-fn scan_reports_new_modified_and_deleted_files_without_mutating_cmap_state() {
+fn scan_reports_new_modified_and_deleted_files_without_mutating_atlas_state() {
     let fixture_root = TempDir::new().expect("create temp corpus root");
     write_baseline_files(fixture_root.path()).expect("write baseline files");
 
-    run_cmap(fixture_root.path(), &["init"]);
-    run_cmap(fixture_root.path(), &["build"]);
+    run_atlas(fixture_root.path(), &["init"]);
+    run_atlas(fixture_root.path(), &["build"]);
 
-    let before_scan = snapshot_cmap(fixture_root.path()).expect("snapshot cmap before scan");
+    let before_scan = snapshot_atlas(fixture_root.path()).expect("snapshot atlas before scan");
 
     write_file(
         fixture_root.path().join("docs/beta.md"),
@@ -61,7 +61,7 @@ fn scan_reports_new_modified_and_deleted_files_without_mutating_cmap_state() {
     .expect("write new file");
     fs::remove_file(fixture_root.path().join("src/lib.rs")).expect("delete tracked file");
 
-    let output = run_cmap_output(fixture_root.path(), &["scan", "--json"]);
+    let output = run_atlas_output(fixture_root.path(), &["scan", "--json"]);
     assert!(output.status.success(), "scan command should succeed");
     let parsed = parse_json(&output);
 
@@ -89,7 +89,7 @@ fn scan_reports_new_modified_and_deleted_files_without_mutating_cmap_state() {
         serde_json::json!(["docs/alpha.md"])
     );
 
-    let after_scan = snapshot_cmap(fixture_root.path()).expect("snapshot cmap after scan");
+    let after_scan = snapshot_atlas(fixture_root.path()).expect("snapshot atlas after scan");
     assert_eq!(before_scan, after_scan, "scan must be read-only");
 }
 
@@ -98,8 +98,8 @@ fn scan_human_output_bounds_representative_paths_and_highlights_build_impact() {
     let fixture_root = TempDir::new().expect("create temp corpus root");
     write_baseline_files(fixture_root.path()).expect("write baseline files");
 
-    run_cmap(fixture_root.path(), &["init"]);
-    run_cmap(fixture_root.path(), &["build"]);
+    run_atlas(fixture_root.path(), &["init"]);
+    run_atlas(fixture_root.path(), &["build"]);
 
     fs::remove_file(fixture_root.path().join("src/lib.rs")).expect("delete tracked file");
     for index in 0..7 {
@@ -110,7 +110,7 @@ fn scan_human_output_bounds_representative_paths_and_highlights_build_impact() {
         .expect("write new file");
     }
 
-    let output = run_cmap_output(fixture_root.path(), &["scan"]);
+    let output = run_atlas_output(fixture_root.path(), &["scan"]);
     assert!(output.status.success(), "scan command should succeed");
 
     let stdout = String::from_utf8_lossy(&output.stdout);
@@ -131,24 +131,24 @@ fn scan_human_output_bounds_representative_paths_and_highlights_build_impact() {
 #[test]
 fn scan_fails_when_repo_is_not_initialized_or_config_is_unreadable() {
     let missing_root = TempDir::new().expect("create missing init root");
-    let missing_output = run_cmap_output(missing_root.path(), &["scan"]);
+    let missing_output = run_atlas_output(missing_root.path(), &["scan"]);
     assert!(
         !missing_output.status.success(),
-        "scan should fail without .cmap"
+        "scan should fail without .atlas"
     );
     let missing_stderr = String::from_utf8_lossy(&missing_output.stderr);
     assert!(missing_stderr.contains("Not initialized"));
-    assert!(missing_stderr.contains("cmap init"));
+    assert!(missing_stderr.contains("atlas init"));
 
     let broken_root = TempDir::new().expect("create broken config root");
     write_baseline_files(broken_root.path()).expect("write baseline files");
-    run_cmap(broken_root.path(), &["init"]);
+    run_atlas(broken_root.path(), &["init"]);
 
-    let config_path = broken_root.path().join(".cmap/config.toml");
+    let config_path = broken_root.path().join(".atlas/config.toml");
     fs::remove_file(&config_path).expect("remove config file");
     fs::create_dir(&config_path).expect("replace config file with directory");
 
-    let broken_output = run_cmap_output(broken_root.path(), &["scan"]);
+    let broken_output = run_atlas_output(broken_root.path(), &["scan"]);
     assert!(
         !broken_output.status.success(),
         "scan should fail when config cannot be read"
@@ -172,10 +172,10 @@ fn write_file(path: PathBuf, content: &str) -> std::io::Result<()> {
     fs::write(path, content)
 }
 
-fn snapshot_cmap(root: &Path) -> std::io::Result<BTreeMap<String, String>> {
-    let cmap_root = root.join(".cmap");
+fn snapshot_atlas(root: &Path) -> std::io::Result<BTreeMap<String, String>> {
+    let atlas_root = root.join(".atlas");
     let mut snapshot = BTreeMap::new();
-    collect_snapshot(&cmap_root, &cmap_root, &mut snapshot)?;
+    collect_snapshot(&atlas_root, &atlas_root, &mut snapshot)?;
     Ok(snapshot)
 }
 
@@ -196,7 +196,7 @@ fn collect_snapshot(
 
         let relative = path
             .strip_prefix(root)
-            .expect("snapshot file should be within .cmap")
+            .expect("snapshot file should be within .atlas")
             .to_string_lossy()
             .replace('\\', "/");
         let bytes = fs::read(&path)?;
@@ -210,22 +210,22 @@ fn parse_json(output: &Output) -> serde_json::Value {
     serde_json::from_slice(&output.stdout).expect("scan output should be valid JSON")
 }
 
-fn run_cmap(root: &Path, args: &[&str]) {
-    let output = run_cmap_output(root, args);
+fn run_atlas(root: &Path, args: &[&str]) {
+    let output = run_atlas_output(root, args);
     assert!(
         output.status.success(),
-        "cmap command failed: {:?}\nstdout:\n{}\nstderr:\n{}",
+        "atlas command failed: {:?}\nstdout:\n{}\nstderr:\n{}",
         args,
         String::from_utf8_lossy(&output.stdout),
         String::from_utf8_lossy(&output.stderr)
     );
 }
 
-fn run_cmap_output(root: &Path, args: &[&str]) -> Output {
-    Command::new(env!("CARGO_BIN_EXE_cmap"))
+fn run_atlas_output(root: &Path, args: &[&str]) -> Output {
+    Command::new(env!("CARGO_BIN_EXE_atlas"))
         .arg("--root")
         .arg(root)
         .args(args)
         .output()
-        .expect("execute cmap command")
+        .expect("execute atlas command")
 }

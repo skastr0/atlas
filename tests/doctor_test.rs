@@ -9,10 +9,10 @@ fn doctor_reports_clean_fixture_in_json() {
     let fixture_root = TempDir::new().expect("create temp corpus root");
     write_baseline_files(fixture_root.path()).expect("write baseline files");
 
-    run_cmap(fixture_root.path(), &["init"]);
-    run_cmap(fixture_root.path(), &["build"]);
+    run_atlas(fixture_root.path(), &["init"]);
+    run_atlas(fixture_root.path(), &["build"]);
 
-    let output = run_cmap_output(fixture_root.path(), &["doctor", "--json"]);
+    let output = run_atlas_output(fixture_root.path(), &["doctor", "--json"]);
     assert!(output.status.success(), "doctor command should succeed");
     let parsed = parse_json(&output);
 
@@ -51,7 +51,7 @@ fn doctor_reports_clean_fixture_in_json() {
         "clean fixture should not require pdf dependency checks"
     );
 
-    let manifest = read_json_file(fixture_root.path().join(".cmap/last-build.json"));
+    let manifest = read_json_file(fixture_root.path().join(".atlas/last-build.json"));
     assert_eq!(manifest["version"].as_u64(), Some(1));
     assert_eq!(manifest["index_version"].as_str(), Some("tantivy-v2"));
     assert_eq!(manifest["indexed_candidates"].as_u64(), Some(3));
@@ -71,10 +71,10 @@ fn doctor_reports_stale_fixture_and_groups_human_output_by_severity() {
     )
     .expect("write oversized file");
 
-    run_cmap(fixture_root.path(), &["init"]);
+    run_atlas(fixture_root.path(), &["init"]);
     write_config(fixture_root.path(), "[extract]\nmax_file_size = 32\n")
         .expect("write reduced max file size config");
-    run_cmap(fixture_root.path(), &["build"]);
+    run_atlas(fixture_root.path(), &["build"]);
 
     write_file(
         fixture_root.path().join("docs/new.md"),
@@ -82,7 +82,7 @@ fn doctor_reports_stale_fixture_and_groups_human_output_by_severity() {
     )
     .expect("write new file after build");
 
-    let json_output = run_cmap_output(fixture_root.path(), &["doctor", "--json"]);
+    let json_output = run_atlas_output(fixture_root.path(), &["doctor", "--json"]);
     assert!(
         json_output.status.success(),
         "doctor command should succeed"
@@ -110,7 +110,7 @@ fn doctor_reports_stale_fixture_and_groups_human_output_by_severity() {
     assert!(warning_blob.contains("docs/oversized.md"));
     assert!(warning_blob.contains("file_too_large"));
 
-    let human_output = run_cmap_output(fixture_root.path(), &["doctor"]);
+    let human_output = run_atlas_output(fixture_root.path(), &["doctor"]);
     assert!(
         human_output.status.success(),
         "doctor command should succeed"
@@ -130,12 +130,12 @@ fn doctor_reports_broken_fixture_when_generated_artifacts_are_missing() {
     let fixture_root = TempDir::new().expect("create temp corpus root");
     write_baseline_files(fixture_root.path()).expect("write baseline files");
 
-    run_cmap(fixture_root.path(), &["init"]);
-    run_cmap(fixture_root.path(), &["build"]);
-    fs::remove_file(fixture_root.path().join(".cmap/views/TERMS.md"))
+    run_atlas(fixture_root.path(), &["init"]);
+    run_atlas(fixture_root.path(), &["build"]);
+    fs::remove_file(fixture_root.path().join(".atlas/views/TERMS.md"))
         .expect("remove generated artifact");
 
-    let output = run_cmap_output(fixture_root.path(), &["doctor", "--json"]);
+    let output = run_atlas_output(fixture_root.path(), &["doctor", "--json"]);
     assert!(output.status.success(), "doctor command should succeed");
     let parsed = parse_json(&output);
 
@@ -163,15 +163,15 @@ fn doctor_reports_missing_pdf_dependency_and_failed_manifest_reason() {
     )
     .expect("write fake pdf");
 
-    run_cmap(fixture_root.path(), &["init"]);
+    run_atlas(fixture_root.path(), &["init"]);
     write_config(
         fixture_root.path(),
         "[extract]\npdftotext_path = \"/definitely/missing/pdftotext\"\n",
     )
     .expect("write invalid pdftotext path config");
-    run_cmap(fixture_root.path(), &["build"]);
+    run_atlas(fixture_root.path(), &["build"]);
 
-    let output = run_cmap_output(fixture_root.path(), &["doctor", "--json"]);
+    let output = run_atlas_output(fixture_root.path(), &["doctor", "--json"]);
     assert!(output.status.success(), "doctor command should succeed");
     let parsed = parse_json(&output);
 
@@ -188,7 +188,7 @@ fn doctor_reports_missing_pdf_dependency_and_failed_manifest_reason() {
     assert!(error_blob.contains("pdftotext_unavailable"));
     assert!(error_blob.contains("configured pdftotext_path"));
 
-    let manifest = read_json_file(fixture_root.path().join(".cmap/last-build.json"));
+    let manifest = read_json_file(fixture_root.path().join(".atlas/last-build.json"));
     assert_eq!(
         manifest["failed"][0]["path"].as_str(),
         Some("docs/guide.pdf")
@@ -207,7 +207,7 @@ fn write_baseline_files(root: &Path) -> std::io::Result<()> {
 }
 
 fn write_config(root: &Path, content: &str) -> std::io::Result<()> {
-    fs::write(root.join(".cmap/config.toml"), content)
+    fs::write(root.join(".atlas/config.toml"), content)
 }
 
 fn write_file(path: PathBuf, content: &str) -> std::io::Result<()> {
@@ -240,22 +240,22 @@ fn collect_check_ids(group: &serde_json::Value) -> Vec<String> {
         .collect()
 }
 
-fn run_cmap(root: &Path, args: &[&str]) {
-    let output = run_cmap_output(root, args);
+fn run_atlas(root: &Path, args: &[&str]) {
+    let output = run_atlas_output(root, args);
     assert!(
         output.status.success(),
-        "cmap command failed: {:?}\nstdout:\n{}\nstderr:\n{}",
+        "atlas command failed: {:?}\nstdout:\n{}\nstderr:\n{}",
         args,
         String::from_utf8_lossy(&output.stdout),
         String::from_utf8_lossy(&output.stderr)
     );
 }
 
-fn run_cmap_output(root: &Path, args: &[&str]) -> Output {
-    Command::new(env!("CARGO_BIN_EXE_cmap"))
+fn run_atlas_output(root: &Path, args: &[&str]) -> Output {
+    Command::new(env!("CARGO_BIN_EXE_atlas"))
         .arg("--root")
         .arg(root)
         .args(args)
         .output()
-        .expect("execute cmap command")
+        .expect("execute atlas command")
 }

@@ -1,4 +1,4 @@
-//! context-map: Deterministic knowledge base indexer for AI agents
+//! atlas: Deterministic knowledge base indexer for AI agents
 //!
 //! Generates multi-resolution markdown indexes of knowledge bases,
 //! solving the "AI doesn't know what it knows" problem through
@@ -29,7 +29,7 @@ pub use scan::*;
 pub use types::*;
 
 #[derive(Parser)]
-#[command(name = "cmap")]
+#[command(name = "atlas")]
 #[command(author, version, about, long_about = None)]
 #[command(propagate_version = true)]
 struct Cli {
@@ -51,7 +51,7 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Commands {
-    /// Initialize .cmap in current directory
+    /// Initialize .atlas in current directory
     Init,
 
     /// Preview corpus changes against saved fingerprints

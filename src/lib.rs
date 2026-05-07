@@ -1,4 +1,4 @@
-//! context-map library
+//! atlas library
 //!
 //! Core types and functionality for knowledge base indexing.
 

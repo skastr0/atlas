@@ -1,4 +1,4 @@
-//! `cmap build` command - Build index and generate views
+//! `atlas build` command - Build index and generate views
 
 use crate::config::Config;
 use crate::LogLevel;
@@ -25,7 +25,7 @@ use crate::types::{
     LAST_BUILD_MANIFEST_VERSION,
 };
 
-const CMAP_DIR: &str = ".cmap";
+const ATLAS_DIR: &str = ".atlas";
 
 enum ProcessedFileOutcome {
     Indexed(Box<(FileFeatures, String)>),
@@ -34,16 +34,16 @@ enum ProcessedFileOutcome {
 }
 
 pub fn run(root: &Path, _changed_only: bool, force: bool, log_level: LogLevel) -> Result<()> {
-    let cmap_path = root.join(CMAP_DIR);
+    let atlas_path = root.join(ATLAS_DIR);
 
     // Check if initialized
-    if !cmap_path.exists() {
-        anyhow::bail!("Not initialized. Run `cmap init` first.");
+    if !atlas_path.exists() {
+        anyhow::bail!("Not initialized. Run `atlas init` first.");
     }
 
     // Load config
-    let config_path = cmap_path.join("config.toml");
-    let config = Config::load(&cmap_path)?;
+    let config_path = atlas_path.join("config.toml");
+    let config = Config::load(&atlas_path)?;
 
     if log_level != LogLevel::Quiet {
         if config_path.exists() {
@@ -64,7 +64,7 @@ pub fn run(root: &Path, _changed_only: bool, force: bool, log_level: LogLevel) -
     }
 
     // Step 2: Compare with cached fingerprints
-    let fingerprints_path = cmap_path.join("fingerprints.jsonl");
+    let fingerprints_path = atlas_path.join("fingerprints.jsonl");
     let cached_fingerprints = if force {
         HashMap::new()
     } else {
@@ -86,7 +86,7 @@ pub fn run(root: &Path, _changed_only: bool, force: bool, log_level: LogLevel) -
     }
 
     // Step 4: Load existing features and initialize Tantivy
-    let index_dir = tantivy_backend::index_dir(&cmap_path);
+    let index_dir = tantivy_backend::index_dir(&atlas_path);
 
     if force && index_dir.exists() {
         std::fs::remove_dir_all(&index_dir)
@@ -216,7 +216,7 @@ pub fn run(root: &Path, _changed_only: bool, force: bool, log_level: LogLevel) -
         println!("Generating views...");
     }
 
-    let views_dir = cmap_path.join("views");
+    let views_dir = atlas_path.join("views");
     fs::create_dir_all(&views_dir)?;
 
     // ROOT_ATLAS.md
@@ -252,7 +252,7 @@ pub fn run(root: &Path, _changed_only: bool, force: bool, log_level: LogLevel) -
     save_fingerprints(&fingerprints_path, &scan_result.fingerprints)?;
 
     // Step 10: Save global stats
-    let global_dir = cmap_path.join("global");
+    let global_dir = atlas_path.join("global");
     fs::create_dir_all(&global_dir)?;
     let term_index_json = serde_json::to_string_pretty(&term_index)?;
     fs::write(global_dir.join("term_index.json"), term_index_json)?;
@@ -267,7 +267,7 @@ pub fn run(root: &Path, _changed_only: bool, force: bool, log_level: LogLevel) -
         skipped: build_skips,
         failed: build_failures,
     };
-    let manifest_path = last_build_manifest_path(&cmap_path);
+    let manifest_path = last_build_manifest_path(&atlas_path);
     save_last_build_manifest(&manifest_path, &manifest)?;
 
     if log_level != LogLevel::Quiet {

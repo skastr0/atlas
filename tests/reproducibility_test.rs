@@ -16,30 +16,30 @@ fn build_outputs_are_identical_across_two_force_runs() {
     let fixture_root = TempDir::new().expect("create temp corpus root");
     write_tie_fixture(fixture_root.path()).expect("write tie fixture corpus");
 
-    run_cmap(fixture_root.path(), &["init"]);
+    run_atlas(fixture_root.path(), &["init"]);
     configure_repro_config(fixture_root.path()).expect("configure deterministic repro settings");
 
-    run_cmap(fixture_root.path(), &["build", "--force"]);
+    run_atlas(fixture_root.path(), &["build", "--force"]);
     let first_run = collect_artifacts(fixture_root.path()).expect("collect first run artifacts");
 
-    run_cmap(fixture_root.path(), &["build", "--force"]);
+    run_atlas(fixture_root.path(), &["build", "--force"]);
     let second_run = collect_artifacts(fixture_root.path()).expect("collect second run artifacts");
 
     assert_artifacts_match(&first_run, &second_run);
 }
 
-fn run_cmap(root: &Path, args: &[&str]) {
-    let output = Command::new(env!("CARGO_BIN_EXE_cmap"))
+fn run_atlas(root: &Path, args: &[&str]) {
+    let output = Command::new(env!("CARGO_BIN_EXE_atlas"))
         .arg("--quiet")
         .arg("--root")
         .arg(root)
         .args(args)
         .output()
-        .expect("execute cmap command");
+        .expect("execute atlas command");
 
     assert!(
         output.status.success(),
-        "cmap command failed: {:?}\nstdout:\n{}\nstderr:\n{}",
+        "atlas command failed: {:?}\nstdout:\n{}\nstderr:\n{}",
         args,
         String::from_utf8_lossy(&output.stdout),
         String::from_utf8_lossy(&output.stderr)
@@ -68,7 +68,7 @@ fn write_tie_fixture(root: &Path) -> std::io::Result<()> {
 }
 
 fn configure_repro_config(root: &Path) -> std::io::Result<()> {
-    let config_path = root.join(".cmap/config.toml");
+    let config_path = root.join(".atlas/config.toml");
     let config = fs::read_to_string(&config_path)?;
     let updated = config.replace("top_phrases = 10", "top_phrases = 0");
     fs::write(config_path, updated)
@@ -82,7 +82,7 @@ fn write_file(path: PathBuf, content: &str) -> std::io::Result<()> {
 }
 
 fn collect_artifacts(root: &Path) -> std::io::Result<BTreeMap<String, ArtifactSnapshot>> {
-    let cmap = root.join(".cmap");
+    let atlas = root.join(".atlas");
     let mut artifact_paths = vec![
         PathBuf::from("last-build.json"),
         PathBuf::from("views/ROOT_ATLAS.md"),
@@ -91,7 +91,7 @@ fn collect_artifacts(root: &Path) -> std::io::Result<BTreeMap<String, ArtifactSn
         PathBuf::from("global/term_index.json"),
     ];
 
-    let folders_dir = cmap.join("views/folders");
+    let folders_dir = atlas.join("views/folders");
     let mut folder_artifacts: Vec<PathBuf> = fs::read_dir(&folders_dir)?
         .filter_map(Result::ok)
         .filter_map(|entry| {
@@ -116,7 +116,7 @@ fn collect_artifacts(root: &Path) -> std::io::Result<BTreeMap<String, ArtifactSn
 
     let mut snapshots = BTreeMap::new();
     for relative in artifact_paths {
-        let full_path = cmap.join(&relative);
+        let full_path = atlas.join(&relative);
         let content = fs::read_to_string(&full_path)?;
         let hash = blake3::hash(content.as_bytes()).to_hex().to_string();
         let key = relative.to_string_lossy().replace('\\', "/");

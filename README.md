@@ -1,4 +1,4 @@
-# context-map
+# atlas
 
 **Deterministic knowledge base indexer for AI agents**
 
@@ -12,7 +12,7 @@ Existing solutions (embeddings, auto-memories, RAG) optimize for retrieval *give
 
 ## The Solution
 
-`context-map` (alias: `cmap`) creates a **persistent, human-readable atlas** of your knowledge base:
+`atlas` creates a **persistent, human-readable atlas** of your knowledge base:
 
 - **ROOT_ATLAS.md** — Top-level map with folder signatures and key files
 - **Per-folder INDEX.md** — Detailed listings with snippets and top terms
@@ -32,45 +32,45 @@ cargo build --release
 
 # Initialize in your knowledge base
 cd /path/to/your/kb
-cmap init
+atlas init
 
 # Build the index
-cmap build
+atlas build
 
 # View the atlas
-cat .cmap/views/ROOT_ATLAS.md
+cat .atlas/views/ROOT_ATLAS.md
 ```
 
 ## Commands
 
 ```
-cmap init     # Initialize .cmap directory
-cmap scan     # Scan for changes (fast fingerprint check)
-cmap build    # Build/update index and generate views
-cmap search   # Lexical search with deterministic ranking and highlights
-cmap doctor   # Report issues (extraction failures, stale cache)
-cmap clean    # Remove cached data
+atlas init     # Initialize .atlas directory
+atlas scan     # Scan for changes (fast fingerprint check)
+atlas build    # Build/update index and generate views
+atlas search   # Lexical search with deterministic ranking and highlights
+atlas doctor   # Report issues (extraction failures, stale cache)
+atlas clean    # Remove cached data
 ```
 
 ## Search
 
-`cmap search` stays lexical and deterministic. Results are ranked by relevance score descending,
+`atlas search` stays lexical and deterministic. Results are ranked by relevance score descending,
 then by path ascending for exact score ties.
 
 ```bash
 # Human-readable output with one excerpt per hit
-cmap search programming --path alpha --type markdown --limit 5
+atlas search programming --path alpha --type markdown --limit 5
 
 # Stable JSON envelope with matched fields, reasons, and highlight payloads
-cmap search programming --json
+atlas search programming --json
 
 # Include raw Tantivy explanation trees without changing the default JSON shape
-cmap search programming --json --explain
+atlas search programming --json --explain
 ```
 
 ## What Gets Indexed
 
-For each file, `cmap` extracts:
+For each file, `atlas` extracts:
 
 - **Title** — First heading or derived from filename
 - **Snippet** — First paragraph (~400 chars)
@@ -87,7 +87,7 @@ Across the corpus:
 
 ## Supported File Types
 
-By default, `cmap` indexes:
+By default, `atlas` indexes:
 
 - Markdown (`.md`)
 - Plain text and notes (`.txt`, `.rst`, `.org`)
@@ -101,11 +101,11 @@ Structured formats such as Markdown and code get richer extraction (headings, sy
 
 ## Configuration
 
-Edit `.cmap/config.toml`:
+Edit `.atlas/config.toml`:
 
 ```toml
 [scan]
-ignore = [".git", ".cmap", "node_modules", "__pycache__", "*.pyc", ".DS_Store"]
+ignore = [".git", ".atlas", "node_modules", "__pycache__", "*.pyc", ".DS_Store"]
 include_extensions = [
   "md",
   "txt",
@@ -170,7 +170,7 @@ The generated markdown files are designed to be loaded as context:
 
 Example agent instruction:
 ```
-You have access to the knowledge base atlas in .cmap/views/ROOT_ATLAS.md.
+You have access to the knowledge base atlas in .atlas/views/ROOT_ATLAS.md.
 Use it to understand what exists before searching. When exploring a topic,
 check the relevant folder INDEX.md for detailed file listings.
 ```

@@ -410,7 +410,7 @@ mod tests {
     fn extracts_module_doc_title() {
         let content = extract_rust(Path::new("src/lib.rs")).expect("extract lib.rs");
 
-        assert_eq!(content.title.as_deref(), Some("context-map library"));
+        assert_eq!(content.title.as_deref(), Some("atlas library"));
     }
 
     #[test]

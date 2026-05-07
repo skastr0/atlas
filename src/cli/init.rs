@@ -1,4 +1,4 @@
-//! `cmap init` command - Initialize .cmap directory
+//! `atlas init` command - Initialize .atlas directory
 
 use crate::cache::tantivy_backend;
 use crate::config::Config;
@@ -8,51 +8,51 @@ use std::fs;
 use std::io::ErrorKind;
 use std::path::Path;
 
-const CMAP_DIR: &str = ".cmap";
-const GITIGNORE_CMAP_ENTRY: &str = ".cmap/";
+const ATLAS_DIR: &str = ".atlas";
+const GITIGNORE_ATLAS_ENTRY: &str = ".atlas/";
 
 pub fn run(root: &Path, log_level: LogLevel) -> Result<()> {
-    let cmap_path = root.join(CMAP_DIR);
-    let already_initialized = cmap_path.exists();
+    let atlas_path = root.join(ATLAS_DIR);
+    let already_initialized = atlas_path.exists();
 
     if already_initialized {
         if log_level != LogLevel::Quiet {
-            println!("✓ .cmap already exists at {}", cmap_path.display());
+            println!("✓ .atlas already exists at {}", atlas_path.display());
         }
     } else {
         // Create directory structure
-        fs::create_dir_all(cmap_path.join("cache/text"))
+        fs::create_dir_all(atlas_path.join("cache/text"))
             .context("Failed to create cache/text directory")?;
-        fs::create_dir_all(tantivy_backend::index_dir(&cmap_path))
+        fs::create_dir_all(tantivy_backend::index_dir(&atlas_path))
             .context("Failed to create current tantivy index directory")?;
-        fs::create_dir_all(cmap_path.join("global"))
+        fs::create_dir_all(atlas_path.join("global"))
             .context("Failed to create global directory")?;
-        fs::create_dir_all(cmap_path.join("views/folders"))
+        fs::create_dir_all(atlas_path.join("views/folders"))
             .context("Failed to create views/folders directory")?;
 
         // Write default config
         let config = Config::default();
-        let config_path = cmap_path.join("config.toml");
+        let config_path = atlas_path.join("config.toml");
         let config_toml = toml_string(&config);
         fs::write(&config_path, config_toml).context("Failed to write config.toml")?;
     }
 
-    let gitignore_updated = ensure_gitignore_ignores_cmap(root)?;
+    let gitignore_updated = ensure_gitignore_ignores_atlas(root)?;
 
     if log_level != LogLevel::Quiet {
         if !already_initialized {
-            println!("✓ Initialized .cmap at {}", cmap_path.display());
-            println!("  Edit .cmap/config.toml to customize settings");
+            println!("✓ Initialized .atlas at {}", atlas_path.display());
+            println!("  Edit .atlas/config.toml to customize settings");
         }
         if gitignore_updated {
-            println!("✓ Added .cmap/ to {}", root.join(".gitignore").display());
+            println!("✓ Added .atlas/ to {}", root.join(".gitignore").display());
         }
     }
 
     Ok(())
 }
 
-fn ensure_gitignore_ignores_cmap(root: &Path) -> Result<bool> {
+fn ensure_gitignore_ignores_atlas(root: &Path) -> Result<bool> {
     let gitignore_path = root.join(".gitignore");
     let existing = match fs::read_to_string(&gitignore_path) {
         Ok(content) => content,
@@ -63,7 +63,7 @@ fn ensure_gitignore_ignores_cmap(root: &Path) -> Result<bool> {
         }
     };
 
-    if gitignore_has_cmap_entry(&existing) {
+    if gitignore_has_atlas_entry(&existing) {
         return Ok(false);
     }
 
@@ -71,7 +71,7 @@ fn ensure_gitignore_ignores_cmap(root: &Path) -> Result<bool> {
     if !updated.is_empty() && !updated.ends_with('\n') {
         updated.push('\n');
     }
-    updated.push_str(GITIGNORE_CMAP_ENTRY);
+    updated.push_str(GITIGNORE_ATLAS_ENTRY);
     updated.push('\n');
 
     fs::write(&gitignore_path, updated)
@@ -80,10 +80,10 @@ fn ensure_gitignore_ignores_cmap(root: &Path) -> Result<bool> {
     Ok(true)
 }
 
-fn gitignore_has_cmap_entry(content: &str) -> bool {
+fn gitignore_has_atlas_entry(content: &str) -> bool {
     content
         .lines()
-        .any(|line| matches!(line.trim(), ".cmap" | ".cmap/" | "/.cmap" | "/.cmap/"))
+        .any(|line| matches!(line.trim(), ".atlas" | ".atlas/" | "/.atlas" | "/.atlas/"))
 }
 
 fn toml_string(config: &Config) -> String {
@@ -162,7 +162,7 @@ fn toml_string(config: &Config) -> String {
 
 #[cfg(test)]
 mod tests {
-    use super::{gitignore_has_cmap_entry, run, toml_string};
+    use super::{gitignore_has_atlas_entry, run, toml_string};
     use crate::config::{Config, DEFAULT_INCLUDE_EXTENSIONS};
     use crate::LogLevel;
     use std::fs;
@@ -195,7 +195,7 @@ mod tests {
     }
 
     #[test]
-    fn initializes_cmap_and_adds_gitignore_entry_idempotently() {
+    fn initializes_atlas_and_adds_gitignore_entry_idempotently() {
         let temp = tempfile::tempdir().expect("tempdir should be created");
         let root = temp.path();
         let gitignore_path = root.join(".gitignore");
@@ -206,42 +206,42 @@ mod tests {
         run(root, LogLevel::Quiet).expect("second init should succeed");
 
         let gitignore = fs::read_to_string(&gitignore_path).expect("gitignore should be readable");
-        assert!(root.join(".cmap/config.toml").is_file());
-        assert_eq!(gitignore.matches(".cmap/").count(), 1);
-        assert!(gitignore_has_cmap_entry(&gitignore));
+        assert!(root.join(".atlas/config.toml").is_file());
+        assert_eq!(gitignore.matches(".atlas/").count(), 1);
+        assert!(gitignore_has_atlas_entry(&gitignore));
     }
 
     #[test]
-    fn creates_missing_gitignore_with_cmap_entry() {
+    fn creates_missing_gitignore_with_atlas_entry() {
         let gitignore = run_init_with_gitignore(None);
 
-        assert_eq!(gitignore, ".cmap/\n");
+        assert_eq!(gitignore, ".atlas/\n");
     }
 
     #[test]
-    fn adds_missing_gitignore_entry_when_cmap_already_exists() {
+    fn adds_missing_gitignore_entry_when_atlas_already_exists() {
         let temp = tempfile::tempdir().expect("tempdir should be created");
         let root = temp.path();
         let gitignore_path = root.join(".gitignore");
 
-        fs::create_dir_all(root.join(".cmap")).expect(".cmap should be seeded");
+        fs::create_dir_all(root.join(".atlas")).expect(".atlas should be seeded");
 
         run(root, LogLevel::Quiet).expect("init should succeed");
         run(root, LogLevel::Quiet).expect("second init should succeed");
 
         let gitignore = fs::read_to_string(&gitignore_path).expect("gitignore should be readable");
-        assert_eq!(gitignore, ".cmap/\n");
+        assert_eq!(gitignore, ".atlas/\n");
     }
 
     #[test]
-    fn recognizes_existing_cmap_gitignore_variants() {
-        for variant in [".cmap", ".cmap/", "/.cmap", "/.cmap/"] {
+    fn recognizes_existing_atlas_gitignore_variants() {
+        for variant in [".atlas", ".atlas/", "/.atlas", "/.atlas/"] {
             let gitignore = run_init_with_gitignore(Some(&format!("target\n{variant}\n")));
 
             assert_eq!(gitignore, format!("target\n{variant}\n"));
-            assert!(gitignore_has_cmap_entry(&gitignore));
+            assert!(gitignore_has_atlas_entry(&gitignore));
         }
 
-        assert!(!gitignore_has_cmap_entry("# .cmap/\n"));
+        assert!(!gitignore_has_atlas_entry("# .atlas/\n"));
     }
 }
