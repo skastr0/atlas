@@ -6,7 +6,8 @@
   "scripts": {
     "test": "bun test",
     "typecheck": "tsc --noEmit",
-    "validate": "bun run typecheck && bun test"
+    "validate": "bun run typecheck && bun test",
+    "verify": "bun run typecheck && bun run test"
   },
   "dependencies": {
     "@opencode-ai/plugin": "1.3.17",
@@ -15,5 +16,15 @@
   "devDependencies": {
     "@types/bun": "latest",
     "typescript": "^5.7.3"
+  },
+  "license": "MIT",
+  "description": "atlas workspace package",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skastr0/atlas.git"
+  },
+  "homepage": "https://github.com/skastr0/atlas#readme",
+  "bugs": {
+    "url": "https://github.com/skastr0/atlas/issues"
   }
 }

@@ -7,5 +7,15 @@
     "test": "node --test",
     "validate": "node --test"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "license": "MIT",
+  "description": "atlas workspace package",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skastr0/atlas.git"
+  },
+  "homepage": "https://github.com/skastr0/atlas#readme",
+  "bugs": {
+    "url": "https://github.com/skastr0/atlas/issues"
+  }
 }

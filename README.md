@@ -4,6 +4,12 @@
 
 Generates multi-resolution markdown indexes of knowledge bases, solving the "AI doesn't know what it knows" problem through cheap, deterministic, static analysis.
 
+## Status
+
+Experimental. `atlas` is useful enough to inspect and try, but command behavior, generated view formats, plugin surfaces, and release channels may change.
+
+The Rust crate metadata is prepared for a future crates.io release, but no package has been published yet. Treat source builds as the supported path until a release is explicitly announced.
+
 ## The Problem
 
 AI agents working with knowledge bases (folders of markdown, PDFs, notes) face a chicken-and-egg problem: they need to know what exists before they can effectively search, but they can't search without knowing what to look for.
@@ -194,6 +200,23 @@ cargo build --release
 # Install locally
 cargo install --path .
 ```
+
+## Verification
+
+```bash
+cargo test --all-features
+cargo package --list
+```
+
+The GitHub Actions workflow runs the test gate. Package publication remains disabled until package contents and release authority are reviewed.
+
+## Contributing And Support
+
+This is an issues-first, solo-maintained project. Reproducible bugs, documentation corrections, and scoped proposals are the best contribution path. See `CONTRIBUTING.md` and `SUPPORT.md` for boundaries and expectations.
+
+## Security
+
+Do not report suspected vulnerabilities in public issues. Use the private process described in `SECURITY.md`.
 
 ## License
 

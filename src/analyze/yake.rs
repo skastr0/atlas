@@ -34,9 +34,9 @@ impl YakeExtractor {
 
         let mut sentence_tokens: Vec<Vec<TokenInfo>> = Vec::new();
         for sentence in sentences {
-            let tokens = tokenize_sentence(&sentence, config, &custom_stopwords);
-            if !tokens.is_empty() {
-                sentence_tokens.push(tokens);
+            let sentence_terms = tokenize_sentence(&sentence, config, &custom_stopwords);
+            if !sentence_terms.is_empty() {
+                sentence_tokens.push(sentence_terms);
             }
         }
 

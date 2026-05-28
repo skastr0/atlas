@@ -20,24 +20,24 @@ pub fn compute_features(
     extract_config: &ExtractConfig,
 ) -> FileFeatures {
     // Tokenize
-    let tokens = tokenize_with_config(&content.text, analyze_config);
-    let filtered_tokens = filter_stopwords(tokens.clone(), &analyze_config.custom_stopwords);
+    let raw_terms = tokenize_with_config(&content.text, analyze_config);
+    let filtered_terms = filter_stopwords(raw_terms.clone(), &analyze_config.custom_stopwords);
 
     // Compute term frequencies
     let mut term_counts: HashMap<String, usize> = HashMap::new();
-    for token in &filtered_tokens {
-        *term_counts.entry(token.clone()).or_insert(0) += 1;
+    for term_text in &filtered_terms {
+        *term_counts.entry(term_text.clone()).or_insert(0) += 1;
     }
 
     let unique_term_count = term_counts.len();
 
     // Get top terms by raw frequency (TF-IDF will be computed in global pass)
-    let total_tokens = filtered_tokens.len() as f32;
+    let total_terms = filtered_terms.len() as f32;
     let mut top_terms: Vec<_> = term_counts
         .iter()
         .map(|(term, &count)| TermScore {
             term: term.clone(),
-            tf: count as f32 / total_tokens.max(1.0),
+            tf: count as f32 / total_terms.max(1.0),
             tfidf: 0.0, // Will be filled in global pass
         })
         .collect();
@@ -47,8 +47,8 @@ pub fn compute_features(
     top_terms.truncate(initial_term_limit);
 
     // Extract phrases (bigrams + trigrams)
-    let bigrams = extract_bigrams(&filtered_tokens);
-    let trigrams = extract_trigrams(&filtered_tokens);
+    let bigrams = extract_bigrams(&filtered_terms);
+    let trigrams = extract_trigrams(&filtered_terms);
 
     // Merge and get top phrases
     let mut all_phrases: HashMap<String, usize> = bigrams;
@@ -99,7 +99,7 @@ pub fn compute_features(
         file_type,
         title,
         snippet,
-        word_count: tokens.len(),
+        word_count: raw_terms.len(),
         char_count: content.text.len(),
         unique_term_count,
         top_terms,

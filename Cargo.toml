@@ -2,11 +2,20 @@
 name = "atlas"
 version = "0.1.0"
 edition = "2021"
+rust-version = "1.85"
 description = "Deterministic knowledge base indexer for AI agents"
 license = "MIT"
-repository = "https://github.com/your-username/atlas"
+repository = "https://github.com/skastr0/atlas"
+homepage = "https://github.com/skastr0/atlas#readme"
+readme = "README.md"
 keywords = ["knowledge-base", "indexer", "ai", "cli"]
 categories = ["command-line-utilities", "text-processing"]
+exclude = [
+    ".agents/**",
+    ".github/**",
+    "apps/**",
+    "release.md",
+]
 
 [[bin]]
 name = "atlas"
