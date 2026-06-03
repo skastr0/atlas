@@ -8,7 +8,7 @@ Generates multi-resolution markdown indexes of knowledge bases, solving the "AI 
 
 Experimental. `atlas` is useful enough to inspect and try, but command behavior, generated view formats, plugin surfaces, and release channels may change.
 
-The crates.io package target is `agent-atlas`, and the installed command is `atlas`. No public package has been published yet; treat source builds as the supported path until a release is explicitly announced.
+The official crates.io package is `agent-atlas`, and the installed command is `atlas`.
 
 ## The Problem
 
@@ -33,10 +33,10 @@ The atlas is:
 ## Quick Start
 
 ```bash
-# Install from crates.io after the first public release
+# Install from crates.io
 cargo install agent-atlas
 
-# Or install from a local checkout before release
+# Or install from a local checkout for development
 cargo install --path .
 
 # Initialize in your knowledge base
@@ -213,7 +213,7 @@ cargo build --release
 cargo install --path .
 ```
 
-After the first public release, install from crates.io with:
+Install from crates.io with:
 
 ```bash
 cargo install agent-atlas
@@ -227,7 +227,7 @@ cargo package --list
 cargo publish --dry-run --locked
 ```
 
-The GitHub Actions CI workflow runs tests, package file-list inspection, and package verification. The protected release workflow runs the publish dry-run before any real upload. Real package publication is gated by the protected `release` environment and requires explicit maintainer approval.
+The GitHub Actions CI workflow runs tests, package file-list inspection, and package verification. The protected release workflow runs the publish dry-run before any real upload, then uses crates.io trusted publishing to request a short-lived publish token through GitHub Actions OIDC. Real package publication is gated by the protected `release` environment and requires explicit maintainer approval.
 
 ## Contributing And Support
 
