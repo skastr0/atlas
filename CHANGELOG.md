@@ -8,7 +8,7 @@ The format is based on Keep a Changelog, and this project follows Semantic Versi
 
 ### Added
 - Configured crates.io trusted publishing for the protected release workflow.
-- Prepared public npm package surfaces for the Atlas Codex and OpenCode plugins.
+- Published the Atlas Codex and OpenCode plugins to npm with trusted publishing configured.
 
 ### Fixed
 - Made the Atlas OpenCode plugin no-op when the `atlas` CLI is unavailable.

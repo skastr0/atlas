@@ -186,7 +186,7 @@ check the relevant folder INDEX.md for detailed file listings.
 
 ## Plugins
 
-Atlas also ships optional agent runtime plugins:
+Atlas also ships optional npm packages for agent runtime plugins:
 
 - `@skastr0/atlas-codex-plugin` — Codex lifecycle hooks that initialize Atlas and refresh changed indexes after edit tools run.
 - `@skastr0/atlas-opencode-plugin` — OpenCode event plugin that initializes Atlas and debounces changed-only rebuilds after file edit events.
@@ -227,7 +227,7 @@ cargo package --list
 cargo publish --dry-run --locked
 ```
 
-The GitHub Actions CI workflow runs tests, package file-list inspection, and package verification. The protected release workflow runs the publish dry-run before any real upload, then uses crates.io trusted publishing to request a short-lived publish token through GitHub Actions OIDC. Real package publication is gated by the protected `release` environment and requires explicit maintainer approval.
+The GitHub Actions CI workflow runs tests, package file-list inspection, and package verification. The protected crate release workflow runs the publish dry-run before any real upload, then uses crates.io trusted publishing to request a short-lived publish token through GitHub Actions OIDC. The npm plugin publish workflow uses npm trusted publishing for the Codex and OpenCode packages. Real package publication is gated by the protected `release` environment and requires explicit maintainer approval.
 
 ## Contributing And Support
 
