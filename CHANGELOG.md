@@ -9,6 +9,7 @@ The format is based on Keep a Changelog, and this project follows Semantic Versi
 ### Added
 - Prepared the first crates.io release surface under the package name `agent-atlas`, with the installed binary kept as `atlas`.
 - Added a protected GitHub Actions release workflow for crates.io publication through the `release` environment.
+- Prepared public npm package surfaces for the Atlas Codex and OpenCode plugins.
 
 ## [0.1.0] - TBD
 

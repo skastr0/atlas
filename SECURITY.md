@@ -23,4 +23,4 @@ Runnable CLIs, plugins, package installation paths, generated release assets, an
 
 ## Supply Chain Notes
 
-There are no official npm packages, GitHub release assets, or Homebrew formulas for atlas yet. The intended crates.io package name is `agent-atlas`, which installs the `atlas` command. Do not trust install commands, packages, or binaries that claim to distribute this project unless they are listed in the repository README after a public release.
+The official crates.io package is `agent-atlas`, which installs the `atlas` command. The intended npm plugin packages are `@skastr0/atlas-codex-plugin` and `@skastr0/atlas-opencode-plugin`. There are no official GitHub release assets or Homebrew formulas for atlas yet. Do not trust install commands, packages, or binaries that claim to distribute this project unless they are listed in the repository README after a public release.

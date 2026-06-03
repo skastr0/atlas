@@ -184,6 +184,15 @@ Use it to understand what exists before searching. When exploring a topic,
 check the relevant folder INDEX.md for detailed file listings.
 ```
 
+## Plugins
+
+Atlas also ships optional agent runtime plugins:
+
+- `@skastr0/atlas-codex-plugin` — Codex lifecycle hooks that initialize Atlas and refresh changed indexes after edit tools run.
+- `@skastr0/atlas-opencode-plugin` — OpenCode event plugin that initializes Atlas and debounces changed-only rebuilds after file edit events.
+
+Both plugins expect the `atlas` binary to be available on `PATH`.
+
 ## Project Status
 
 **Phase 1 (Complete):** Scaffold, CLI, configuration, types
