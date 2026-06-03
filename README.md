@@ -8,7 +8,7 @@ Generates multi-resolution markdown indexes of knowledge bases, solving the "AI 
 
 Experimental. `atlas` is useful enough to inspect and try, but command behavior, generated view formats, plugin surfaces, and release channels may change.
 
-The Rust crate metadata is prepared for a future crates.io release, but no package has been published yet. Treat source builds as the supported path until a release is explicitly announced.
+The crates.io package target is `agent-atlas`, and the installed command is `atlas`. No public package has been published yet; treat source builds as the supported path until a release is explicitly announced.
 
 ## The Problem
 
@@ -33,8 +33,11 @@ The atlas is:
 ## Quick Start
 
 ```bash
-# Build the binary
-cargo build --release
+# Install from crates.io after the first public release
+cargo install agent-atlas
+
+# Or install from a local checkout before release
+cargo install --path .
 
 # Initialize in your knowledge base
 cd /path/to/your/kb
@@ -201,14 +204,21 @@ cargo build --release
 cargo install --path .
 ```
 
+After the first public release, install from crates.io with:
+
+```bash
+cargo install agent-atlas
+```
+
 ## Verification
 
 ```bash
 cargo test --all-features
 cargo package --list
+cargo publish --dry-run --locked
 ```
 
-The GitHub Actions workflow runs the test gate. Package publication remains disabled until package contents and release authority are reviewed.
+The GitHub Actions CI workflow runs tests, package file-list inspection, and package verification. The protected release workflow runs the publish dry-run before any real upload. Real package publication is gated by the protected `release` environment and requires explicit maintainer approval.
 
 ## Contributing And Support
 

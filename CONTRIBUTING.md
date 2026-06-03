@@ -22,6 +22,7 @@ Use the commands documented in README.md for this repository. Before opening a p
 ```bash
 cargo test --all-features
 cargo package --list
+cargo publish --dry-run --locked
 ```
 
 ## Pull Requests
