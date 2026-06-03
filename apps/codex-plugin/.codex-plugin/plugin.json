@@ -1,8 +1,8 @@
 {
   "name": "atlas",
   "version": "0.1.0",
-  "description": "Keep a Atlas atlas initialized and refreshed during Codex sessions.",
-  "repository": "https://github.com/your-username/atlas",
+  "description": "Keep an Atlas index initialized and refreshed during Codex sessions.",
+  "repository": "https://github.com/skastr0/atlas",
   "license": "MIT",
   "keywords": ["atlas", "codex", "hooks", "knowledge-base"],
   "hooks": "./hooks/hooks.json",

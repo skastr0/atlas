@@ -1,21 +1,39 @@
 {
   "name": "@skastr0/atlas-codex-plugin",
   "version": "0.1.0",
+  "description": "Codex lifecycle hooks for keeping Atlas indexes refreshed during sessions",
   "type": "module",
-  "private": true,
-  "scripts": {
-    "test": "node --test",
-    "validate": "node --test"
-  },
-  "devDependencies": {},
+  "author": "Guilherme Castro <skastr052@gmail.com>",
   "license": "MIT",
-  "description": "atlas workspace package",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/skastr0/atlas.git"
-  },
   "homepage": "https://github.com/skastr0/atlas#readme",
   "bugs": {
     "url": "https://github.com/skastr0/atlas/issues"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skastr0/atlas.git",
+    "directory": "apps/codex-plugin"
+  },
+  "files": [
+    ".codex-plugin",
+    "hooks",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "node --test",
+    "validate": "node --test",
+    "pack:dry-run": "npm pack --dry-run"
+  },
+  "keywords": [
+    "atlas",
+    "codex",
+    "codex-plugin",
+    "hooks",
+    "knowledge-base",
+    "indexing"
+  ],
+  "devDependencies": {}
 }
