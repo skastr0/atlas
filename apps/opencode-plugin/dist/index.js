@@ -84,9 +84,23 @@ var getSessionId = (event) => {
 };
 var shouldRunChangedOnlyBuild = (eventType) => textFileChangedEvents.has(eventType);
 var shouldRunAtlasInit = (eventType) => atlasInitializationEvents.has(eventType);
+var hasAtlasCli = Effect2.fn("Atlas.hasCli")(function* () {
+  const context = yield* AtlasPluginContext;
+  const atlasPath = yield* Effect2.tryPromise({
+    try: () => context.$`command -v atlas`.text(),
+    catch: (cause) => new ShellCommandError({
+      command: "command -v atlas",
+      message: "atlas CLI is not available",
+      cause
+    })
+  }).pipe(Effect2.catchAll(() => Effect2.succeed("")));
+  return atlasPath.trim().length > 0;
+});
 var runAtlasInit = Effect2.fn("Atlas.runInit")(function* (reason) {
   const context = yield* AtlasPluginContext;
   const logger = yield* PluginLogger;
+  if (!(yield* hasAtlasCli()))
+    return;
   yield* Effect2.tryPromise({
     try: () => context.$`atlas init --root ${context.root} --quiet`.text(),
     catch: (cause) => new ShellCommandError({
@@ -104,10 +118,16 @@ var runAtlasInit = Effect2.fn("Atlas.runInit")(function* (reason) {
 var runChangedOnlyBuild = Effect2.fn("Atlas.runChangedOnlyBuild")(function* () {
   const context = yield* AtlasPluginContext;
   const logger = yield* PluginLogger;
+  if (!(yield* hasAtlasCli()))
+    return;
   const initialized = yield* Effect2.tryPromise({
     try: async () => (await context.$`test -d ${context.root}/.atlas && echo "yes"`.text()).trim() === "yes",
-    catch: () => false
-  });
+    catch: (cause) => new ShellCommandError({
+      command: "test .atlas",
+      message: "Atlas is not initialized",
+      cause
+    })
+  }).pipe(Effect2.catchAll(() => Effect2.succeed(false)));
   if (!initialized)
     return;
   yield* Effect2.tryPromise({

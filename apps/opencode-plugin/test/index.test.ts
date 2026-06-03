@@ -27,6 +27,51 @@ const makePluginInput = (root: string): PluginInput => ({
   $,
 });
 
+const makePluginInputWithLogs = (
+  root: string,
+  logs: Array<{ level: string; message: string }>,
+  shell: PluginInput["$"],
+): PluginInput => ({
+  ...makePluginInput(root),
+  client: {
+    app: {
+      log: async ({ body }: { body: { level: string; message: string } }) => {
+        logs.push(body);
+      },
+    },
+  } as unknown as PluginInput["client"],
+  $: shell,
+});
+
+const makeMissingAtlasShell = (): PluginInput["$"] => {
+  const shell = ((strings: TemplateStringsArray, ...expressions: unknown[]) => {
+    const command = strings.reduce(
+      (acc, part, index) => `${acc}${part}${index < expressions.length ? String(expressions[index]) : ""}`,
+      "",
+    );
+    return {
+      text: async () => {
+        if (command.includes("command -v atlas")) {
+          throw new Error("atlas is not on PATH");
+        }
+        if (command.includes("atlas ")) {
+          throw new Error(`unexpected atlas invocation: ${command}`);
+        }
+        return "";
+      },
+    };
+  }) as unknown as PluginInput["$"];
+
+  shell.braces = () => [];
+  shell.escape = (input: string) => input;
+  shell.env = () => shell;
+  shell.cwd = () => shell;
+  shell.nothrow = () => shell;
+  shell.throws = () => shell;
+
+  return shell;
+};
+
 describe("atlas OpenCode hook helpers", () => {
   test("uses the git worktree when OpenCode provides one", () => {
     expect(getWorkspaceRoot("/repo", "/repo/subdir")).toBe("/repo");
@@ -65,5 +110,19 @@ describe("atlas OpenCode hook helpers", () => {
     const hooks = await AtlasOpenCodePlugin(makePluginInput(root));
 
     expect(Reflect.has(hooks, "experimental.session.compacting")).toBe(false);
+  });
+
+  test("does not log atlas command failures when the CLI is unavailable", async () => {
+    const root = await mkdtemp(join(tmpdir(), "atlas-opencode-plugin-"));
+    const logs: Array<{ level: string; message: string }> = [];
+    const hooks = await AtlasOpenCodePlugin(
+      makePluginInputWithLogs(root, logs, makeMissingAtlasShell()),
+    );
+
+    await hooks.event?.({ event: { type: "server.connected", properties: {} } } as Parameters<
+      NonNullable<typeof hooks.event>
+    >[0]);
+
+    expect(logs.some((entry) => entry.message === "atlas init failed")).toBe(false);
   });
 });
