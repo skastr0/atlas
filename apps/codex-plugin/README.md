@@ -22,7 +22,21 @@ node --test apps/codex-plugin/test/hooks.test.mjs
 
 This repository includes `.agents/plugins/marketplace.json`, which points at `apps/codex-plugin`.
 
-After adding or updating the local marketplace in Codex, restart Codex and install the `atlas` plugin from the plugin browser. Codex installs local plugins into its plugin cache, so restart Codex after changing this package during development.
+For a local checkout:
+
+```sh
+codex plugin marketplace add /path/to/atlas
+codex plugin add atlas@atlas-local
+```
+
+For a Git-backed marketplace snapshot:
+
+```sh
+codex plugin marketplace add skastr0/atlas --ref main
+codex plugin add atlas@atlas-local
+```
+
+After adding or updating the marketplace in Codex, restart Codex and install the `atlas` plugin from the plugin browser or CLI. Codex installs local plugins into its plugin cache, so restart Codex after changing this package during development.
 
 Codex hooks must be enabled in the active config:
 
