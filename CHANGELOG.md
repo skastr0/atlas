@@ -8,6 +8,7 @@ The format is based on Keep a Changelog, and this project follows Semantic Versi
 
 ### Changed
 - Switched npm plugin publishing to the same `v*` release tags as the Cargo crate so package versions stay aligned.
+- Documented the Atlas publishing and versioning strategy, including the plugin dependency on the CLI.
 
 ## [0.1.1] - 2026-06-04
 

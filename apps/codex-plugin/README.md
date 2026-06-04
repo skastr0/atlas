@@ -2,6 +2,8 @@
 
 This package is the Codex equivalent of the OpenCode Atlas plugin.
 
+Install the `atlas` CLI separately with `cargo install agent-atlas`. For normal use, install the same version of the CLI and this plugin package.
+
 Codex currently exposes installable plugin bundles and lifecycle command hooks, not a long-lived TypeScript server plugin API like OpenCode. This plugin therefore implements the closest supported behavior:
 
 - `SessionStart` for `startup`, `resume`, and `clear` runs `atlas init --root "$root" --quiet` when `atlas` is on `PATH`.

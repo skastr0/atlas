@@ -193,6 +193,8 @@ Atlas also ships optional npm packages for agent runtime plugins:
 
 Both plugins expect the `atlas` binary to be available on `PATH`.
 
+The CLI crate and plugin packages are released with the same version. See [docs/publishing.md](docs/publishing.md) for the publishing and versioning strategy.
+
 ## Project Status
 
 **Phase 1 (Complete):** Scaffold, CLI, configuration, types
