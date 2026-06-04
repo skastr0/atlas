@@ -6,7 +6,13 @@ The format is based on Keep a Changelog, and this project follows Semantic Versi
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-06-04
+
+### Added
+- Documented Codex marketplace install commands for local and Git-backed Atlas plugin installs.
+
 ### Changed
+- Aligned the Codex plugin manifest version with the published package version.
 - Switched npm plugin publishing to the same `v*` release tags as the Cargo crate so package versions stay aligned.
 - Documented the Atlas publishing and versioning strategy, including the plugin dependency on the CLI.
 
