@@ -1,6 +1,6 @@
 {
   "name": "@skastr0/atlas-codex-plugin",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Codex lifecycle hooks for keeping Atlas indexes refreshed during sessions",
   "type": "module",
   "author": "Guilherme Castro <skastr052@gmail.com>",
