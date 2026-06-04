@@ -6,6 +6,9 @@ The format is based on Keep a Changelog, and this project follows Semantic Versi
 
 ## [Unreleased]
 
+### Changed
+- Switched npm plugin publishing to the same `v*` release tags as the Cargo crate so package versions stay aligned.
+
 ## [0.1.1] - 2026-06-04
 
 ### Added
