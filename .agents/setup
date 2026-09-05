@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$repo_root"
+
+step() {
+  local label="$1" start=$SECONDS
+  shift
+  printf '\n==> %s\n' "$label"
+  "$@"
+  printf '==> %s finished in %ss\n' "$label" "$((SECONDS - start))"
+}
+
+install_system_packages() {
+  local package
+  local missing=()
+  for package in build-essential pkg-config curl ca-certificates unzip poppler-utils; do
+    if [[ "$(dpkg-query -W -f='${Status}' "$package" 2>/dev/null || true)" != 'install ok installed' ]]; then
+      missing+=("$package")
+    fi
+  done
+  if ((${#missing[@]})); then
+    sudo apt-get update -qq
+    sudo env DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends "${missing[@]}"
+  fi
+}
+
+export PATH="$HOME/.local/share/atlas-node/bin:$HOME/.bun/bin:$HOME/.cargo/bin:$PATH"
+
+install_toolchains() {
+  # Match CI's stable Rust, Node 24, and Bun 1.3.14. Do not update installed
+  # toolchains on a warm snapshot; Cargo enforces dependency MSRVs itself.
+  if ! command -v rustup >/dev/null; then
+    curl --proto '=https' --tlsv1.2 -fsSL https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain stable --no-modify-path
+  fi
+  if ! rustup run stable rustc --version >/dev/null 2>&1; then
+    rustup toolchain install stable --profile minimal
+  fi
+  rustup default stable
+  rustup component add rustfmt clippy
+
+  if [[ "$(node --version 2>/dev/null || true)" != v24.* ]]; then
+    npm install --global --prefix "$HOME/.local/share/atlas-node" node@24
+  fi
+  if [[ "$(bun --version 2>/dev/null || true)" != 1.3.14 ]]; then
+    curl --proto '=https' --tlsv1.2 -fsSL https://bun.sh/install | bash -s -- bun-v1.3.14
+  fi
+
+  # Amp and supervised services use separate login shells after setup.
+  local marker='# Atlas orb toolchain paths'
+  if ! grep -Fqx "$marker" "$HOME/.bash_profile" 2>/dev/null; then
+    cat >> "$HOME/.bash_profile" <<'EOF'
+
+# Atlas orb toolchain paths
+case ":$PATH:" in
+  *":$HOME/.local/share/atlas-node/bin:$HOME/.bun/bin:$HOME/.cargo/bin:"*) ;;
+  *) export PATH="$HOME/.local/share/atlas-node/bin:$HOME/.bun/bin:$HOME/.cargo/bin:$PATH" ;;
+esac
+EOF
+  fi
+  rustc --version
+  node --version
+  bun --version
+}
+
+step 'System prerequisites (including PDF extraction)' install_system_packages
+step 'Toolchains' install_toolchains
+step 'Fetch locked Rust dependencies' cargo fetch --locked
+step 'Install locked OpenCode plugin dependencies' bun install --cwd apps/opencode-plugin --frozen-lockfile
+# Codex uses Node's built-in test runner and has no dependencies to install.
+# No backing services, credentials, or environment templates are required.

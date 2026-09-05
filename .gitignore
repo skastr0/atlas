@@ -4,6 +4,9 @@
 # JavaScript dependencies
 node_modules/
 
+# Orb-local portal metadata
+.amp/portals/*
+
 # Generated context map artifacts
 .atlas/
 

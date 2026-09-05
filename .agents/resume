@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Atlas has no backing services or authentication to refresh. Dependencies and
+# persistent login-shell paths are prepared by setup, never installed on wake.
+printf 'Atlas orb ready; no resume repairs required.\n'
