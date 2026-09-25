@@ -6,6 +6,15 @@ The format is based on Keep a Changelog, and this project follows Semantic Versi
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-09-25
+
+### Changed
+- `cli::search::run` now takes a `SearchRequest` struct instead of individual query, filter, and output arguments. The `atlas search` CLI is unchanged.
+- CI now gates on `cargo fmt`, strict clippy (`-D warnings`), and both plugin test suites.
+
+### Fixed
+- Resolved all clippy warnings on current stable Rust.
+
 ## [0.1.2] - 2026-06-04
 
 ### Added
