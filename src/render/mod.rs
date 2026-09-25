@@ -109,10 +109,8 @@ fn parse_symbol_heading(heading: &str) -> Option<ParsedSymbol> {
         ("class", name)
     } else if let Some(name) = rest.strip_prefix("interface ") {
         ("interface", name)
-    } else if let Some(name) = rest.strip_prefix("impl ") {
-        ("impl", name)
     } else {
-        return None;
+        ("impl", rest.strip_prefix("impl ")?)
     };
 
     let trimmed = name.trim();

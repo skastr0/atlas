@@ -40,7 +40,7 @@ pub fn extract_trigrams(tokens: &[String]) -> HashMap<String, usize> {
 /// Get top N n-grams by count
 pub fn top_ngrams(ngrams: HashMap<String, usize>, n: usize) -> Vec<(String, usize)> {
     let mut sorted: Vec<_> = ngrams.into_iter().collect();
-    sorted.sort_by(|a, b| b.1.cmp(&a.1));
+    sorted.sort_by_key(|a| std::cmp::Reverse(a.1));
     sorted.truncate(n);
     sorted
 }
