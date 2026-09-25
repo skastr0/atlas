@@ -8,7 +8,7 @@ use crate::config::{AnalyzeConfig, ExtractConfig};
 use crate::extract::ExtractedContent;
 use crate::types::{FileFeatures, FileType, Link, LinkType, PhraseScore, TermScore};
 use std::collections::HashMap;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 /// Compute features for a file
 pub fn compute_features(
@@ -136,7 +136,7 @@ fn extract_snippet(text: &str, max_chars: usize) -> String {
     }
 }
 
-fn derive_title_from_path(path: &PathBuf) -> String {
+fn derive_title_from_path(path: &Path) -> String {
     path.file_stem()
         .map(|s| s.to_string_lossy().to_string())
         .unwrap_or_else(|| "Untitled".to_string())

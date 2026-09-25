@@ -170,13 +170,12 @@ fn node_has_export_modifier(node: Node, source: &str) -> bool {
         if child.kind() == "export" || child.kind() == "export_keyword" {
             return true;
         }
-        if child.kind() == "modifier" || child.kind() == "modifiers" {
-            if node_text(child, source)
+        if (child.kind() == "modifier" || child.kind() == "modifiers")
+            && node_text(child, source)
                 .map(|text| text.contains("export"))
                 .unwrap_or(false)
-            {
-                return true;
-            }
+        {
+            return true;
         }
     }
     false

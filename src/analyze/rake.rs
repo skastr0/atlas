@@ -163,8 +163,10 @@ mod tests {
 
     #[test]
     fn test_custom_stopwords_split_phrases() {
-        let mut config = AnalyzeConfig::default();
-        config.custom_stopwords = vec!["beta".to_string()];
+        let config = AnalyzeConfig {
+            custom_stopwords: vec!["beta".to_string()],
+            ..AnalyzeConfig::default()
+        };
         let extractor = RakeExtractor::new(5);
 
         let phrases = extractor.extract("alpha beta gamma", &config);

@@ -246,7 +246,7 @@ fn normalize_path(path: &Path) -> String {
 
 fn normalize_key(value: &str) -> String {
     let lowered = value.trim().to_lowercase();
-    let cleaned = lowered.replace('_', " ").replace('-', " ");
+    let cleaned = lowered.replace(['_', '-'], " ");
     cleaned.split_whitespace().collect::<Vec<_>>().join(" ")
 }
 

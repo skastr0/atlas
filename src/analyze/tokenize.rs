@@ -56,8 +56,10 @@ pub fn tokenize(text: &str) -> Vec<String> {
 
 /// Tokenize and filter with custom minimum length
 pub fn tokenize_min_length(text: &str, min_length: usize) -> Vec<String> {
-    let mut config = AnalyzeConfig::default();
-    config.min_term_length = min_length;
+    let config = AnalyzeConfig {
+        min_term_length: min_length,
+        ..AnalyzeConfig::default()
+    };
     tokenize_with_config(text, &config)
 }
 
@@ -348,8 +350,10 @@ mod tests {
 
     #[test]
     fn test_is_valid_term_allows_short_version_token() {
-        let mut config = AnalyzeConfig::default();
-        config.min_term_length = 2;
+        let config = AnalyzeConfig {
+            min_term_length: 2,
+            ..AnalyzeConfig::default()
+        };
         assert!(is_valid_term("v2", &config));
     }
 }

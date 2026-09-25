@@ -197,7 +197,7 @@ fn extract_doc_attribute<'a>(source: &str, node: Node<'a>) -> Option<String> {
     let is_doc = match path_text {
         Some("doc") => true,
         Some(_) => false,
-        None => node_text(source, node).map_or(false, |text| {
+        None => node_text(source, node).is_some_and(|text| {
             let trimmed = text.trim_start();
             trimmed.starts_with("#[doc") || trimmed.starts_with("#![doc")
         }),
@@ -272,7 +272,7 @@ fn extract_type_label<'a>(source: &str, node: Node<'a>) -> Option<String> {
         return node_text(source, name_node).map(|text| text.to_string());
     }
 
-    node_text(source, node).map(|text| normalize_whitespace(text))
+    node_text(source, node).map(normalize_whitespace)
 }
 
 fn signature_snippet<'a>(source: &str, node: Node<'a>) -> Option<String> {

@@ -3,13 +3,13 @@
 use crate::config::RenderConfig;
 use crate::types::{FileFeatures, FolderSignature};
 use std::collections::HashMap;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 use super::{format_symbol_counts, summarize_code_symbols};
 
 /// Generate INDEX.md content for a folder
 pub fn render_folder_index(
-    folder: &PathBuf,
+    folder: &Path,
     features: &[FileFeatures],
     folder_sig: Option<&FolderSignature>,
     config: &RenderConfig,
@@ -41,7 +41,7 @@ pub fn render_folder_index(
     // Get files in this folder (direct children only)
     let mut folder_files: Vec<_> = features
         .iter()
-        .filter(|f| f.path.parent() == Some(folder.as_path()))
+        .filter(|f| f.path.parent() == Some(folder))
         .collect();
     folder_files.sort_by(|left, right| {
         left.path
@@ -163,7 +163,7 @@ pub fn render_folder_index(
     let mut child_folders: Vec<_> = features
         .iter()
         .filter_map(|f| f.path.parent())
-        .filter(|p| p.parent() == Some(folder.as_path()))
+        .filter(|p| p.parent() == Some(folder))
         .map(|p| p.to_path_buf())
         .collect();
     child_folders.sort();

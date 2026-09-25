@@ -123,12 +123,12 @@ pub fn add_documents(
 
         let mut document = TantivyDocument::default();
         document.add_text(id_field, features.id.clone());
-        document.add_text(path_field, features.path.to_string_lossy().into_owned());
+        document.add_text(path_field, features.path.to_string_lossy());
         document.add_text(path_text_field, path_text);
         document.add_text(title_field, features.title.clone());
         document.add_text(snippet_field, features.snippet.clone());
         document.add_text(body_field, body.clone());
-        document.add_text(file_type_field, file_type_str.to_string());
+        document.add_text(file_type_field, file_type_str);
         document.add_text(extension_field, extension);
         document.add_bytes(features_field, &serialized);
         for scope_term in scope_terms {
