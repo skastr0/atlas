@@ -24,17 +24,27 @@ const SNIPPET_BOOST: f32 = 1.5;
 const BODY_BOOST: f32 = 1.0;
 const EXCERPT_MAX_CHARS: usize = 120;
 
-pub fn run(
-    root: &Path,
-    query: &str,
-    path_filters: &[String],
-    type_filters: &[String],
-    ext_filters: &[String],
-    json: bool,
-    explain: bool,
-    limit: usize,
-    log_level: LogLevel,
-) -> Result<()> {
+/// One `atlas search` invocation: the query text, its filters, and output options.
+pub struct SearchRequest<'a> {
+    pub query: &'a str,
+    pub path_filters: &'a [String],
+    pub type_filters: &'a [String],
+    pub ext_filters: &'a [String],
+    pub json: bool,
+    pub explain: bool,
+    pub limit: usize,
+}
+
+pub fn run(root: &Path, request: &SearchRequest<'_>, log_level: LogLevel) -> Result<()> {
+    let SearchRequest {
+        query,
+        path_filters,
+        type_filters,
+        ext_filters,
+        json,
+        explain,
+        limit,
+    } = *request;
     let atlas_path = root.join(ATLAS_DIR);
     let index_dir = tantivy_backend::index_dir(&atlas_path);
     let filters = normalized_filters(path_filters, type_filters, ext_filters);
@@ -66,19 +76,19 @@ pub fn run(
     let total_docs = searcher.num_docs() as usize;
     if limit > 0 && total_docs > 0 {
         let top_docs = searcher.search(&*search_query, &TopDocs::with_limit(total_docs))?;
+        let context = ResultContext {
+            searcher: &searcher,
+            search_query: &*search_query,
+            snippet_generators: &snippet_generators,
+            features_field: fields.features,
+            explain,
+        };
 
         for (score, doc_address) in top_docs {
             let retrieved_doc: TantivyDocument = searcher.doc(doc_address)?;
-            if let Some(result) = search_result_from_document(
-                score,
-                doc_address,
-                &retrieved_doc,
-                &searcher,
-                &*search_query,
-                &snippet_generators,
-                fields.features,
-                explain,
-            )? {
+            if let Some(result) =
+                search_result_from_document(score, doc_address, &retrieved_doc, &context)?
+            {
                 results.push(result);
             }
         }
@@ -167,16 +177,28 @@ fn configure_query_parser(query_parser: &mut QueryParser, fields: SearchFields) 
     query_parser.set_field_boost(fields.body, BODY_BOOST);
 }
 
+/// Per-search state shared by every hit when turning documents into results.
+struct ResultContext<'a> {
+    searcher: &'a Searcher,
+    search_query: &'a dyn Query,
+    snippet_generators: &'a SearchSnippetGenerators,
+    features_field: Field,
+    explain: bool,
+}
+
 fn search_result_from_document(
     score: f32,
     doc_address: DocAddress,
     retrieved_doc: &TantivyDocument,
-    searcher: &Searcher,
-    search_query: &dyn Query,
-    snippet_generators: &SearchSnippetGenerators,
-    features_field: Field,
-    explain: bool,
+    context: &ResultContext<'_>,
 ) -> Result<Option<SearchResultItem>> {
+    let ResultContext {
+        searcher,
+        search_query,
+        snippet_generators,
+        features_field,
+        explain,
+    } = *context;
     let Some(features_val) = retrieved_doc.get_first(features_field) else {
         return Ok(None);
     };
@@ -475,7 +497,7 @@ fn normalized_filters(
         paths: normalize_values(path_filters, |value| {
             tantivy_backend::normalize_scope_filter(value)
         }),
-        types: normalize_values(type_filters, |value| normalize_type_filter(value)),
+        types: normalize_values(type_filters, normalize_type_filter),
         extensions: normalize_values(ext_filters, |value| {
             tantivy_backend::normalize_extension_filter(value)
         }),
